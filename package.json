@@ -19,18 +19,18 @@
   },
   "scripts": {
     "start": "ts-node-dev --transpile-only --ignore-watch node_modules src",
-    "start-js": "x-index.js",
+    "start-js": "nodemon x-index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/netsider/ELO-Dopple.git"
+    "url": "git+https://github.com/netsider/ELO-Dopple-node.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/netsider/ELO-Dopple/issues"
+    "url": "https://github.com/netsider/ELO-Dopple-node/issues"
   },
-  "homepage": "https://github.com/netsider/ELO-Dopple#readme",
+  "homepage": "https://github.com/netsider/ELO-Dopple-node#readme",
   "keywords": []
 }
