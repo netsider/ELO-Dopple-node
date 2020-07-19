@@ -1,1 +1,0 @@
-//if(newPlayers[3] === "true" && newPlayers[4] == 1){
