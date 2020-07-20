@@ -30,13 +30,11 @@ const dirLength = fs.readdirSync(namePath).length;
 const k = 32;
 let maxPlayers = 2;
 let playerArray = [];
-let playerOne = 1;
-let playerTwo = 1;
 let newPlayers = [];
-let resetPressed = false; // If reset button pressed.
+let resetPressed = false; // If reset pressed.
 playerArray[0] = {};
 newPlayers[6] = []; // Contains information about last player (until I can get it via playerArray[0].winner);
-newPlayers[7] = false;  // Variable which the checkbox sets to true when checked.
+newPlayers[7] = false;  // Checkbox true/false.
 
 if(isEven(dirLength)){
 	maxPlayers = (dirLength / 2);
@@ -46,6 +44,11 @@ if(isEven(dirLength)){
 
 // To Do:
 // newPlayers[7] cleanup & lockPlayerCheckBox
+// clean up playerArray[0].winner.toString() === playerOne statements to see if players same.
+// get last player info from playerArray[0].winner
+// make reset work even if players not numerical
+// make player selection work even if filenames not numerical.
+// Make score pop up as an on-screen overlay notification.
 
 app.get("/", function(req, res){
 	console.log("Serving / ...");
@@ -75,10 +78,11 @@ app.get("/", function(req, res){
 		playerIsLocked = 1;
 	}
 	
+	
 	// Player Selection -------------------------------------------------------
-	playerOne = 1;
-	playerTwo = 1;
-	if(playerIsLocked === 1){ // Final check/set if player is locked
+	let playerOne = 1;
+	let playerTwo = 1;
+	if(playerIsLocked === 1){
 		//console.log("Players locked!"); 
 		playerArray[0].lockPlayer = 1;
 		playerOne = newPlayers[6][1];
@@ -90,7 +94,6 @@ app.get("/", function(req, res){
 		playerTwo = getRandomIntInclusive(1, maxPlayers).toString();
 		
 		if(playerArray[0].winner != undefined && playerArray[0].loser != undefined){ // winner/loser chosen
-			// Make sure players not same:
 			if(playerArray[0].winner.toString() === playerOne || playerArray[0].loser.toString() === playerOne){
 				while(playerArray[0].winner.toString() === playerOne || playerArray[0].loser.toString() === playerOne){
 					console.log("Choosing new Player 1...");
@@ -125,7 +128,6 @@ app.get("/", function(req, res){
 				}
 			}
 		}
-		
 	}
 	
 	//console.log("playerOne: " + playerOne);
@@ -189,8 +191,7 @@ app.get("/", function(req, res){
 	
 	//Debugging:
 	//logArray(newPlayers);
-	console.log(newPlayers);
-	
+	//console.log(newPlayers);
 	//console.log(playerArray[0]);
 	//logArray(playerArray[0]);
     	
@@ -254,49 +255,42 @@ app.post("/node-dopple-main", function(req, res){
 });
 
 app.post("/resetScores", function(req, res){
-		//console.log("Resetting Scores...");
+	//console.log("Resetting Scores...");
 		
-		//console.log("----req.body----");
-		//logArray(req.body);
+	//console.log("----req.body----");
+	//logArray(req.body);
 		
-		let playerOneOnReset = req.body.playerOneHidden;
-		let playerTwoOnReset = req.body.playerTwoHidden;
+	let playerOneOnReset = req.body.playerOneHidden;
+	let playerTwoOnReset = req.body.playerTwoHidden;
 	
-		if(Number(req.body.reset) === 1){
+	if(Number(req.body.reset) === 1){
 			
-			resetPressed = true;
+		resetPressed = true;
 			
-			if(Number(req.body.lockPlayer) === 1){
-				newPlayers[6][1] = playerOneOnReset; // last player
-				newPlayers[6][2] = playerTwoOnReset;
-				//newPlayers[6][2] = playerOneOnReset + "D";
-				newPlayers[7] = true; // Checkbox checked
-			}else{
-				newPlayers[7] = false; // Checkbox NOT checked
-			}
+		if(Number(req.body.lockPlayer) === 1){
+			newPlayers[7] = true; // Checkbox checked
+				
+			newPlayers[6][1] = playerOneOnReset; // last player
+			newPlayers[6][2] = playerTwoOnReset;
+		}else{
+			newPlayers[7] = false; // Checkbox NOT checked
+		}
 			
-			let startingScore = "0";
-			for (let i = 1; i <= dirLength; i++) {
-				let scoreFileTemp1 = scorePath + i + ".txt";
-				let scoreFileTemp2 = scorePath + i + "D.txt";
-				//console.log("Resetting " + scoreFileTemp1);
-				//console.log("Resetting " + scoreFileTemp2);
-				fs.writeFileSync(scoreFileTemp1, startingScore);
-				fs.writeFileSync(scoreFileTemp2, startingScore);
-				if(dirLength == i){
-					//console.log("All " + dirLength +  " score files reset!");
+		let startingScore = "0";
+		for (let i = 1; i <= dirLength; i++) {
+			let scoreFileTemp1 = scorePath + i + ".txt";
+			console.log("Resetting " + scoreFileTemp1);
+			fs.writeFileSync(scoreFileTemp1, startingScore);
+			if(dirLength == i){
+				//console.log("All " + dirLength +  " score files reset!");
 			}
 		}
-		
-		//console.log("Redirecting to / ...");
-		res.redirect("/");
-	}else{
-		//resetPressed = false;
 	}
+	//console.log("Redirecting to / ...");
+	res.redirect("/");
 })
 
 function getAspectRatio(w, h){
-	//let ar = Number((h / w).toString().substr(0, 4));
 	return Number((h / w).toString().substr(0, 4));
 };
 	
