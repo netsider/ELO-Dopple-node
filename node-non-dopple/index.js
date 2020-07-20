@@ -85,15 +85,25 @@ app.get("/", function(req, res){
 		
 		playerArray[0].lockPlayer = 0;
 		
-		playerOne = getRandomIntInclusive(1, maxPlayers);
-		playerTwo = getRandomIntInclusive(1, maxPlayers);
+		playerOne = getRandomIntInclusive(1, maxPlayers).toString();
+		playerTwo = getRandomIntInclusive(1, maxPlayers).toString();
 		
 		if(playerArray[0].winner != undefined && playerArray[0].loser != undefined){ // winner/loser chosen and stored
 			if(playerArray[0].winner.toString() === playerOne || playerArray[0].loser.toString() === playerOne){
-				
+				let tempPlayer = getRandomIntInclusive(1, maxPlayers).toString();
+				while(tempPlayer === playerOne){
+					tempPlayer = getRandomIntInclusive(1, maxPlayers).toString();
+				}
+				playerOne = tempPlayer;
+				console.log("New player 1 chosen!");
 			}
 			if(playerArray[0].winner.toString() === playerTwo || playerArray[0].loser.toString() === playerTwo){
-				
+				let tempPlayer2 = getRandomIntInclusive(1, maxPlayers).toString();
+				while(tempPlayer2 === playerOne){
+					tempPlayer2 = getRandomIntInclusive(1, maxPlayers).toString();
+				}
+				playerOne = tempPlayer2;
+				console.log("New player 2 chosen!");
 			}
 		}
 		
