@@ -86,6 +86,7 @@ if(playerArray[0] != undefined && newPlayers[8] === true || playerArray[0] != un
 					<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="1">
 <% }; %>
 
+<input type="hidden" name="playerTwoHidden" value="<%= playerTwo %>" >
 <input type="hidden" name="playerOneHidden" value="<%= playerOne %>" >
 <button type="submit" name="reset" value="1" formaction="/resetScores">Reset all scores to 0.</button>
 </form>

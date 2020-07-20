@@ -76,13 +76,13 @@ app.get("/", function(req, res){
 
 	
 	// Player Selection
-	console.log("Choosing players...");
+	//console.log("Choosing players...");
 	if(playerIsLocked === 1){ // Final check/set if player is locked
 		console.log("Players locked!");
-		playerArray[0].lockPlayer = 1;
 		playerOne = newPlayers[6][1];
+		playerTwo = newPlayers[6][2];
+		playerArray[0].lockPlayer = 1;
 	}else{
-		
 		playerArray[0].lockPlayer = 0;
 		
 		playerOne = getRandomIntInclusive(1, maxPlayers).toString();
@@ -189,7 +189,6 @@ app.post("/node-dopple-main", function(req, res){
 	console.log("Serving /node-dopple-main (post) ..");
 	
 	resetPressed = false;
-	//let name = req.body.playerName;
 	//let image = req.body.playerImage;
 	
 	let lockPlayer = 0;
@@ -201,11 +200,12 @@ app.post("/node-dopple-main", function(req, res){
 	}
 	
 	let unserialized = JSON.parse(req.body.playerName);
-	
 	let winner = unserialized[0].toString();
 	let loser = unserialized[1].toString();
 	
-	newPlayers[6][1] = winner.charAt(0);
+	//newPlayers[6][1] = winner.charAt(0);
+	newPlayers[6][1] = winner;
+	newPlayers[6][2] = loser;
 	
 	let winnerScoreFile = "Dopples/Actress_Score/" + winner + ".txt";
 	let loserScoreFile = "Dopples/Actress_Score/" + loser + ".txt";
@@ -231,7 +231,7 @@ app.post("/node-dopple-main", function(req, res){
 	fs.writeFileSync(winnerScoreFile, String(winnerNewScore));
 	fs.writeFileSync(loserScoreFile, String(loserNewScore));
 	
-	winnerLoserObject = {winner: winner, loser: loser, winnerName: winnerName, loserName: loserName, winnerOldScore: winnerOldScore, loserOldScore: loserOldScore, winnerELO: winnerELO, loserELO: loserELO, winnerNewScore: winnerNewScore, loserNewScore: loserNewScore, winnerNewELO: winnerNewELO, loserNewELO: loserNewELO, lockPlayer: lockPlayer};
+	let winnerLoserObject = {winner: winner, loser: loser, winnerName: winnerName, loserName: loserName, winnerOldScore: winnerOldScore, loserOldScore: loserOldScore, winnerELO: winnerELO, loserELO: loserELO, winnerNewScore: winnerNewScore, loserNewScore: loserNewScore, winnerNewELO: winnerNewELO, loserNewELO: loserNewELO, lockPlayer: lockPlayer};
 	
 	playerArray[0] = winnerLoserObject; //playerArray.push(winnerLoserObject); 
 	
@@ -247,15 +247,16 @@ app.post("/resetScores", function(req, res){
 		//logArray(req.body);
 		
 		let playerOneOnReset = req.body.playerOneHidden;
+		let playerTwoOnReset = req.body.playerTwoHidden;
 	
 		if(Number(req.body.reset) === 1){
 			
 			resetPressed = true;
 			
 			if(Number(req.body.lockPlayer) === 1){
-				
 				newPlayers[6][1] = playerOneOnReset; // last player
-				newPlayers[6][2] = playerOneOnReset + "D";
+				newPlayers[6][2] = playerTwoOnReset;
+				//newPlayers[6][2] = playerOneOnReset + "D";
 				newPlayers[7] = true; // Checkbox checked
 			}else{
 				newPlayers[7] = false; // Checkbox NOT checked
@@ -282,8 +283,8 @@ app.post("/resetScores", function(req, res){
 })
 
 function getAspectRatio(w, h){
-	let ar = Number((h / w).toString().substr(0, 4));
-	return ar;
+	//let ar = Number((h / w).toString().substr(0, 4));
+	return Number((h / w).toString().substr(0, 4));
 };
 	
 function ELO(A, B){
@@ -308,4 +309,5 @@ function logArray(theArray){
 	Array.from(Object.keys(theArray)).forEach(function(key){
 		console.log(key + ": " + theArray[key]);
 	});
+	return null;
 };

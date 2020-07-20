@@ -1,0 +1,9 @@
+<h3>ELO-Dopple-node\node-non-dopple</h3>
+
+<strong>Changes:</strong><br>
+• 7-19-2020: Started taking out the Dopple-specific code, so that this NodeJS version will support any type pictures/players.<br>
+
+<br>
+
+<strong>To Do:</strong><br>
+• Make hidden field for second player.<br>
