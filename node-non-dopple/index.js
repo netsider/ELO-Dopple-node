@@ -30,25 +30,27 @@ const dirLength = fs.readdirSync(namePath).length;
 const k = 32;
 let maxPlayers = 2;
 let playerArray = [];
-playerArray[0] = {};
+let playerOne = 1;
+let playerTwo = 1;
 let newPlayers = [];
 let resetPressed = false; // If reset button pressed.
+playerArray[0] = {};
 newPlayers[6] = []; // Contains information about last player (until I can get it via playerArray[0].winner);
 newPlayers[7] = false;  // Variable which the checkbox sets to true when checked.
 
 if(isEven(dirLength)){
 	maxPlayers = (dirLength / 2);
 }else{
-	//console.log("Number of players in directory not even number!");
+	console.log("Number of players in directory not even number!");
 }
+
+// To Do:
+// newPlayers[7] cleanup & lockPlayerCheckBox
 
 app.get("/", function(req, res){
 	console.log("Serving / ...");
 	
-	let playerOne = 1;
-	let playerTwo = 1;
-	
-	// Form logic
+	// Form logic -------------------------------------------------------
 	let playerIsLocked = 0;
 	let lockPlayerCheckBox = newPlayers[7];
 	
@@ -72,42 +74,58 @@ app.get("/", function(req, res){
 		//console.log("Reset pressed, checkbox CHECKED.");
 		playerIsLocked = 1;
 	}
-	// End form logic
-
 	
-	// Player Selection
+	// Player Selection -------------------------------------------------------
+	playerOne = 1;
+	playerTwo = 1;
 	if(playerIsLocked === 1){ // Final check/set if player is locked
-		console.log("Players locked!"); playerArray[0].lockPlayer = 1;
+		//console.log("Players locked!"); 
+		playerArray[0].lockPlayer = 1;
 		playerOne = newPlayers[6][1];
 		playerTwo = newPlayers[6][2];
 	}else{
-		console.log("Players NOT locked!"); playerArray[0].lockPlayer = 0;
+		//console.log("Players NOT locked!"); 
+		playerArray[0].lockPlayer = 0;
 		playerOne = getRandomIntInclusive(1, maxPlayers).toString();
 		playerTwo = getRandomIntInclusive(1, maxPlayers).toString();
 		
-		if(playerOne === playerTwo){ // Make sure generated players are not same.
-			console.log("New players both the same!  Choosing different...");
-			while(playerOne.toString() === playerTwo.toString()){
-				playerTwo = getRandomIntInclusive(1, maxPlayers);
-			}
-			//console.log("Successfully chose two different players!");
-		}
-		
-		if(playerArray[0].winner != undefined && playerArray[0].loser != undefined){ // winner/loser chosen and stored
-			// Make sure players not same as last round:
+		if(playerArray[0].winner != undefined && playerArray[0].loser != undefined){ // winner/loser chosen
+			// Make sure players not same:
 			if(playerArray[0].winner.toString() === playerOne || playerArray[0].loser.toString() === playerOne){
 				while(playerArray[0].winner.toString() === playerOne || playerArray[0].loser.toString() === playerOne){
 					console.log("Choosing new Player 1...");
 					playerOne = getRandomIntInclusive(1, maxPlayers).toString();
-				}				
+					if(playerOne === playerTwo){
+						//console.log("New players STILL the same!  Choosing different...");
+						while(playerOne === playerTwo){
+							playerOne = getRandomIntInclusive(1, maxPlayers).toString();
+						}
+					}
+				}
+				
 			}
 			if(playerArray[0].winner.toString() === playerTwo || playerArray[0].loser.toString() === playerTwo){
 				while(playerArray[0].winner.toString() === playerTwo || playerArray[0].loser.toString() === playerTwo){
 					console.log("Choosing new Player 2...");
 					playerTwo = getRandomIntInclusive(1, maxPlayers).toString();
+					if(playerOne === playerTwo){
+						//console.log("New players STILL the same!  Choosing different...");
+						while(playerOne === playerTwo){
+							playerTwo = getRandomIntInclusive(1, maxPlayers).toString();
+						}
+					}
 				}		
 			}
+			
+		}else{ // no winner/loser chosen
+			if(playerOne === playerTwo){
+				//console.log("New players both the same!  Choosing different...");
+				while(playerOne.toString() === playerTwo.toString()){
+					playerTwo = getRandomIntInclusive(1, maxPlayers).toString();
+				}
+			}
 		}
+		
 	}
 	
 	//console.log("playerOne: " + playerOne);
@@ -171,8 +189,9 @@ app.get("/", function(req, res){
 	
 	//Debugging:
 	//logArray(newPlayers);
+	console.log(newPlayers);
 	
-	console.log(playerArray[0]);
+	//console.log(playerArray[0]);
 	//logArray(playerArray[0]);
     	
 	res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers})
