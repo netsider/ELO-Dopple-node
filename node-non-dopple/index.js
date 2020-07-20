@@ -76,43 +76,37 @@ app.get("/", function(req, res){
 
 	
 	// Player Selection
-	//console.log("Choosing players...");
 	if(playerIsLocked === 1){ // Final check/set if player is locked
-		console.log("Players locked!");
+		console.log("Players locked!"); playerArray[0].lockPlayer = 1;
 		playerOne = newPlayers[6][1];
 		playerTwo = newPlayers[6][2];
-		playerArray[0].lockPlayer = 1;
 	}else{
-		playerArray[0].lockPlayer = 0;
-		
+		console.log("Players NOT locked!"); playerArray[0].lockPlayer = 0;
 		playerOne = getRandomIntInclusive(1, maxPlayers).toString();
 		playerTwo = getRandomIntInclusive(1, maxPlayers).toString();
 		
-		if(playerArray[0].winner != undefined && playerArray[0].loser != undefined){ // winner/loser chosen and stored
-			if(playerArray[0].winner.toString() === playerOne || playerArray[0].loser.toString() === playerOne){
-				let tempPlayer = getRandomIntInclusive(1, maxPlayers).toString();
-				while(tempPlayer === playerOne){
-					tempPlayer = getRandomIntInclusive(1, maxPlayers).toString();
-				}
-				playerOne = tempPlayer;
-				console.log("New player 1 chosen!");
-			}
-			if(playerArray[0].winner.toString() === playerTwo || playerArray[0].loser.toString() === playerTwo){
-				let tempPlayer2 = getRandomIntInclusive(1, maxPlayers).toString();
-				while(tempPlayer2 === playerTwo){
-					tempPlayer2 = getRandomIntInclusive(1, maxPlayers).toString();
-				}
-				playerTwo = tempPlayer2;
-				console.log("New player 2 chosen!");
-			}
-		}
-		
-		if(playerOne.toString() === playerTwo.toString()){
+		if(playerOne === playerTwo){ // Make sure generated players are not same.
 			console.log("New players both the same!  Choosing different...");
 			while(playerOne.toString() === playerTwo.toString()){
 				playerTwo = getRandomIntInclusive(1, maxPlayers);
 			}
 			//console.log("Successfully chose two different players!");
+		}
+		
+		if(playerArray[0].winner != undefined && playerArray[0].loser != undefined){ // winner/loser chosen and stored
+			// Make sure players not same as last round:
+			if(playerArray[0].winner.toString() === playerOne || playerArray[0].loser.toString() === playerOne){
+				while(playerArray[0].winner.toString() === playerOne || playerArray[0].loser.toString() === playerOne){
+					console.log("Choosing new Player 1...");
+					playerOne = getRandomIntInclusive(1, maxPlayers).toString();
+				}				
+			}
+			if(playerArray[0].winner.toString() === playerTwo || playerArray[0].loser.toString() === playerTwo){
+				while(playerArray[0].winner.toString() === playerTwo || playerArray[0].loser.toString() === playerTwo){
+					console.log("Choosing new Player 2...");
+					playerTwo = getRandomIntInclusive(1, maxPlayers).toString();
+				}		
+			}
 		}
 	}
 	
