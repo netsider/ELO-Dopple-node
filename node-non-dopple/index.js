@@ -75,8 +75,9 @@ app.get("/", function(req, res){
 	// End form logic
 
 	
-	
-	if(playerIsLocked === 1){ // set player locked.
+	// Player Selection
+	console.log("Choosing players...");
+	if(playerIsLocked === 1){ // Final check/set if player is locked
 		console.log("Players locked!");
 		playerArray[0].lockPlayer = 1;
 		playerOne = newPlayers[6][1];
@@ -86,6 +87,15 @@ app.get("/", function(req, res){
 		
 		playerOne = getRandomIntInclusive(1, maxPlayers);
 		playerTwo = getRandomIntInclusive(1, maxPlayers);
+		
+		if(playerArray[0].winner != undefined && playerArray[0].loser != undefined){ // winner/loser chosen and stored
+			if(playerArray[0].winner.toString() === playerOne || playerArray[0].loser.toString() === playerOne){
+				
+			}
+			if(playerArray[0].winner.toString() === playerTwo || playerArray[0].loser.toString() === playerTwo){
+				
+			}
+		}
 		
 		if(playerOne.toString() === playerTwo.toString()){
 			console.log("New players both the same!  Choosing different...");
