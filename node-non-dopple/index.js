@@ -99,10 +99,10 @@ app.get("/", function(req, res){
 			}
 			if(playerArray[0].winner.toString() === playerTwo || playerArray[0].loser.toString() === playerTwo){
 				let tempPlayer2 = getRandomIntInclusive(1, maxPlayers).toString();
-				while(tempPlayer2 === playerOne){
+				while(tempPlayer2 === playerTwo){
 					tempPlayer2 = getRandomIntInclusive(1, maxPlayers).toString();
 				}
-				playerOne = tempPlayer2;
+				playerTwo = tempPlayer2;
 				console.log("New player 2 chosen!");
 			}
 		}
