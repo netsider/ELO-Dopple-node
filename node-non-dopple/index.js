@@ -49,6 +49,7 @@ if(isEven(dirLength)){
 // make reset work even if players not numerical
 // make player selection work even if filenames not numerical.
 // Make score pop up as an on-screen overlay notification.
+// Try to make playerIsLocked obselete by using playerArray[0].lockPlayer
 
 app.get("/", function(req, res){
 	console.log("Serving / ...");
