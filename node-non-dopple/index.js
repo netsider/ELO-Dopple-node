@@ -46,20 +46,19 @@ app.get("/", function(req, res){
 	console.log("Serving / ...");
 	
 	let playerOne = 1;
+	let playerTwo = 1;
 	
-	// Begin form handling logic
+	// Form logic
 	let playerIsLocked = 0;
 	let lockPlayerCheckBox = newPlayers[7];
 	
 	if(playerArray[0] != undefined){ // Answer button pressed
-		
 		if(lockPlayerCheckBox === true && resetPressed === false){ // Answer button pressed, checkbox CHECKED
 			//console.log("Answer button pressed and checkbox checked (players locked!)");
 			playerIsLocked = 1;
 		}else{ // Answer button pressed, checkbox NOT checked
 			playerIsLocked = 0;
 		}
-		
 	}else{
 		//console.log("playerArray undefined!");
 	}
@@ -70,43 +69,35 @@ app.get("/", function(req, res){
 	}
 	
 	if(lockPlayerCheckBox === true && resetPressed === true){ // Reset pressed, checkbox CHECKED
-			//console.log("Reset pressed, checkbox CHECKED.");
-			playerIsLocked = 1;
+		//console.log("Reset pressed, checkbox CHECKED.");
+		playerIsLocked = 1;
 	}
 	// End form logic
+
 	
-	//11111111
-	//99999999
 	
 	if(playerIsLocked === 1){ // set player locked.
 		console.log("Players locked!");
 		playerArray[0].lockPlayer = 1;
 		playerOne = newPlayers[6][1];
 	}else{
-		console.log("Players NOT locked!");
+		
 		playerArray[0].lockPlayer = 0;
+		
 		playerOne = getRandomIntInclusive(1, maxPlayers);
+		playerTwo = getRandomIntInclusive(1, maxPlayers);
 		
-		if(playerIsLocked === 0){ // Since players not locked, make sure new players chosen are not same as last round.
-			// if(typeof playerArray[0].winner === "undefined"){
-				//console.log("playerArray[0].winner: " + playerArray[0].winner);
-				//playerArray[0].winner = ""; // to fix undefined on line 94, but is there a better way???
-			// }
-			//if(typeof playerArray[0].winner != "undefined"){
-				if(typeof playerArray[0].winner != "undefined" && playerOne.toString() === playerArray[0].winner.charAt(0)){
-					console.log("New players are the same as old players!  Choosing different...");
-					while(playerOne.toString() === playerArray[0].winner.charAt(0)){
-						playerOne = getRandomIntInclusive(1, maxPlayers);
-					}
-				//console.log("Successfully chose two different players!");
-				}
-			//}
+		if(playerOne.toString() === playerTwo.toString()){
+			console.log("New players both the same!  Choosing different...");
+			while(playerOne.toString() === playerTwo.toString()){
+				playerTwo = getRandomIntInclusive(1, maxPlayers);
+			}
+			//console.log("Successfully chose two different players!");
 		}
-		
 	}
 	
 	//console.log("playerOne: " + playerOne);
-	let playerTwo = playerOne + "D";
+	//console.log("playerTwo: " + playerTwo);
 	
 	const playerOneNamePath = namePath + playerOne + ".txt";
 	const playerTwoNamePath = namePath + playerTwo + ".txt";
@@ -162,7 +153,6 @@ app.get("/", function(req, res){
 	newPlayers[1][4] = aspectRatioP2;
 
 	newPlayers[5] = resetPressed; // indicate reset not pressed last time, so scoreboard doesn't show (is there another way to do this???)
-	
 	resetPressed = false; // so it doesn't stay true
 	
 	//Debugging:
