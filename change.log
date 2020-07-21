@@ -1,9 +1,10 @@
-<h3>Both Versions:</h3>
+<h3>All Versions:</h3>
 <strong>Changes:</strong><br>
 • 7-19-20: Finished non-dopple version.<br>
 • 7-18-20: Make form retain locked player state.<br>
-<br>
-<strong>To Do:</strong><br>
+<br><strong>To Do:</strong><br>
+• Make array numbers lower, so there's no blank values.<br>
+• Change name of app.post("/node-dopple-main", function() so that it doesn't have same name as EJS file.<br>
 • See how hard/easy it is to insert landing page.<br>
 • Implement an API.<br>
 • PWA.<br>
@@ -11,15 +12,19 @@
 • Frontend enhancements.<br>
 • Login system.<br>
 • SSL.<br>
+• Implement flag to enable test version and production version.<br>
+• <strike>Make it so anything locking or getting the last round's players, gets the last players from same hidden form element.<br></strike>
+• <strike>Change lines 151-170 so it doesn't use same variable checkbox is setting, and then change EJS file to reflect that (make form display checked checkbox if playerArray[0].lockPlayer = 1).</strike><br>
+• <strike>Change resetArray into a boolean, since there's no other elements anymore.</strike><br>
+• <strike>Cleanup checkbox and reset button logic</strike>.<br>
 
-<br>
-<h3>ELO-Dopple-node\node</h3>
+<br><h3>ELO-Dopple-node\node</h3>
+<strong>Changes:</strong><br>
+•<br>
 <strong>To Do:</strong><br>
-• Make user encounter players only once
+• Make user encounter Dopple player sets only once, to prevent beefing the score up artificially.<br>
 
-
-<br>
-<h3>ELO-Dopple-node\node-non-dopple</h3>
+<br><h3>ELO-Dopple-node\node-non-dopple</h3>
 <strong>Changes:</strong><br>
 • 7-19-2020: Started taking out the Dopple-specific code, so that this NodeJS version will support any type pictures/players.<br>
 <br>
