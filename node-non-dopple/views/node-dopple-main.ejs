@@ -81,9 +81,9 @@ if(rando === 1){ // Randomize pictures
 
 if(playerArray[0] != undefined && newPlayers[8] === true || playerArray[0] != undefined && playerArray[0].lockPlayer === 1){
 %>
-					<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="1" checked>
+			<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="1" checked>
 <% }else{ %>
-					<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="1">
+			<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="1">
 <% }; %>
 
 <input type="hidden" name="playerTwoHidden" value="<%= playerTwo %>" >
@@ -92,8 +92,7 @@ if(playerArray[0] != undefined && newPlayers[8] === true || playerArray[0] != un
 </form>
 
 <%
-	if (Array.isArray(playerArray) && playerArray[0].winnerName != undefined && playerArray != undefined && playerArray.length && newPlayers[5] === false){ 
-		//console.log("Array NOT empty!");
+	if (Array.isArray(playerArray) && playerArray[0].winnerName != undefined && playerArray != undefined && playerArray.length && newPlayers[5] === false){
 		playerArray.forEach(function(currentArray){ %>
 				<div id="scoreBoard">
 				<p><u>Last Round:</u></p>
