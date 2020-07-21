@@ -5,6 +5,6 @@
 * <strong>/ts</strong> - The typescript version of the nodeJS version of Dopple (/ELO-Dopple -- another Github repository of mine).  Randall Gordon converted it into Typescript.<br>
 * <strong>/node-non-dopple</strong> - Regular nodeJS version of Dopple, but without Dopplegangers (you can rank any two players against each other) (/ELO-Dopple).  What is Dopple without Dopplegangers?  Just a voting app!<br>
 <br>
-<strong>See <kbd><span style="color:#FF0000">change.log</span></kbd> file (above) for changes to both versions.</strong>
+<strong>See <span style="color:#FF0000"><kbd>change.log</kbd></span> file (above) for changes to both versions.</strong>
 
 
