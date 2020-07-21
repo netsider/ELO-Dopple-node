@@ -7,7 +7,7 @@
 
 <strong>Changes:</strong><br>
 <ul>
-<li>• See <code>change.log</code> file for changes to both versions.
+<li>• See <code>change.log</code> file for changes to both versions.</li>
 </ul>
 
 
