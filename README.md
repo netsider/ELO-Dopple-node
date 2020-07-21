@@ -8,5 +8,5 @@
 * <strong>/node-non-dopple</strong> - Regular nodeJS version of Dopple, but without Dopplegangers (you can rank any two players against each other) (/ELO-Dopple).<br>
 
 <strong>Changes:</strong>
-* See <code>change.log</code> file for changes to both versions.
+• See <code>change.log</code> file for changes to both versions.
 
