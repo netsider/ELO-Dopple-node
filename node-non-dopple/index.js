@@ -38,11 +38,11 @@ playerArray[0].lockPlayer = false;
 
 // To Do:
 // Eliminate namePath and only have photoPath and scorePath.
-// <strike>Eliminate duplicate form logic and logic in player selection.</strike> DONE 7-23-2020
 // Fix EJS files since variables fixed.
 // See if I can move form logic from other functions to main / (like if(Number(req.body.lockPlayer) === 1){ lockPlayerCheckBox = true;)
-// remove toString() around line 110.
 // Make score pop up as an on-screen overlay notification.
+// <strike>remove toString() around line 110.</strike> DONE 7-23-2020
+// <strike>Eliminate duplicate form logic and logic in player selection.</strike> DONE 7-23-2020
 
 app.get("/", function(req, res){
 	//console.log("Serving / ...");
@@ -105,21 +105,21 @@ app.get("/", function(req, res){
 		//console.log("playerTwo: " + playerTwo);
 		
 		while(playerOne === playerTwo){
-			playerTwo = fileArray[getRandomIntInclusive(0, dlength - 1)];
+			playerTwo = obj[getRandomIntInclusive(0, dlength - 1)];
 			playerTwo = playerTwo.substring(0, playerTwo.length - 4);
 		}
 		
 		if(playerArray[0].winner != undefined){
 			//console.log("winner/loser chosen, players NOT locked.");
-				while(playerArray[0].winner.toString() === playerOne || playerArray[0].loser.toString() === playerOne || playerOne === playerTwo){
+				while(playerArray[0].winner === playerOne || playerArray[0].loser === playerOne || playerOne === playerTwo){
 					//console.log("Choosing new Player...");
-					playerOne = fileArray[getRandomIntInclusive(0, dlength - 1)];
+					playerOne = obj[getRandomIntInclusive(0, dlength - 1)];
 					playerOne = playerOne.substring(0, playerOne.length - 4);
 				}
 				
-				while(playerArray[0].winner.toString() === playerTwo || playerArray[0].loser.toString() === playerTwo || playerOne === playerTwo){
+				while(playerArray[0].winner === playerTwo || playerArray[0].loser === playerTwo || playerOne === playerTwo){
 					//console.log("Choosing new Player...");
-					playerTwo = fileArray[getRandomIntInclusive(0, dlength - 1)];
+					playerTwo = obj[getRandomIntInclusive(0, dlength - 1)];
 					playerTwo = playerTwo.substring(0, playerTwo.length - 4);
 				}
 			
@@ -197,9 +197,9 @@ app.get("/", function(req, res){
 });
 
 app.post("/node-dopple-main", function(req, res){
-	console.log("Serving /node-dopple-main (post) ..");
-	console.log("----req.body----");
-	logArray(req.body);
+	//console.log("Serving /node-dopple-main (post) ..");
+	//console.log("----req.body----");
+	//logArray(req.body);
 	
 	let lastPlayerOne = req.body.playerOneHidden;
 	let lastPlayerTwo = req.body.playerTwoHidden;
@@ -254,7 +254,6 @@ app.post("/resetScores", function(req, res){
 	
 	playerArray[0].lastPlayerOne = req.body.playerOneHidden;
 	playerArray[0].lastPlayerTwo = req.body.playerTwoHidden;
-			
 	playerArray[0].resetPressed = true;
 			
 	if(Number(req.body.lockPlayer) === 1){
@@ -267,6 +266,7 @@ app.post("/resetScores", function(req, res){
 	let scorePathLength = (fs.readdirSync(scorePath).length);
 	//console.log("scorePathLength: " + scorePathLength);
 	//console.log("scoreDirContents: " + scoreDirContents);
+	
 	let startingScore = "0";
 	for (let i = 0; i < scorePathLength; i++) {
 		let scoreFileTemp1 = scorePath + scoreDirContents[i];
