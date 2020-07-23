@@ -104,11 +104,10 @@ app.get("/", function(req, res){
 		}
 	}else{
 		
-		console.log("Players NOT locked!"); 
-		playerArray[0].lockPlayer = 0;
-		
 		playerOne = getRandomIntInclusive(1, maxPlayers).toString();
 		playerTwo = getRandomIntInclusive(1, maxPlayers).toString();
+		
+		playerArray[0].lockPlayer = null;
 		
 		while(playerOne === playerTwo){
 			playerTwo = getRandomIntInclusive(1, maxPlayers).toString();
@@ -135,8 +134,8 @@ app.get("/", function(req, res){
 		}
 	}
 	
-	//console.log("playerOne: " + playerOne);
-	//console.log("playerTwo: " + playerTwo);
+	console.log("playerOne: " + playerOne);
+	console.log("playerTwo: " + playerTwo);
 	
 	const playerOneNamePath = namePath + playerOne + ".txt";
 	const playerTwoNamePath = namePath + playerTwo + ".txt";
@@ -220,7 +219,7 @@ app.post("/node-dopple-main", function(req, res){
 		lockPlayer = 1;
 	}else{
 		lockPlayerCheckBox = false;
-		lockPlayer = 2;
+		lockPlayer = 0;
 	}
 	
 	let unserialized = JSON.parse(req.body.playerName);
