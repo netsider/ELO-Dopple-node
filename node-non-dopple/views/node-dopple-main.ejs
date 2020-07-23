@@ -66,14 +66,14 @@
 </div>
 
 <%
-if(playerArray[0].lockPlayer === 1 && playerArray[0].lockPlayer !== undefined){ %>
+if(playerArray[0].lockPlayer === true && playerArray[0].lockPlayer !== undefined){ %>
 	
 	<div style="width: 50%; display: inline-block;"><img height="<%= playerOneImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerOneImage %>" name="playerImage" value="<%= playerOneImage %>"><img height="<%= playerTwoImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerTwoImage %>" name="playerImage" value="<%= playerTwoImage %>"></div>
 	<form action="/node-dopple-main" method="POST">
 	<p><button type="submit" name="playerName" value="<%= playerOneIsWinnerArray %>">I think <%= playerOneName %> is better</button></p>
 	<p><button type="submit" name="playerName" value="<%= playerTwoIsWinnerArray %>">I think <%= playerTwoName %> is better</button></p>
 
-<% }else if(playerArray[0].lockPlayer === undefined || playerArray[0].lockPlayer === null){ %>
+<% }else if(playerArray[0].lockPlayer === undefined || playerArray[0].lockPlayer === false){ %>
 
 	<div style="width: 50%; display: inline-block;"><img height="<%= playerOneImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerOneImage %>" name="playerImage" value="<%= playerOneImage %>"><img height="<%= playerTwoImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerTwoImage %>" name="playerImage" value="<%= playerTwoImage %>"></div>
 	<form action="/node-dopple-main" method="POST">
@@ -82,7 +82,7 @@ if(playerArray[0].lockPlayer === 1 && playerArray[0].lockPlayer !== undefined){ 
 
 <%	
 }
-if(playerArray[0] !== undefined && playerArray[0].lockPlayer === 1){
+if(playerArray[0] !== undefined && playerArray[0].lockPlayer === true){
 %>
 			<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="1" checked>
 <% }else{ %>
