@@ -31,7 +31,7 @@ const k = 32;
 let maxPlayers = 2;
 let playerArray = [];
 let newPlayers = [];
-let lockPlayerCheckBox = false;
+//let lockPlayerCheckBox = false;
 let playerOne = 1;
 let playerTwo = 1;
 playerArray[0] = {};
@@ -44,7 +44,8 @@ if(isEven(dirLength)){
 }
 
 // To Do:
-// Fix playerArray[0].lockPlayer  type.
+// Fix EJS files since variables fixed.
+// Fix playerArray[0].lockPlayer type.
 // See if it's possible to eliminate form logic altogether
 // User playersArray objects for pretty much everything.
 // Use playerArray[0].lockPlayer to set checkbox state instead of other stuff. // get rid of lockPlayerCheckBox = true;
@@ -66,33 +67,32 @@ app.get("/", function(req, res){
 	// Form logic -------------------------------------------------------
 	let playerIsLocked = 0;
 	if(playerArray[0].winner != undefined){ // Answer button pressed
-		if(lockPlayerCheckBox === true && playerArray[0].resetPressed === false){ // Make the rest like this
+		if(playerArray[0].lockPlayer === true && playerArray[0].resetPressed === false){ // Make the rest like this
 			console.log("Answer button pressed and lockPlayerCheckBox CHECKED (players locked!)");
-			playerIsLocked = 1;
+			playerArray[0].lockPlayer = true;
 		}
-		if(lockPlayerCheckBox === false && playerArray[0].resetPressed === false){
+		if(playerArray[0].lockPlayer === false && playerArray[0].resetPressed === false){
 			//console.log("Answer button pressed. lockPlayerCheckBox NOT checked");
-			playerIsLocked = 0;
+			playerArray[0].lockPlayer = false;
 		}
 	}else{
 		//console.log("Answer button not pressed!");
 	}
 	
-	if(lockPlayerCheckBox === false && playerArray[0].resetPressed === true){
+	if(playerArray[0].lockPlayer === false && playerArray[0].resetPressed === true){
 		//console.log("Reset pressed, lockPlayerCheckBox NOT checked.");
-		playerIsLocked = 0;
+		playerArray[0].lockPlayer = false;
 	}
 	
-	if(lockPlayerCheckBox === true && playerArray[0].resetPressed === true){
+	if(playerArray[0].lockPlayer === true && playerArray[0].resetPressed === true){
 		//console.log("Reset pressed, lockPlayerCheckBox CHECKED.");
-		playerIsLocked = 1;
+		playerArray[0].lockPlayer = true;
 	}
 	
 	
 	// Player Selection -------------------------------------------------------
 	if(playerArray[0].lockPlayer === true){ // Change to if(playerArray[0].lockPlayer === 1){
 		//console.log("Players locked!"); 
-		playerArray[0].lockPlayer = true;
 		
 		if(playerArray[0].lastPlayerOne != undefined){
 			console.log("winner/loser chosen, but players locked.");
@@ -109,8 +109,6 @@ app.get("/", function(req, res){
 		
 		playerOne = getRandomIntInclusive(1, maxPlayers).toString();
 		playerTwo = getRandomIntInclusive(1, maxPlayers).toString();
-		
-		//playerArray[0].lockPlayer = false;
 		
 		while(playerOne === playerTwo){
 			playerTwo = getRandomIntInclusive(1, maxPlayers).toString();
@@ -212,10 +210,8 @@ app.post("/node-dopple-main", function(req, res){
 	let lastPlayerTwo = req.body.playerTwoHidden;
 
 	if(Number(req.body.lockPlayer) === 1){
-		lockPlayerCheckBox = true;
 		lockPlayer = true;
 	}else{
-		lockPlayerCheckBox = false;
 		lockPlayer = false;
 	}
 	
@@ -269,12 +265,10 @@ app.post("/resetScores", function(req, res){
 		playerArray[0].resetPressed = true;
 			
 		if(Number(req.body.lockPlayer) === 1){
-			lockPlayerCheckBox = true;
 			playerArray[0].lockPlayer = true;
 			playerArray[0].lastPlayerOne = req.body.playerOneHidden;
 			playerArray[0].lastPlayerTwo = req.body.playerTwoHidden;
 		}else{
-			lockPlayerCheckBox = false;
 			playerArray[0].lockPlayer = false;
 		}
 			
