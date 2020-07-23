@@ -90,7 +90,7 @@ app.get("/", function(req, res){
 		playerArray[0].lockPlayer = 1;
 		
 		if(playerArray[0].lastPlayerOne != undefined){
-			console.log("winner/loser chosen, but player locked.");
+			console.log("winner/loser chosen, but players locked.");
 			playerOne = playerArray[0].lastPlayerOne;
 			playerTwo = playerArray[0].lastPlayerTwo;
 			
@@ -107,6 +107,10 @@ app.get("/", function(req, res){
 		playerOne = getRandomIntInclusive(1, maxPlayers).toString();
 		playerTwo = getRandomIntInclusive(1, maxPlayers).toString();
 		
+		while(playerOne === playerTwo){
+			playerTwo = getRandomIntInclusive(1, maxPlayers).toString();
+		}
+		
 		if(playerArray[0].winner != undefined){
 			console.log("winner/loser chosen, players NOT locked.");
 				while(playerArray[0].winner.toString() === playerOne || playerArray[0].loser.toString() === playerOne || playerOne === playerTwo){
@@ -120,11 +124,10 @@ app.get("/", function(req, res){
 				}
 			
 		}else{
-			console.log("no winner/loser chosen, players NOT locked.");
-		
-			while(playerOne === playerTwo){
-				playerTwo = getRandomIntInclusive(1, maxPlayers).toString();
-			}
+			console.log("NO winner/loser chosen, players NOT locked.");
+			// while(playerOne === playerTwo){
+				// playerTwo = getRandomIntInclusive(1, maxPlayers).toString();
+			// }
 			
 		}
 	}
