@@ -95,7 +95,7 @@ if(playerArray[0] !== undefined && playerArray[0].lockPlayer === 1){
 </form>
 
 <%
-	if (Array.isArray(playerArray) && playerArray[0].winnerName != undefined && playerArray != undefined && playerArray.length && newPlayers[5] === false){
+	if (Array.isArray(playerArray) && playerArray[0].winnerName != undefined && playerArray != undefined && playerArray.length && playerArray[0].resetPressed === false){
 		playerArray.forEach(function(currentArray){
 		%>
 					<div id="scoreBoard">
