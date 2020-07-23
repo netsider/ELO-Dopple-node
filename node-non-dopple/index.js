@@ -33,9 +33,9 @@ let playerArray = [];
 let newPlayers = [];
 let resetPressed = false; // If reset pressed.
 let lockPlayerCheckBox = false;
+let playerOne = 1;
+let playerTwo = 1;
 playerArray[0] = {};
-newPlayers[6] = []; // Contains information about last player (until I can get it via playerArray[0].winner);
-//newPlayers[7] = false;  // Checkbox true/false.
 
 if(isEven(dirLength)){
 	maxPlayers = (dirLength / 2);
@@ -44,7 +44,6 @@ if(isEven(dirLength)){
 }
 
 // To Do:
-// Change meaning of buttons and their labels, since they mean different things now.
 // remove toString() around line 110.
 // Try to make lockPlayerCheckBox obselete by using playerArray[0].lockPlayer
 // make player selection work even if filenames not numerical.
@@ -60,14 +59,13 @@ app.get("/", function(req, res){
 	
 	// Form logic -------------------------------------------------------
 	let playerIsLocked = 0;
-	
 	if(playerArray[0].winner != undefined){ // Answer button pressed
 		if(lockPlayerCheckBox === true && resetPressed === false){
-			console.log("Answer button pressed and lockPlayerCheckBox CHECKED (players locked!)");
+			//console.log("Answer button pressed and lockPlayerCheckBox CHECKED (players locked!)");
 			playerIsLocked = 1;
 		}
 		if(lockPlayerCheckBox === false && resetPressed === false){
-			console.log("Answer button pressed. lockPlayerCheckBox NOT checked");
+			//console.log("Answer button pressed. lockPlayerCheckBox NOT checked");
 			playerIsLocked = 0;
 		}
 	}else{
@@ -75,21 +73,19 @@ app.get("/", function(req, res){
 	}
 	
 	if(lockPlayerCheckBox === false && resetPressed === true){
-		console.log("Reset pressed, lockPlayerCheckBox NOT checked.");
+		//console.log("Reset pressed, lockPlayerCheckBox NOT checked.");
 		playerIsLocked = 0;
 	}
 	
 	if(lockPlayerCheckBox === true && resetPressed === true){
-		console.log("Reset pressed, lockPlayerCheckBox CHECKED.");
+		//console.log("Reset pressed, lockPlayerCheckBox CHECKED.");
 		playerIsLocked = 1;
 	}
 	
 	
 	// Player Selection -------------------------------------------------------
-	let playerOne = 1;
-	let playerTwo = 1;
+	
 	if(playerIsLocked === 1){
-		
 		console.log("Players locked!"); 
 		playerArray[0].lockPlayer = 1;
 		
@@ -100,8 +96,8 @@ app.get("/", function(req, res){
 			
 		}else if(resetPressed === true){
 			console.log("reset pressed, but player locked.");
-			playerOne = newPlayers[6][1];
-			playerTwo = newPlayers[6][2];
+			playerOne = playerArray[0].lastPlayerOne;
+			playerTwo = playerArray[0].lastPlayerTwo;
 		}
 	}else{
 		
@@ -194,8 +190,8 @@ app.get("/", function(req, res){
 	
 	//Debugging:
 	//logArray(newPlayers);
-	console.log("newPlayers: ");
-	console.log(newPlayers);
+	//console.log("newPlayers: ");
+	//console.log(newPlayers);
 	//console.log(playerArray[0]);
 	//logArray(playerArray[0]);
     	
@@ -254,7 +250,6 @@ app.post("/node-dopple-main", function(req, res){
 	playerArray[0] = winnerLoserObject; //playerArray.push(winnerLoserObject); 
 	
 	//console.log(winnerLoserObject);
-	//console.log("Redirecting to / ...");
 	res.redirect("/");
 });
 
@@ -272,14 +267,10 @@ app.post("/resetScores", function(req, res){
 		resetPressed = true;
 			
 		if(Number(req.body.lockPlayer) === 1){
-			//newPlayers[7] = true; // Checkbox checked
 			lockPlayerCheckBox = true;
-			newPlayers[6][1] = playerOneOnReset; // last player
-			newPlayers[6][2] = playerTwoOnReset;
 			playerArray[0].lastPlayerOne = req.body.playerOneHidden;
 			playerArray[0].lastPlayerTwo = req.body.playerTwoHidden;
 		}else{
-			//newPlayers[7] = false; // Checkbox NOT checked
 			lockPlayerCheckBox = false;
 		}
 			
@@ -289,11 +280,10 @@ app.post("/resetScores", function(req, res){
 			console.log("Resetting " + scoreFileTemp1);
 			fs.writeFileSync(scoreFileTemp1, startingScore);
 			if(dirLength == i){
-				//console.log("All " + dirLength +  " score files reset!");
+				console.log("All " + dirLength +  " score files reset!");
 			}
 		}
 	}
-	//console.log("Redirecting to / ...");
 	res.redirect("/");
 })
 
