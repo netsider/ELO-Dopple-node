@@ -278,7 +278,7 @@ app.post("/resetScores", function(req, res){
 		//console.log("scoreDirContents: " + scoreDirContents);
 		let startingScore = "0";
 		for (let i = 0; i < scorePathLength; i++) {
-			let scoreFileTemp1 = scoreDirContents[i];
+			let scoreFileTemp1 = scorePath + scoreDirContents[i];
 			console.log("Resetting " + scoreFileTemp1);
 			fs.writeFileSync(scoreFileTemp1, startingScore);
 			if(scorePathLength - 1 === i){
