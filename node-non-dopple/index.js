@@ -44,6 +44,7 @@ if(isEven(dirLength)){
 }
 
 // To Do:
+// fix playerArray[0].lockPlayer and lockPlayer, and the form logic that changes it (FUCk JS)
 // Get rid of lockPlayerCheckBox obselete by using playerArray[0].lockPlayer
 // Do I still need newPlayers[5]?
 // remove toString() around line 110.
@@ -57,6 +58,8 @@ app.get("/", function(req, res){
 	console.log("-------------------------------- New Game --------------------------------");
 	//console.log("playerArray[0]: ");
 	//console.log(playerArray[0]);
+	
+	
 	
 	// Form logic -------------------------------------------------------
 	let playerIsLocked = 0;
@@ -132,8 +135,8 @@ app.get("/", function(req, res){
 		}
 	}
 	
-	console.log("playerOne: " + playerOne);
-	console.log("playerTwo: " + playerTwo);
+	//console.log("playerOne: " + playerOne);
+	//console.log("playerTwo: " + playerTwo);
 	
 	const playerOneNamePath = namePath + playerOne + ".txt";
 	const playerTwoNamePath = namePath + playerTwo + ".txt";
@@ -217,7 +220,7 @@ app.post("/node-dopple-main", function(req, res){
 		lockPlayer = 1;
 	}else{
 		lockPlayerCheckBox = false;
-		lockPlayer = 0;
+		lockPlayer = 2;
 	}
 	
 	let unserialized = JSON.parse(req.body.playerName);
