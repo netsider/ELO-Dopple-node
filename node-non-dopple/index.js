@@ -44,8 +44,9 @@ if(isEven(dirLength)){
 }
 
 // To Do:
+// Get rid of lockPlayerCheckBox obselete by using playerArray[0].lockPlayer
+// Do I still need newPlayers[5]?
 // remove toString() around line 110.
-// Try to make lockPlayerCheckBox obselete by using playerArray[0].lockPlayer
 // make player selection work even if filenames not numerical.
 // make reset work even if players not numerical
 // Make score pop up as an on-screen overlay notification.
@@ -54,8 +55,8 @@ app.get("/", function(req, res){
 	console.log("Serving / ...");
 	
 	console.log("-------------------------------- New Game --------------------------------");
-	console.log("playerArray[0]: ");
-	console.log(playerArray[0]);
+	//console.log("playerArray[0]: ");
+	//console.log(playerArray[0]);
 	
 	// Form logic -------------------------------------------------------
 	let playerIsLocked = 0;
@@ -84,7 +85,6 @@ app.get("/", function(req, res){
 	
 	
 	// Player Selection -------------------------------------------------------
-	
 	if(playerIsLocked === 1){
 		console.log("Players locked!"); 
 		playerArray[0].lockPlayer = 1;
@@ -215,9 +215,9 @@ app.post("/node-dopple-main", function(req, res){
 	if(Number(req.body.lockPlayer) === 1){
 		lockPlayerCheckBox = true;
 		lockPlayer = 1;
-
 	}else{
 		lockPlayerCheckBox = false;
+		lockPlayer = 0;
 	}
 	
 	let unserialized = JSON.parse(req.body.playerName);
@@ -252,7 +252,7 @@ app.post("/node-dopple-main", function(req, res){
 	
 	playerArray[0] = winnerLoserObject; //playerArray.push(winnerLoserObject); 
 	
-	//console.log(winnerLoserObject);
+	console.log(winnerLoserObject);
 	res.redirect("/");
 });
 
