@@ -1,5 +1,6 @@
 <h3>All Versions:</h3>
 <br><strong>To Do:</strong><br>
+• Make all versions choose players (or at least the first one, in regards to Dopple) not using number randomization.<br>
 • Make array numbers lower, so there's no blank values.<br>
 • Change name of app.post("/node-dopple-main", function() so that it doesn't have same name as EJS file.<br>
 • See how hard/easy it is to insert landing page.<br>
@@ -18,9 +19,10 @@
 
 <br><h3>ELO-Dopple-node\node</h3>
 <strong>To Do:</strong><br>
-• Make user encounter Dopple player sets only once, to prevent beefing the score up artificially.<br>
+• Make user encounter Dopple player sets only once, to prevent beefing the score up artificially by one user.<br>
 
 <br><h3>ELO-Dopple-node\node-non-dopple</h3>
 <br><strong>To Do:</strong><br>
-• Make hidden field for second player.<br>
+• After making it so all versions don't use numerical selection of players, make this one rate a users photos (for examle, my own photos).<br>
+• <strike>Make hidden field for second player.</strike><br>
 • <strike>Make non-dopple version.</strike><br>
