@@ -37,10 +37,11 @@ playerArray[0] = {};
 playerArray[0].lockPlayer = false;
 
 // To Do:
-// Eliminate namePath and only have photoPath and scorePath.
+// Make form logic non-global so app could potentially support many users (checkbox will be checked for all users if one checks it). 
+// Eliminate namePath and only have photoPath and scorePath, since there's no need for a name variable, or make it optional.  See: https://stackoverflow.com/questions/39339640/access-current-req-object-everywhere-in-node-js-express
 // Fix EJS files since variables fixed.
-// See if I can move form logic from other functions to main / (like if(Number(req.body.lockPlayer) === 1){ lockPlayerCheckBox = true;)
 // Make score pop up as an on-screen overlay notification.
+// <strike>See if I can move form logic from other functions to main / (like if(Number(req.body.lockPlayer) === 1){ lockPlayerCheckBox = true;)</strike> DONE 7-23-2020 (You can't much).
 // <strike>remove toString() around line 110.</strike> DONE 7-23-2020
 // <strike>Eliminate duplicate form logic and logic in player selection.</strike> DONE 7-23-2020
 
@@ -201,9 +202,6 @@ app.post("/node-dopple-main", function(req, res){
 	//console.log("----req.body----");
 	//logArray(req.body);
 	
-	let lastPlayerOne = req.body.playerOneHidden;
-	let lastPlayerTwo = req.body.playerTwoHidden;
-
 	let unserialized = JSON.parse(req.body.playerName);
 	let winner = unserialized[0].toString();
 	let loser = unserialized[1].toString();
@@ -232,18 +230,23 @@ app.post("/node-dopple-main", function(req, res){
 	fs.writeFileSync(winnerScoreFile, String(winnerNewScore));
 	fs.writeFileSync(loserScoreFile, String(loserNewScore));
 	
-	if(Number(req.body.lockPlayer) === 1){
-		lockPlayer = true;
-	}else{
-		lockPlayer = false;
-	}
+	let winnerLoserObject = {winner: winner, loser: loser, winnerName: winnerName, loserName: loserName, winnerOldScore: winnerOldScore, loserOldScore: loserOldScore, winnerELO: winnerELO, loserELO: loserELO, winnerNewScore: winnerNewScore, loserNewScore: loserNewScore, winnerNewELO: winnerNewELO, loserNewELO: loserNewELO};
 	
-	let winnerLoserObject = {winner: winner, loser: loser, winnerName: winnerName, loserName: loserName, winnerOldScore: winnerOldScore, loserOldScore: loserOldScore, winnerELO: winnerELO, loserELO: loserELO, winnerNewScore: winnerNewScore, loserNewScore: loserNewScore, winnerNewELO: winnerNewELO, loserNewELO: loserNewELO, lastPlayerOne: lastPlayerOne, lastPlayerTwo: lastPlayerTwo, lockPlayer: lockPlayer};
+	playerArray[0] = winnerLoserObject; //playerArray.push(winnerLoserObject);
 	
-	playerArray[0] = winnerLoserObject; //playerArray.push(winnerLoserObject); 
+	// Form Logic --------
+	playerArray[0].lastPlayerOne = req.body.playerOneHidden;
+	playerArray[0].lastPlayerTwo = req.body.playerTwoHidden;
 	playerArray[0].resetPressed = false;
+	if(Number(req.body.lockPlayer) === 1){
+		playerArray[0].lockPlayer = true;
+	}else{
+		playerArray[0].lockPlayer = false;
+	}
+	// Form Logic -------
 	
 	console.log(winnerLoserObject);
+	
 	res.redirect("/");
 });
 
@@ -252,6 +255,7 @@ app.post("/resetScores", function(req, res){
 	//console.log("----req.body----");
 	//logArray(req.body);
 	
+	// Form Logic --------
 	playerArray[0].lastPlayerOne = req.body.playerOneHidden;
 	playerArray[0].lastPlayerTwo = req.body.playerTwoHidden;
 	playerArray[0].resetPressed = true;
@@ -261,6 +265,7 @@ app.post("/resetScores", function(req, res){
 	}else{
 		playerArray[0].lockPlayer = false;
 	}
+	// Form Logic --------
 		
 	let scoreDirContents = fs.readdirSync(scorePath);
 	let scorePathLength = (fs.readdirSync(scorePath).length);
