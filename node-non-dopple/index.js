@@ -43,6 +43,7 @@ if(isEven(dirLength)){
 }
 
 // To Do:
+// Fix playerArray[0].lockPlayer  type.
 // See if it's possible to eliminate form logic altogether
 // User playersArray objects for pretty much everything.
 // Use playerArray[0].lockPlayer to set checkbox state instead of other stuff. // get rid of lockPlayerCheckBox = true;
