@@ -93,10 +93,11 @@ app.get("/", function(req, res){
 		console.log("Players locked!"); 
 		playerArray[0].lockPlayer = 1;
 		
-		if(playerArray[0].winner != undefined){
+		if(playerArray[0].lastPlayerOne != undefined){
 			console.log("winner/loser chosen, but player locked.");
-			playerOne = playerArray[0].winner;
-			playerTwo = playerArray[0].loser;
+			playerOne = playerArray[0].lastPlayerOne;
+			playerTwo = playerArray[0].lastPlayerTwo;
+			
 		}else if(resetPressed === true){
 			console.log("reset pressed, but player locked.");
 			playerOne = newPlayers[6][1];
@@ -193,7 +194,8 @@ app.get("/", function(req, res){
 	
 	//Debugging:
 	//logArray(newPlayers);
-	//console.log(newPlayers);
+	console.log("newPlayers: ");
+	console.log(newPlayers);
 	//console.log(playerArray[0]);
 	//logArray(playerArray[0]);
     	
@@ -207,10 +209,14 @@ app.post("/node-dopple-main", function(req, res){
 	resetPressed = false;
 	//let image = req.body.playerImage;
 	
+	let lastPlayerOne = req.body.playerOneHidden;
+	let lastPlayerTwo = req.body.playerTwoHidden;
+	
 	let lockPlayer = 0;
 	if(Number(req.body.lockPlayer) === 1){
 		lockPlayerCheckBox = true;
 		lockPlayer = 1;
+
 	}else{
 		lockPlayerCheckBox = false;
 	}
@@ -243,7 +249,7 @@ app.post("/node-dopple-main", function(req, res){
 	fs.writeFileSync(winnerScoreFile, String(winnerNewScore));
 	fs.writeFileSync(loserScoreFile, String(loserNewScore));
 	
-	let winnerLoserObject = {winner: winner, loser: loser, winnerName: winnerName, loserName: loserName, winnerOldScore: winnerOldScore, loserOldScore: loserOldScore, winnerELO: winnerELO, loserELO: loserELO, winnerNewScore: winnerNewScore, loserNewScore: loserNewScore, winnerNewELO: winnerNewELO, loserNewELO: loserNewELO, lockPlayer: lockPlayer};
+	let winnerLoserObject = {winner: winner, loser: loser, winnerName: winnerName, loserName: loserName, winnerOldScore: winnerOldScore, loserOldScore: loserOldScore, winnerELO: winnerELO, loserELO: loserELO, winnerNewScore: winnerNewScore, loserNewScore: loserNewScore, winnerNewELO: winnerNewELO, loserNewELO: loserNewELO, lastPlayerOne: lastPlayerOne, lastPlayerTwo: lastPlayerTwo, lockPlayer: lockPlayer};
 	
 	playerArray[0] = winnerLoserObject; //playerArray.push(winnerLoserObject); 
 	
@@ -270,6 +276,8 @@ app.post("/resetScores", function(req, res){
 			lockPlayerCheckBox = true;
 			newPlayers[6][1] = playerOneOnReset; // last player
 			newPlayers[6][2] = playerTwoOnReset;
+			playerArray[0].lastPlayerOne = req.body.playerOneHidden;
+			playerArray[0].lastPlayerTwo = req.body.playerTwoHidden;
 		}else{
 			//newPlayers[7] = false; // Checkbox NOT checked
 			lockPlayerCheckBox = false;
