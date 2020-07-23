@@ -58,7 +58,7 @@ if(isEven(dirLength)){
 // Make score pop up as an on-screen overlay notification.
 
 app.get("/", function(req, res){
-	console.log("Serving / ...");
+	//console.log("Serving / ...");
 	//console.log("playerArray[0]: ");
 	//console.log(playerArray[0]);
 	
@@ -68,7 +68,7 @@ app.get("/", function(req, res){
 	let playerIsLocked = 0;
 	if(playerArray[0].winner != undefined){ // Answer button pressed
 		if(playerArray[0].lockPlayer === true && playerArray[0].resetPressed === false){ // Make the rest like this
-			console.log("Answer button pressed and lockPlayerCheckBox CHECKED (players locked!)");
+			//console.log("Answer button pressed and lockPlayerCheckBox CHECKED (players locked!)");
 			playerArray[0].lockPlayer = true;
 		}
 		if(playerArray[0].lockPlayer === false && playerArray[0].resetPressed === false){
@@ -95,12 +95,12 @@ app.get("/", function(req, res){
 		//console.log("Players locked!"); 
 		
 		if(playerArray[0].lastPlayerOne != undefined){
-			console.log("winner/loser chosen, but players locked.");
+			//console.log("winner/loser chosen, but players locked.");
 			playerOne = playerArray[0].lastPlayerOne;
 			playerTwo = playerArray[0].lastPlayerTwo;
 			
 		}else if(playerArray[0].resetPressed === true){
-			console.log("reset pressed, but player locked.");
+			//console.log("reset pressed, but player locked.");
 			playerOne = playerArray[0].lastPlayerOne;
 			playerTwo = playerArray[0].lastPlayerTwo;
 		}
@@ -115,7 +115,7 @@ app.get("/", function(req, res){
 		}
 		
 		if(playerArray[0].winner != undefined){
-			console.log("winner/loser chosen, players NOT locked.");
+			//console.log("winner/loser chosen, players NOT locked.");
 				while(playerArray[0].winner.toString() === playerOne || playerArray[0].loser.toString() === playerOne || playerOne === playerTwo){
 					//console.log("Choosing new Player...");
 					playerOne = getRandomIntInclusive(1, maxPlayers).toString();
@@ -127,7 +127,7 @@ app.get("/", function(req, res){
 				}
 			
 		}else{
-			console.log("NO winner/loser chosen, players NOT locked.");
+			//console.log("NO winner/loser chosen, players NOT locked.");
 		}
 	}
 	
