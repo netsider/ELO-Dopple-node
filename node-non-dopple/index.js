@@ -31,7 +31,6 @@ const k = 32;
 let maxPlayers = 2;
 let playerArray = [];
 let newPlayers = [];
-let resetPressed = false;
 let lockPlayerCheckBox = false;
 let playerOne = 1;
 let playerTwo = 1;
@@ -44,6 +43,7 @@ if(isEven(dirLength)){
 }
 
 // To Do:
+// User playersArray objects for pretty much everything.
 // Use playerArray[0].lockPlayer to set checkbox state instead of other stuff.
 // See if I can move form logic from other functions to main / (like if(Number(req.body.lockPlayer) === 1){
 //	lockPlayerCheckBox = true;)
@@ -63,11 +63,11 @@ app.get("/", function(req, res){
 	// Form logic -------------------------------------------------------
 	let playerIsLocked = 0;
 	if(playerArray[0].winner != undefined){ // Answer button pressed
-		if(lockPlayerCheckBox === true && resetPressed === false){
-			//console.log("Answer button pressed and lockPlayerCheckBox CHECKED (players locked!)");
+		if(lockPlayerCheckBox === true && playerArray[0].resetPressed === false){ // Make the rest like this
+			console.log("Answer button pressed and lockPlayerCheckBox CHECKED (players locked!)");
 			playerIsLocked = 1;
 		}
-		if(lockPlayerCheckBox === false && resetPressed === false){
+		if(lockPlayerCheckBox === false && playerArray[0].resetPressed === false){
 			//console.log("Answer button pressed. lockPlayerCheckBox NOT checked");
 			playerIsLocked = 0;
 		}
@@ -75,19 +75,19 @@ app.get("/", function(req, res){
 		//console.log("Answer button not pressed!");
 	}
 	
-	if(lockPlayerCheckBox === false && resetPressed === true){
+	if(lockPlayerCheckBox === false && playerArray[0].resetPressed === true){
 		//console.log("Reset pressed, lockPlayerCheckBox NOT checked.");
 		playerIsLocked = 0;
 	}
 	
-	if(lockPlayerCheckBox === true && resetPressed === true){
+	if(lockPlayerCheckBox === true && playerArray[0].resetPressed === true){
 		//console.log("Reset pressed, lockPlayerCheckBox CHECKED.");
 		playerIsLocked = 1;
 	}
 	
 	
 	// Player Selection -------------------------------------------------------
-	if(playerIsLocked === 1){
+	if(playerIsLocked === 1){ // Change to if(playerArray[0].lockPlayer === 1){
 		//console.log("Players locked!"); 
 		playerArray[0].lockPlayer = 1;
 		
@@ -96,7 +96,7 @@ app.get("/", function(req, res){
 			playerOne = playerArray[0].lastPlayerOne;
 			playerTwo = playerArray[0].lastPlayerTwo;
 			
-		}else if(resetPressed === true){
+		}else if(playerArray[0].resetPressed === true){
 			console.log("reset pressed, but player locked.");
 			playerOne = playerArray[0].lastPlayerOne;
 			playerTwo = playerArray[0].lastPlayerTwo;
@@ -186,9 +186,8 @@ app.get("/", function(req, res){
 	newPlayers[1][3] = playerTwoELO;
 	newPlayers[1][4] = aspectRatioP2;
 
-	newPlayers[5] = resetPressed; // indicate reset not pressed last time, so scoreboard doesn't show (is there another way to do this???)
-	playerArray[0].resetPressed = resetPressed;
-	resetPressed = false; // so it doesn't stay true
+	playerArray[0].resetPressed = false;
+
 	
 	//Debugging:
 	//logArray(newPlayers);
@@ -205,8 +204,6 @@ app.post("/node-dopple-main", function(req, res){
 	console.log("Serving /node-dopple-main (post) ..");
 	console.log("----req.body----");
 	logArray(req.body);
-	
-	resetPressed = false;
 	
 	let lastPlayerOne = req.body.playerOneHidden;
 	let lastPlayerTwo = req.body.playerTwoHidden;
@@ -250,6 +247,7 @@ app.post("/node-dopple-main", function(req, res){
 	let winnerLoserObject = {winner: winner, loser: loser, winnerName: winnerName, loserName: loserName, winnerOldScore: winnerOldScore, loserOldScore: loserOldScore, winnerELO: winnerELO, loserELO: loserELO, winnerNewScore: winnerNewScore, loserNewScore: loserNewScore, winnerNewELO: winnerNewELO, loserNewELO: loserNewELO, lastPlayerOne: lastPlayerOne, lastPlayerTwo: lastPlayerTwo, lockPlayer: lockPlayer};
 	
 	playerArray[0] = winnerLoserObject; //playerArray.push(winnerLoserObject); 
+	playerArray[0].resetPressed = false;
 	
 	console.log(winnerLoserObject);
 	res.redirect("/");
@@ -265,10 +263,11 @@ app.post("/resetScores", function(req, res){
 	
 	if(Number(req.body.reset) === 1){
 			
-		resetPressed = true;
+		playerArray[0].resetPressed = true;
 			
 		if(Number(req.body.lockPlayer) === 1){
 			lockPlayerCheckBox = true;
+			playerArray[0].lockPlayer = true;
 			playerArray[0].lastPlayerOne = req.body.playerOneHidden;
 			playerArray[0].lastPlayerTwo = req.body.playerTwoHidden;
 		}else{
@@ -285,6 +284,7 @@ app.post("/resetScores", function(req, res){
 			}
 		}
 	}
+	console.log(playerArray);
 	res.redirect("/");
 })
 
