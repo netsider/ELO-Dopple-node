@@ -37,13 +37,10 @@ playerArray[0] = {};
 playerArray[0].lockPlayer = false;
 
 // To Do:
-// Make form logic non-global so app could potentially support many users (checkbox will be checked for all users if one checks it). 
-// Eliminate namePath and only have photoPath and scorePath, since there's no need for a name variable, or make it optional.  See: https://stackoverflow.com/questions/39339640/access-current-req-object-everywhere-in-node-js-express
-// Fix EJS files since variables fixed.
+// Decide/learn how to make form logic non-global, so app could support many users (checkbox will be checked for all users if one checks it). See: https://stackoverflow.com/questions/39339640/access-current-req-object-everywhere-in-node-js-express
+// Eliminate namePath and only have photoPath and scorePath, since there's no need for a name variable, or make it optional.  
 // Make score pop up as an on-screen overlay notification.
-// <strike>See if I can move form logic from other functions to main / (like if(Number(req.body.lockPlayer) === 1){ lockPlayerCheckBox = true;)</strike> DONE 7-23-2020 (You can't much).
-// <strike>remove toString() around line 110.</strike> DONE 7-23-2020
-// <strike>Eliminate duplicate form logic and logic in player selection.</strike> DONE 7-23-2020
+
 
 app.get("/", function(req, res){
 	//console.log("Serving / ...");
@@ -76,12 +73,11 @@ app.get("/", function(req, res){
 		// playerArray[0].lockPlayer = true;
 	// }
 	
-	
 	// Player Selection -------------------------------------------------------
 	if(playerArray[0].lockPlayer === true){
 		//console.log("Players locked!"); 
 		
-		if(playerArray[0].lastPlayerOne != undefined){
+		if(playerArray[0].lastPlayerOne !== undefined){
 			//console.log("winner/loser chosen, but players locked.");
 			playerOne = playerArray[0].lastPlayerOne;
 			playerTwo = playerArray[0].lastPlayerTwo;
@@ -95,32 +91,32 @@ app.get("/", function(req, res){
 		//console.log("Players NOT locked!"); 
 		
 		let obj = fs.readdirSync(namePath);
-		let dlength = fs.readdirSync(namePath).length;
+		let dlength = fs.readdirSync(namePath).length - 1;
 
-		playerOne = obj[getRandomIntInclusive(0, dlength - 1)];
+		playerOne = obj[getRandomIntInclusive(0, dlength)];
 		playerOne = playerOne.substring(0, playerOne.length - 4);
 		//console.log("playerOne: " + playerOne);
 		
-		playerTwo = obj[getRandomIntInclusive(0, dlength - 1)];
+		playerTwo = obj[getRandomIntInclusive(0, dlength)];
 		playerTwo = playerTwo.substring(0, playerTwo.length - 4);
 		//console.log("playerTwo: " + playerTwo);
 		
 		while(playerOne === playerTwo){
-			playerTwo = obj[getRandomIntInclusive(0, dlength - 1)];
+			playerTwo = obj[getRandomIntInclusive(0, dlength)];
 			playerTwo = playerTwo.substring(0, playerTwo.length - 4);
 		}
 		
-		if(playerArray[0].winner != undefined){
+		if(playerArray[0].winner !== undefined){
 			//console.log("winner/loser chosen, players NOT locked.");
 				while(playerArray[0].winner === playerOne || playerArray[0].loser === playerOne || playerOne === playerTwo){
 					//console.log("Choosing new Player...");
-					playerOne = obj[getRandomIntInclusive(0, dlength - 1)];
+					playerOne = obj[getRandomIntInclusive(0, dlength)];
 					playerOne = playerOne.substring(0, playerOne.length - 4);
 				}
 				
 				while(playerArray[0].winner === playerTwo || playerArray[0].loser === playerTwo || playerOne === playerTwo){
 					//console.log("Choosing new Player...");
-					playerTwo = obj[getRandomIntInclusive(0, dlength - 1)];
+					playerTwo = obj[getRandomIntInclusive(0, dlength)];
 					playerTwo = playerTwo.substring(0, playerTwo.length - 4);
 				}
 			
@@ -197,7 +193,7 @@ app.get("/", function(req, res){
 	
 });
 
-app.post("/node-dopple-main", function(req, res){
+app.post("/submitPlayer", function(req, res){
 	//console.log("Serving /node-dopple-main (post) ..");
 	//console.log("----req.body----");
 	//logArray(req.body);
@@ -311,5 +307,4 @@ function logArray(theArray){
 	Array.from(Object.keys(theArray)).forEach(function(key){
 		console.log(key + ": " + theArray[key]);
 	});
-	return null;
 };

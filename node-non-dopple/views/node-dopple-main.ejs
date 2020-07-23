@@ -16,10 +16,6 @@
 		return newHeight;
 	};
 	
-	function isObjectLike(value) {
-		return value != null && typeof value == 'object';
-	};
-	
 	const photoPath  = "Dopples/Actress_Picture/";
 	const rando = getRandomIntInclusive(1, 2);
 	const newImgWidth = 240;
@@ -43,13 +39,11 @@
 	let playerOneImgHeight = getNewHeightInAspectRatio(newImgWidth, playerOneAR);
 	let playerTwoImgHeight = getNewHeightInAspectRatio(newImgWidth, playerTwoAR);
 
-	// Array passed if Player One selected
 	playerOneIsWinnerArray = [];
 	playerOneIsWinnerArray[0] = playerOne;
 	playerOneIsWinnerArray[1] = playerTwo;
 	playerOneIsWinnerArray = JSON.stringify(playerOneIsWinnerArray);
 	
-	// Array passed if Player Two selected
 	playerTwoIsWinnerArray = [];
 	playerTwoIsWinnerArray[0] = playerTwo;
 	playerTwoIsWinnerArray[1] = playerOne;
@@ -65,40 +59,32 @@
 	<h2><strong>Choose which picture you think is better looking:</strong></h2>
 </div>
 
-<%
-if(playerArray[0].lockPlayer === true && playerArray[0].lockPlayer !== undefined){ %>
-	
-	<div style="width: 50%; display: inline-block;"><img height="<%= playerOneImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerOneImage %>" name="playerImage" value="<%= playerOneImage %>"><img height="<%= playerTwoImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerTwoImage %>" name="playerImage" value="<%= playerTwoImage %>"></div>
-	<form action="/node-dopple-main" method="POST">
+<div style="width: 50%; display: inline-block;">
+	<img height="<%= playerOneImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerOneImage %>" name="playerImage" value="<%= playerOneImage %>">
+	<img height="<%= playerTwoImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerTwoImage %>" name="playerImage" value="<%= playerTwoImage %>">
+</div>
+
+<form action="/submitPlayer" method="POST">
 	<p><button type="submit" name="playerName" value="<%= playerOneIsWinnerArray %>">I think <%= playerOneName %> is better</button></p>
 	<p><button type="submit" name="playerName" value="<%= playerTwoIsWinnerArray %>">I think <%= playerTwoName %> is better</button></p>
+	<input type="hidden" name="playerTwoHidden" value="<%= playerTwo %>" >
+	<input type="hidden" name="playerOneHidden" value="<%= playerOne %>" >
 
-<% }else if(playerArray[0].lockPlayer === undefined || playerArray[0].lockPlayer === false){ %>
-
-	<div style="width: 50%; display: inline-block;"><img height="<%= playerOneImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerOneImage %>" name="playerImage" value="<%= playerOneImage %>"><img height="<%= playerTwoImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerTwoImage %>" name="playerImage" value="<%= playerTwoImage %>"></div>
-	<form action="/node-dopple-main" method="POST">
-	<p><button type="submit" name="playerName" value="<%= playerOneIsWinnerArray %>">I think <%= playerOneName %> is better</button></p>
-	<p><button type="submit" name="playerName" value="<%= playerTwoIsWinnerArray %>">I think <%= playerTwoName %> is better</button></p>
-
-<%	
-}
-if(playerArray[0] !== undefined && playerArray[0].lockPlayer === true){
-%>
+	<div id="testingBox">
+		<% if(playerArray[0] !== undefined && playerArray[0].lockPlayer === true){ %>
 			<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="1" checked>
-<% }else{ %>
+		<% }else{ %>
 			<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="1">
-<% }; %>
-
-<input type="hidden" name="playerTwoHidden" value="<%= playerTwo %>" >
-<input type="hidden" name="playerOneHidden" value="<%= playerOne %>" >
-<button type="submit" name="reset" value="1" formaction="/resetScores">Reset all scores to 0.</button>
+		<% }; %>
+		<button type="submit" name="reset" value="1" formaction="/resetScores">Reset all scores to 0.</button>
+	</div>
 </form>
 
 <%
-	if (Array.isArray(playerArray) && playerArray[0].winnerName != undefined && playerArray != undefined && playerArray.length && playerArray[0].resetPressed === false){
-		playerArray.forEach(function(currentArray){
-		%>
-					<div id="scoreBoard">
+	if (Array.isArray(playerArray) && playerArray[0].winnerName != undefined && playerArray != undefined && playerArray.length && playerArray[0].resetPressed === false){		
+			playerArray.forEach(function(currentArray){       
+%>
+				<div id="scoreBoard">
 					<p><u>Last Round:</u></p>
 					<p><strong>You chose <%= currentArray.winnerName %> over <%= currentArray.loserName %>.</strong></p>
 					<!-- <p>Winner: <%= currentArray.winner %></p> -->
@@ -114,11 +100,13 @@ if(playerArray[0] !== undefined && playerArray[0].lockPlayer === true){
 					<p><%= currentArray.loserName %> ELO (old): <%= (currentArray.loserELO * 100).toString().substr(0,5) %>%</p>
 					<p><%= currentArray.loserName %> ELO (new): <%= (currentArray.loserNewELO * 100).toString().substr(0,5) %>%</p>
 					<p>lockPlayer: <%= currentArray.lockPlayer %></p>
-			</div>
-	<%});
+				</div>
+<% 		
+			});
 	}else{
 		//console.log("Array Empty!"); %>
-	<%};
+<%	
+	};
 %>
 </center>
 </body>
