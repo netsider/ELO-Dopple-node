@@ -204,6 +204,8 @@ app.get("/", function(req, res){
 
 app.post("/node-dopple-main", function(req, res){
 	console.log("Serving /node-dopple-main (post) ..");
+	console.log("----req.body----");
+	logArray(req.body);
 	
 	resetPressed = false;
 	
