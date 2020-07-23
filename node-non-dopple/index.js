@@ -35,7 +35,7 @@ let resetPressed = false; // If reset pressed.
 let lockPlayerCheckBox = false;
 playerArray[0] = {};
 newPlayers[6] = []; // Contains information about last player (until I can get it via playerArray[0].winner);
-newPlayers[7] = false;  // Checkbox true/false.
+//newPlayers[7] = false;  // Checkbox true/false.
 
 if(isEven(dirLength)){
 	maxPlayers = (dirLength / 2);
@@ -96,44 +96,31 @@ app.get("/", function(req, res){
 		playerTwo = getRandomIntInclusive(1, maxPlayers).toString();
 		
 		if(playerArray[0].winner != undefined && playerArray[0].loser != undefined){ // winner/loser chosen
-			if(playerArray[0].winner.toString() === playerOne || playerArray[0].loser.toString() === playerOne){
-				while(playerArray[0].winner.toString() === playerOne || playerArray[0].loser.toString() === playerOne){
-					console.log("Choosing new Player 1...");
+		
+				while(playerArray[0].winner.toString() === playerOne || playerArray[0].loser.toString() === playerOne || playerOne === playerTwo){
+					//console.log("Choosing new Player...");
 					playerOne = getRandomIntInclusive(1, maxPlayers).toString();
-					if(playerOne === playerTwo){
-						//console.log("New players STILL the same!  Choosing different...");
-						while(playerOne === playerTwo){
-							playerOne = getRandomIntInclusive(1, maxPlayers).toString();
-						}
-					}
 				}
 				
-			}
-			if(playerArray[0].winner.toString() === playerTwo || playerArray[0].loser.toString() === playerTwo){
-				while(playerArray[0].winner.toString() === playerTwo || playerArray[0].loser.toString() === playerTwo){
-					console.log("Choosing new Player 2...");
-					playerTwo = getRandomIntInclusive(1, maxPlayers).toString();
-					if(playerOne === playerTwo){
-						//console.log("New players STILL the same!  Choosing different...");
-						while(playerOne === playerTwo){
-							playerTwo = getRandomIntInclusive(1, maxPlayers).toString();
-						}
-					}
-				}		
-			}
-			
-		}else{ // no winner/loser chosen
-			if(playerOne === playerTwo){
-				//console.log("New players both the same!  Choosing different...");
-				while(playerOne.toString() === playerTwo.toString()){
+				while(playerArray[0].winner.toString() === playerTwo || playerArray[0].loser.toString() === playerTwo || playerOne === playerTwo){
+					//console.log("Choosing new Player...");
 					playerTwo = getRandomIntInclusive(1, maxPlayers).toString();
 				}
+				
+				console.log("playerOne: " + playerOne);
+				console.log("playerTwo: " + playerTwo);
+			
+		}else{ // no winner/loser chosen
+		
+			while(playerOne === playerTwo){
+				playerTwo = getRandomIntInclusive(1, maxPlayers).toString();
 			}
+			
 		}
 	}
 	
-	//console.log("playerOne: " + playerOne);
-	//console.log("playerTwo: " + playerTwo);
+	console.log("playerOne: " + playerOne);
+	console.log("playerTwo: " + playerTwo);
 	
 	const playerOneNamePath = namePath + playerOne + ".txt";
 	const playerTwoNamePath = namePath + playerTwo + ".txt";
@@ -209,12 +196,12 @@ app.post("/node-dopple-main", function(req, res){
 	
 	let lockPlayer = 0;
 	if(Number(req.body.lockPlayer) === 1){
-		newPlayers[7] = true;
+		//newPlayers[7] = true;
 		lockPlayerCheckBox = true;
 		lockPlayer = 1;
 	}else{
 		lockPlayerCheckBox = false;
-		newPlayers[7] = false;
+		//newPlayers[7] = false;
 	}
 	
 	let unserialized = JSON.parse(req.body.playerName);
@@ -272,12 +259,12 @@ app.post("/resetScores", function(req, res){
 		resetPressed = true;
 			
 		if(Number(req.body.lockPlayer) === 1){
-			newPlayers[7] = true; // Checkbox checked
+			//newPlayers[7] = true; // Checkbox checked
 			lockPlayerCheckBox = true;
 			newPlayers[6][1] = playerOneOnReset; // last player
 			newPlayers[6][2] = playerTwoOnReset;
 		}else{
-			newPlayers[7] = false; // Checkbox NOT checked
+			//newPlayers[7] = false; // Checkbox NOT checked
 			lockPlayerCheckBox = false;
 		}
 			
