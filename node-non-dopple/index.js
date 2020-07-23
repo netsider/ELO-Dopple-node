@@ -37,18 +37,18 @@ playerArray[0] = {};
 playerArray[0].lockPlayer = false;
 
 // To Do:
-// Eliminate namePath and only have photoPath and other.
-// Eliminate duplicate form logic and logic in player selection.
+// Eliminate namePath and only have photoPath and scorePath.
+// <strike>Eliminate duplicate form logic and logic in player selection.</strike> DONE 7-23-2020
 // Fix EJS files since variables fixed.
 // See if I can move form logic from other functions to main / (like if(Number(req.body.lockPlayer) === 1){ lockPlayerCheckBox = true;)
 // remove toString() around line 110.
 // Make score pop up as an on-screen overlay notification.
 
 app.get("/", function(req, res){
-	console.log("Serving / ...");
+	//console.log("Serving / ...");
+	console.log("-------------------------------- New Game --------------------------------");
 	//console.log("playerArray[0]: ");
 	//console.log(playerArray[0]);
-	console.log("-------------------------------- New Game --------------------------------");
 	
 	// Form logic -------------------------------------------------------
 	// let playerIsLocked = 0;
@@ -77,37 +77,32 @@ app.get("/", function(req, res){
 	
 	
 	// Player Selection -------------------------------------------------------
-	if(playerArray[0].lockPlayer === true){ // Change to if(playerArray[0].lockPlayer === 1){
+	if(playerArray[0].lockPlayer === true){
 		//console.log("Players locked!"); 
 		
 		if(playerArray[0].lastPlayerOne != undefined){
 			//console.log("winner/loser chosen, but players locked.");
 			playerOne = playerArray[0].lastPlayerOne;
 			playerTwo = playerArray[0].lastPlayerTwo;
-			
 		}else if(playerArray[0].resetPressed === true){
 			//console.log("reset pressed, but player locked.");
 			playerOne = playerArray[0].lastPlayerOne;
 			playerTwo = playerArray[0].lastPlayerTwo;
 		}
+		
 	}else{
 		//console.log("Players NOT locked!"); 
 		
 		let obj = fs.readdirSync(namePath);
 		let dlength = fs.readdirSync(namePath).length;
-		let fileArray = [];
-		for (let i = 0; i < dlength; i++) {
-			fileArray[i] = obj[i];
-		}
-		//console.log(fileArray);
-		//console.log("fileArray.length: " + fileArray.length);
-		playerOne = fileArray[getRandomIntInclusive(0, dlength - 1)];
+
+		playerOne = obj[getRandomIntInclusive(0, dlength - 1)];
 		playerOne = playerOne.substring(0, playerOne.length - 4);
-		console.log("playerOne: " + playerOne);
+		//console.log("playerOne: " + playerOne);
 		
-		playerTwo = fileArray[getRandomIntInclusive(0, dlength - 1)];
+		playerTwo = obj[getRandomIntInclusive(0, dlength - 1)];
 		playerTwo = playerTwo.substring(0, playerTwo.length - 4);
-		console.log("playerTwo: " + playerTwo);
+		//console.log("playerTwo: " + playerTwo);
 		
 		while(playerOne === playerTwo){
 			playerTwo = fileArray[getRandomIntInclusive(0, dlength - 1)];
@@ -199,7 +194,7 @@ app.get("/", function(req, res){
 	res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
 	playerArray[0].resetPressed = false;
 	
-})
+});
 
 app.post("/node-dopple-main", function(req, res){
 	console.log("Serving /node-dopple-main (post) ..");
@@ -209,12 +204,6 @@ app.post("/node-dopple-main", function(req, res){
 	let lastPlayerOne = req.body.playerOneHidden;
 	let lastPlayerTwo = req.body.playerTwoHidden;
 
-	if(Number(req.body.lockPlayer) === 1){
-		lockPlayer = true;
-	}else{
-		lockPlayer = false;
-	}
-	
 	let unserialized = JSON.parse(req.body.playerName);
 	let winner = unserialized[0].toString();
 	let loser = unserialized[1].toString();
@@ -243,6 +232,12 @@ app.post("/node-dopple-main", function(req, res){
 	fs.writeFileSync(winnerScoreFile, String(winnerNewScore));
 	fs.writeFileSync(loserScoreFile, String(loserNewScore));
 	
+	if(Number(req.body.lockPlayer) === 1){
+		lockPlayer = true;
+	}else{
+		lockPlayer = false;
+	}
+	
 	let winnerLoserObject = {winner: winner, loser: loser, winnerName: winnerName, loserName: loserName, winnerOldScore: winnerOldScore, loserOldScore: loserOldScore, winnerELO: winnerELO, loserELO: loserELO, winnerNewScore: winnerNewScore, loserNewScore: loserNewScore, winnerNewELO: winnerNewELO, loserNewELO: loserNewELO, lastPlayerOne: lastPlayerOne, lastPlayerTwo: lastPlayerTwo, lockPlayer: lockPlayer};
 	
 	playerArray[0] = winnerLoserObject; //playerArray.push(winnerLoserObject); 
@@ -256,40 +251,35 @@ app.post("/resetScores", function(req, res){
 	console.log("Resetting Scores...");
 	//console.log("----req.body----");
 	//logArray(req.body);
-		
-	let playerOneOnReset = req.body.playerOneHidden;
-	let playerTwoOnReset = req.body.playerTwoHidden;
 	
-	if(Number(req.body.reset) === 1){
+	playerArray[0].lastPlayerOne = req.body.playerOneHidden;
+	playerArray[0].lastPlayerTwo = req.body.playerTwoHidden;
 			
-		playerArray[0].resetPressed = true;
+	playerArray[0].resetPressed = true;
 			
-		if(Number(req.body.lockPlayer) === 1){
-			playerArray[0].lockPlayer = true;
-			playerArray[0].lastPlayerOne = req.body.playerOneHidden;
-			playerArray[0].lastPlayerTwo = req.body.playerTwoHidden;
-		}else{
-			playerArray[0].lockPlayer = false;
-		}
-		
-		let scoreDirContents = fs.readdirSync(scorePath);
-		let scorePathLength = (fs.readdirSync(scorePath).length);
-		//console.log("scorePathLength: " + scorePathLength);
-		//console.log("scoreDirContents: " + scoreDirContents);
-		let startingScore = "0";
-		for (let i = 0; i < scorePathLength; i++) {
-			let scoreFileTemp1 = scorePath + scoreDirContents[i];
-			console.log("Resetting " + scoreFileTemp1);
-			fs.writeFileSync(scoreFileTemp1, startingScore);
-			if(scorePathLength - 1 === i){
-				console.log("All " + scorePathLength +  " score files reset!");
-			}
-		}
-		
+	if(Number(req.body.lockPlayer) === 1){
+		playerArray[0].lockPlayer = true;
+	}else{
+		playerArray[0].lockPlayer = false;
 	}
+		
+	let scoreDirContents = fs.readdirSync(scorePath);
+	let scorePathLength = (fs.readdirSync(scorePath).length);
+	//console.log("scorePathLength: " + scorePathLength);
+	//console.log("scoreDirContents: " + scoreDirContents);
+	let startingScore = "0";
+	for (let i = 0; i < scorePathLength; i++) {
+		let scoreFileTemp1 = scorePath + scoreDirContents[i];
+		console.log("Resetting " + scoreFileTemp1);
+		fs.writeFileSync(scoreFileTemp1, startingScore);
+		if(scorePathLength - 1 === i){
+			console.log("All " + scorePathLength +  " score files reset!");
+		}
+	}
+	
 	//console.log(playerArray);
 	res.redirect("/");
-})
+});
 
 function getAspectRatio(w, h){
 	return Number((h / w).toString().substr(0, 4));
