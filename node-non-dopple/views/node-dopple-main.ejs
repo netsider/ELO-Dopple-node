@@ -17,7 +17,7 @@
 	};
 	
 	const photoPath  = "Actress_Picture/";
-	const rando = getRandomIntInclusive(1, 2);
+	//const rando = getRandomIntInclusive(1, 2);
 	const newImgWidth = 240;
 	
 	let playerOne = newPlayers[0][0];
@@ -82,7 +82,7 @@
 </form>
 <div id="scoreBoard">
 	<%
-		if (playerArray[0].winnerELO !== undefined && playerArray[0].resetPressed === false){		
+		if (playerArray[0].winnerELO !== undefined && playerArray[0].resetPressed === false){
 				playerArray.forEach(function(currentArray){
 	%>					
 						<p><u>Last Round:</u></p>
@@ -100,8 +100,7 @@
 						<p><%= currentArray.loserName %> ELO (old): <%= (currentArray.loserELO * 100).toString().substr(0,5) %>%</p>
 						<p><%= currentArray.loserName %> ELO (new): <%= (currentArray.loserNewELO * 100).toString().substr(0,5) %>%</p>
 						<p>lockPlayer: <%= currentArray.lockPlayer %></p>				
-	<%
-				});
+	<%			});		
 		}else{
 			//console.log("Array Empty!"); %>
 	<%	

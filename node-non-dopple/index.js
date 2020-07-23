@@ -49,7 +49,8 @@ app.get("/", function(req, res){
 			//console.log("winner/loser chosen, but players locked.");
 			playerOne = playerArray[0].lastPlayerOne;
 			playerTwo = playerArray[0].lastPlayerTwo;
-		}else if(playerArray[0].resetPressed === true){
+		//}else if(playerArray[0].resetPressed === true){
+		}else{
 			//console.log("reset pressed, but player locked.");
 			playerOne = playerArray[0].lastPlayerOne;
 			playerTwo = playerArray[0].lastPlayerTwo;
@@ -81,7 +82,6 @@ app.get("/", function(req, res){
 					playerOne = obj[getRandomIntInclusive(0, dlength)];
 					playerOne = playerOne.substring(0, playerOne.length - 4);
 				}
-				
 				while(playerArray[0].winner === playerTwo || playerArray[0].loser === playerTwo || playerOne === playerTwo){
 					//console.log("Choosing new Player...");
 					playerTwo = obj[getRandomIntInclusive(0, dlength)];
@@ -157,7 +157,7 @@ app.get("/", function(req, res){
 	//logArray(playerArray[0]);
     	
 	res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
-	playerArray[0].resetPressed = false;
+	//playerArray[0].resetPressed = false;
 	
 });
 
