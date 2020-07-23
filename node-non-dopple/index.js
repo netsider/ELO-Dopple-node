@@ -44,37 +44,41 @@ if(isEven(dirLength)){
 }
 
 // To Do:
-// See if newPlayers[6][1] needed anymore.
+// Try to make lockPlayerCheckBox obselete by using playerArray[0].lockPlayer
 // make player selection work even if filenames not numerical.
 // make reset work even if players not numerical
 // Make score pop up as an on-screen overlay notification.
-// Try to make playerIsLocked obselete by using playerArray[0].lockPlayer
 
 app.get("/", function(req, res){
 	console.log("Serving / ...");
 	
+	console.log("playerArray[0]: ");
+	console.log(playerArray[0]);
+	
 	// Form logic -------------------------------------------------------
 	let playerIsLocked = 0;
-	//let lockPlayerCheckBox = newPlayers[7];
 	
-	if(playerArray[0] != undefined){ // Answer button pressed
-		if(lockPlayerCheckBox === true && resetPressed === false){ // Answer button pressed, checkbox CHECKED
-			//console.log("Answer button pressed and checkbox checked (players locked!)");
+	if(playerArray[0].winner != undefined){ // Answer button pressed
+		if(lockPlayerCheckBox === true && resetPressed === false){
+			console.log("Answer button pressed and checkbox CHECKED (players locked!)");
 			playerIsLocked = 1;
-		}else{ // Answer button pressed, checkbox NOT checked
+		}
+		if(lockPlayerCheckBox === false && resetPressed === false){
+			console.log("Answer button pressed, but checkbox NOT checked");
 			playerIsLocked = 0;
 		}
 	}else{
-		//console.log("playerArray undefined!");
+		console.log("Answer button not pressed!");
+		//let playerChosen = false;
 	}
 	
-	if(lockPlayerCheckBox === false && resetPressed === true){ // Reset pressed, checkbox NOT checked.
-		//console.log("Reset pressed, checkbox NOT checked.");
+	if(lockPlayerCheckBox === false && resetPressed === true){
+		console.log("Reset pressed, checkbox NOT checked.");
 		playerIsLocked = 0;
 	}
 	
-	if(lockPlayerCheckBox === true && resetPressed === true){ // Reset pressed, checkbox CHECKED
-		//console.log("Reset pressed, checkbox CHECKED.");
+	if(lockPlayerCheckBox === true && resetPressed === true){
+		console.log("Reset pressed, checkbox CHECKED.");
 		playerIsLocked = 1;
 	}
 	
@@ -83,21 +87,29 @@ app.get("/", function(req, res){
 	let playerOne = 1;
 	let playerTwo = 1;
 	if(playerIsLocked === 1){
-		//console.log("Players locked!"); 
-		playerArray[0].lockPlayer = 1;
-		//playerOne = newPlayers[6][1];
-		playerOne = playerArray[0].winner;
+		console.log("Players locked!"); 
 		
-		//playerTwo = newPlayers[6][2];
-		playerTwo = playerArray[0].loser;
+		playerArray[0].lockPlayer = 1;
+		
+		if(playerArray[0].winner != undefined){
+			console.log("winner/loser chosen, but player locked.");
+			playerOne = playerArray[0].winner;
+			playerTwo = playerArray[0].loser;
+		}else if(resetPressed === true){
+			console.log("reset pressed, but player locked.");
+			playerOne = newPlayers[6][1];
+			playerTwo = newPlayers[6][2];
+		}
 	}else{
-		//console.log("Players NOT locked!"); 
+		console.log("Players NOT locked!"); 
+		
 		playerArray[0].lockPlayer = 0;
+		
 		playerOne = getRandomIntInclusive(1, maxPlayers).toString();
 		playerTwo = getRandomIntInclusive(1, maxPlayers).toString();
 		
-		if(playerArray[0].winner != undefined && playerArray[0].loser != undefined){ // winner/loser chosen
-		
+		if(playerArray[0].winner != undefined){
+			console.log("winner/loser chosen, players NOT locked.");
 				while(playerArray[0].winner.toString() === playerOne || playerArray[0].loser.toString() === playerOne || playerOne === playerTwo){
 					//console.log("Choosing new Player...");
 					playerOne = getRandomIntInclusive(1, maxPlayers).toString();
@@ -108,7 +120,8 @@ app.get("/", function(req, res){
 					playerTwo = getRandomIntInclusive(1, maxPlayers).toString();
 				}
 			
-		}else{ // no winner/loser chosen
+		}else{
+			console.log("no winner/loser chosen, players NOT locked.");
 		
 			while(playerOne === playerTwo){
 				playerTwo = getRandomIntInclusive(1, maxPlayers).toString();
@@ -117,8 +130,8 @@ app.get("/", function(req, res){
 		}
 	}
 	
-	//console.log("playerOne: " + playerOne);
-	//console.log("playerTwo: " + playerTwo);
+	console.log("playerOne: " + playerOne);
+	console.log("playerTwo: " + playerTwo);
 	
 	const playerOneNamePath = namePath + playerOne + ".txt";
 	const playerTwoNamePath = namePath + playerTwo + ".txt";
@@ -194,21 +207,15 @@ app.post("/node-dopple-main", function(req, res){
 	
 	let lockPlayer = 0;
 	if(Number(req.body.lockPlayer) === 1){
-		//newPlayers[7] = true;
 		lockPlayerCheckBox = true;
 		lockPlayer = 1;
 	}else{
 		lockPlayerCheckBox = false;
-		//newPlayers[7] = false;
 	}
 	
 	let unserialized = JSON.parse(req.body.playerName);
 	let winner = unserialized[0].toString();
 	let loser = unserialized[1].toString();
-	
-	//newPlayers[6][1] = winner.charAt(0);
-	newPlayers[6][1] = winner;
-	newPlayers[6][2] = loser;
 	
 	let winnerScoreFile = "Dopples/Actress_Score/" + winner + ".txt";
 	let loserScoreFile = "Dopples/Actress_Score/" + loser + ".txt";
