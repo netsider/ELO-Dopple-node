@@ -31,7 +31,7 @@ const k = 32;
 let maxPlayers = 2;
 let playerArray = [];
 let newPlayers = [];
-let resetPressed = false; // If reset pressed.
+let resetPressed = false;
 let lockPlayerCheckBox = false;
 let playerOne = 1;
 let playerTwo = 1;
@@ -44,6 +44,8 @@ if(isEven(dirLength)){
 }
 
 // To Do:
+// See if I can move form logic from other functions to main / (like if(Number(req.body.lockPlayer) === 1){
+//	lockPlayerCheckBox = true;)
 // fix playerArray[0].lockPlayer (may not be much I can do about it)
 // Get rid of lockPlayerCheckBox obselete by using playerArray[0].lockPlayer
 // Do I still need newPlayers[5]?
@@ -87,7 +89,7 @@ app.get("/", function(req, res){
 	
 	// Player Selection -------------------------------------------------------
 	if(playerIsLocked === 1){
-		console.log("Players locked!"); 
+		//console.log("Players locked!"); 
 		playerArray[0].lockPlayer = 1;
 		
 		if(playerArray[0].lastPlayerOne != undefined){
@@ -101,6 +103,7 @@ app.get("/", function(req, res){
 			playerTwo = playerArray[0].lastPlayerTwo;
 		}
 	}else{
+		//console.log("Players NOT locked!"); 
 		
 		playerOne = getRandomIntInclusive(1, maxPlayers).toString();
 		playerTwo = getRandomIntInclusive(1, maxPlayers).toString();
@@ -128,8 +131,8 @@ app.get("/", function(req, res){
 		}
 	}
 	
-	console.log("playerOne: " + playerOne);
-	console.log("playerTwo: " + playerTwo);
+	//console.log("playerOne: " + playerOne);
+	//console.log("playerTwo: " + playerTwo);
 	
 	const playerOneNamePath = namePath + playerOne + ".txt";
 	const playerTwoNamePath = namePath + playerTwo + ".txt";
@@ -185,6 +188,7 @@ app.get("/", function(req, res){
 	newPlayers[1][4] = aspectRatioP2;
 
 	newPlayers[5] = resetPressed; // indicate reset not pressed last time, so scoreboard doesn't show (is there another way to do this???)
+	playerArray[0].resetPressed = resetPressed;
 	resetPressed = false; // so it doesn't stay true
 	
 	//Debugging:
@@ -202,7 +206,6 @@ app.post("/node-dopple-main", function(req, res){
 	console.log("Serving /node-dopple-main (post) ..");
 	
 	resetPressed = false;
-	//let image = req.body.playerImage;
 	
 	let lastPlayerOne = req.body.playerOneHidden;
 	let lastPlayerTwo = req.body.playerTwoHidden;
@@ -252,10 +255,9 @@ app.post("/node-dopple-main", function(req, res){
 });
 
 app.post("/resetScores", function(req, res){
-	//console.log("Resetting Scores...");
-		
-	//console.log("----req.body----");
-	//logArray(req.body);
+	console.log("Resetting Scores...");
+	console.log("----req.body----");
+	logArray(req.body);
 		
 	let playerOneOnReset = req.body.playerOneHidden;
 	let playerTwoOnReset = req.body.playerTwoHidden;
