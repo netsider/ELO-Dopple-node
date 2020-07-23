@@ -36,60 +36,44 @@ let playerTwo = 1;
 playerArray[0] = {};
 playerArray[0].lockPlayer = false;
 
-if(isEven(dirLength)){
-	maxPlayers = (dirLength / 2);
-}else{
-	console.log("Number of players in directory not even number!");
-}
-
-//console.log("Files in Dir: " + fs.readdirSync(namePath));
-
-
 // To Do:
 // Eliminate namePath and only have photoPath and other.
 // Eliminate duplicate form logic and logic in player selection.
 // Fix EJS files since variables fixed.
-// See if it's possible to eliminate form logic altogether
 // See if I can move form logic from other functions to main / (like if(Number(req.body.lockPlayer) === 1){ lockPlayerCheckBox = true;)
 // remove toString() around line 110.
-// <strike>make player selection work even if filenames not numerical.</strike> DONE 7-23-2020
-// make reset work even if players not numerical
 // Make score pop up as an on-screen overlay notification.
-// <strike>User playersArray objects for pretty much everything.</strike>
-// <strike>Use playerArray[0].lockPlayer to set checkbox state instead of other stuff. // get rid of lockPlayerCheckBox = true; </strike>
-// <strike>Do I still need newPlayers[5]?</strike>
 
 app.get("/", function(req, res){
 	console.log("Serving / ...");
 	//console.log("playerArray[0]: ");
 	//console.log(playerArray[0]);
-	
 	console.log("-------------------------------- New Game --------------------------------");
 	
 	// Form logic -------------------------------------------------------
-	let playerIsLocked = 0;
-	if(playerArray[0].winner != undefined){ // Answer button pressed
-		if(playerArray[0].lockPlayer === true && playerArray[0].resetPressed === false){ // Make the rest like this
-			//console.log("Answer button pressed and lockPlayerCheckBox CHECKED (players locked!)");
-			playerArray[0].lockPlayer = true;
-		}
-		if(playerArray[0].lockPlayer === false && playerArray[0].resetPressed === false){
-			//console.log("Answer button pressed. lockPlayerCheckBox NOT checked");
-			playerArray[0].lockPlayer = false;
-		}
-	}else{
-		//console.log("Answer button not pressed!");
-	}
+	// let playerIsLocked = 0;
+	// if(playerArray[0].winner != undefined){ // Answer button pressed
+		// if(playerArray[0].lockPlayer === true && playerArray[0].resetPressed === false){ // Make the rest like this
+			// console.log("Answer button pressed and lockPlayerCheckBox CHECKED (players locked!)");
+			// playerArray[0].lockPlayer = true;
+		// }
+		// if(playerArray[0].lockPlayer === false && playerArray[0].resetPressed === false){
+			// console.log("Answer button pressed. lockPlayerCheckBox NOT checked");
+			// playerArray[0].lockPlayer = false;
+		// }
+	// }else{
+		// console.log("Answer button not pressed!");
+	// }
 	
-	if(playerArray[0].lockPlayer === false && playerArray[0].resetPressed === true){
-		//console.log("Reset pressed, lockPlayerCheckBox NOT checked.");
-		playerArray[0].lockPlayer = false;
-	}
+	// if(playerArray[0].lockPlayer === false && playerArray[0].resetPressed === true){
+		// console.log("Reset pressed, lockPlayerCheckBox NOT checked.");
+		// playerArray[0].lockPlayer = false;
+	// }
 	
-	if(playerArray[0].lockPlayer === true && playerArray[0].resetPressed === true){
-		//console.log("Reset pressed, lockPlayerCheckBox CHECKED.");
-		playerArray[0].lockPlayer = true;
-	}
+	// if(playerArray[0].lockPlayer === true && playerArray[0].resetPressed === true){
+		// console.log("Reset pressed, lockPlayerCheckBox CHECKED.");
+		// playerArray[0].lockPlayer = true;
+	// }
 	
 	
 	// Player Selection -------------------------------------------------------
@@ -115,16 +99,18 @@ app.get("/", function(req, res){
 		for (let i = 0; i < dlength; i++) {
 			fileArray[i] = obj[i];
 		}
-		console.log(fileArray);
-		
-		playerOne = fileArray[getRandomIntInclusive(0, dlength)];
+		//console.log(fileArray);
+		//console.log("fileArray.length: " + fileArray.length);
+		playerOne = fileArray[getRandomIntInclusive(0, dlength - 1)];
 		playerOne = playerOne.substring(0, playerOne.length - 4);
+		console.log("playerOne: " + playerOne);
 		
-		playerTwo = fileArray[getRandomIntInclusive(0, dlength)];
+		playerTwo = fileArray[getRandomIntInclusive(0, dlength - 1)];
 		playerTwo = playerTwo.substring(0, playerTwo.length - 4);
+		console.log("playerTwo: " + playerTwo);
 		
 		while(playerOne === playerTwo){
-			playerTwo = fileArray[getRandomIntInclusive(0, dlength)];
+			playerTwo = fileArray[getRandomIntInclusive(0, dlength - 1)];
 			playerTwo = playerTwo.substring(0, playerTwo.length - 4);
 		}
 		
@@ -132,13 +118,13 @@ app.get("/", function(req, res){
 			//console.log("winner/loser chosen, players NOT locked.");
 				while(playerArray[0].winner.toString() === playerOne || playerArray[0].loser.toString() === playerOne || playerOne === playerTwo){
 					//console.log("Choosing new Player...");
-					playerOne = fileArray[getRandomIntInclusive(0, dlength)];
+					playerOne = fileArray[getRandomIntInclusive(0, dlength - 1)];
 					playerOne = playerOne.substring(0, playerOne.length - 4);
 				}
 				
 				while(playerArray[0].winner.toString() === playerTwo || playerArray[0].loser.toString() === playerTwo || playerOne === playerTwo){
 					//console.log("Choosing new Player...");
-					playerTwo = fileArray[getRandomIntInclusive(0, dlength)];
+					playerTwo = fileArray[getRandomIntInclusive(0, dlength - 1)];
 					playerTwo = playerTwo.substring(0, playerTwo.length - 4);
 				}
 			
@@ -203,8 +189,6 @@ app.get("/", function(req, res){
 	newPlayers[1][3] = playerTwoELO;
 	newPlayers[1][4] = aspectRatioP2;
 
-	playerArray[0].resetPressed = false;
-
 	//Debugging:
 	//logArray(newPlayers);
 	//console.log("newPlayers: ");
@@ -212,7 +196,8 @@ app.get("/", function(req, res){
 	//console.log(playerArray[0]);
 	//logArray(playerArray[0]);
     	
-	res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers})
+	res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
+	playerArray[0].resetPressed = false;
 	
 })
 
@@ -269,8 +254,8 @@ app.post("/node-dopple-main", function(req, res){
 
 app.post("/resetScores", function(req, res){
 	console.log("Resetting Scores...");
-	console.log("----req.body----");
-	logArray(req.body);
+	//console.log("----req.body----");
+	//logArray(req.body);
 		
 	let playerOneOnReset = req.body.playerOneHidden;
 	let playerTwoOnReset = req.body.playerTwoHidden;
@@ -286,18 +271,23 @@ app.post("/resetScores", function(req, res){
 		}else{
 			playerArray[0].lockPlayer = false;
 		}
-			
+		
+		let scoreDirContents = fs.readdirSync(scorePath);
+		let scorePathLength = (fs.readdirSync(scorePath).length);
+		//console.log("scorePathLength: " + scorePathLength);
+		//console.log("scoreDirContents: " + scoreDirContents);
 		let startingScore = "0";
-		for (let i = 1; i <= dirLength; i++) {
-			let scoreFileTemp1 = scorePath + i + ".txt";
+		for (let i = 0; i < scorePathLength; i++) {
+			let scoreFileTemp1 = scoreDirContents[i];
 			console.log("Resetting " + scoreFileTemp1);
 			fs.writeFileSync(scoreFileTemp1, startingScore);
-			if(dirLength == i){
-				console.log("All " + dirLength +  " score files reset!");
+			if(scorePathLength - 1 === i){
+				console.log("All " + scorePathLength +  " score files reset!");
 			}
 		}
+		
 	}
-	console.log(playerArray);
+	//console.log(playerArray);
 	res.redirect("/");
 })
 
@@ -323,7 +313,6 @@ function isEven(value) {
 }
 
 function logArray(theArray){
-	//console.log("Logging Array...");
 	Array.from(Object.keys(theArray)).forEach(function(key){
 		console.log(key + ": " + theArray[key]);
 	});
