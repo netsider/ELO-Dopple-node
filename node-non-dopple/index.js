@@ -125,10 +125,6 @@ app.get("/", function(req, res){
 			
 		}else{
 			console.log("NO winner/loser chosen, players NOT locked.");
-			// while(playerOne === playerTwo){
-				// playerTwo = getRandomIntInclusive(1, maxPlayers).toString();
-			// }
-			
 		}
 	}
 	
