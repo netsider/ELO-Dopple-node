@@ -1,6 +1,8 @@
 <h3>All Versions:</h3>
 <br><strong>To Do:</strong><br>
 • Make all versions choose players (or at least the first one, in regards to Dopple) not using number randomization.<br>
+• Implement flag to enable test version and production version.<br>
+• Make it so you can lock each player to the side its on when players locked, so user can easily see score changes, be nier, etc.<br>
 • Make array numbers lower, so there's no blank values.<br>
 • Change name of app.post("/node-dopple-main", function() so that it doesn't have same name as EJS file.<br>
 • See how hard/easy it is to insert landing page.<br>
@@ -10,7 +12,6 @@
 • Frontend enhancements.<br>
 • Login system.<br>
 • SSL.<br>
-• Implement flag to enable test version and production version.<br>
 • <strike>See if newPlayers[6][1] needed anymore.</strike> DONE
 • <strike>newPlayers[7] cleanup & lockPlayerCheckBox.</strike> DONE 7-22-2020
 • <strike>clean up playerArray[0].winner.toString() === playerOne statements to see if players same.</strike> DONE 7-22-2020
@@ -23,6 +24,7 @@
 
 <br><h3>ELO-Dopple-node\node</h3>
 <strong>To Do:</strong><br>
+• Make it so there's a "designated player" when player, to avoid confusion about who they're voting for (currently it'll randomize the person it's asking for, for each set of people who look alike).<br>
 • Make user encounter Dopple player sets only once, to prevent beefing the score up artificially by one user.<br>
 
 <br><h3>ELO-Dopple-node\node-non-dopple</h3>

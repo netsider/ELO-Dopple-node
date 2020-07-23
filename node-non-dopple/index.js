@@ -44,6 +44,8 @@ if(isEven(dirLength)){
 }
 
 // To Do:
+// Change meaning of buttons and their labels, since they mean different things now.
+// remove toString() around line 110.
 // Try to make lockPlayerCheckBox obselete by using playerArray[0].lockPlayer
 // make player selection work even if filenames not numerical.
 // make reset work even if players not numerical
@@ -52,6 +54,7 @@ if(isEven(dirLength)){
 app.get("/", function(req, res){
 	console.log("Serving / ...");
 	
+	console.log("-------------------------------- New Game --------------------------------");
 	console.log("playerArray[0]: ");
 	console.log(playerArray[0]);
 	
@@ -60,25 +63,24 @@ app.get("/", function(req, res){
 	
 	if(playerArray[0].winner != undefined){ // Answer button pressed
 		if(lockPlayerCheckBox === true && resetPressed === false){
-			console.log("Answer button pressed and checkbox CHECKED (players locked!)");
+			console.log("Answer button pressed and lockPlayerCheckBox CHECKED (players locked!)");
 			playerIsLocked = 1;
 		}
 		if(lockPlayerCheckBox === false && resetPressed === false){
-			console.log("Answer button pressed, but checkbox NOT checked");
+			console.log("Answer button pressed. lockPlayerCheckBox NOT checked");
 			playerIsLocked = 0;
 		}
 	}else{
-		console.log("Answer button not pressed!");
-		//let playerChosen = false;
+		//console.log("Answer button not pressed!");
 	}
 	
 	if(lockPlayerCheckBox === false && resetPressed === true){
-		console.log("Reset pressed, checkbox NOT checked.");
+		console.log("Reset pressed, lockPlayerCheckBox NOT checked.");
 		playerIsLocked = 0;
 	}
 	
 	if(lockPlayerCheckBox === true && resetPressed === true){
-		console.log("Reset pressed, checkbox CHECKED.");
+		console.log("Reset pressed, lockPlayerCheckBox CHECKED.");
 		playerIsLocked = 1;
 	}
 	
@@ -87,8 +89,8 @@ app.get("/", function(req, res){
 	let playerOne = 1;
 	let playerTwo = 1;
 	if(playerIsLocked === 1){
-		console.log("Players locked!"); 
 		
+		console.log("Players locked!"); 
 		playerArray[0].lockPlayer = 1;
 		
 		if(playerArray[0].winner != undefined){
@@ -101,8 +103,8 @@ app.get("/", function(req, res){
 			playerTwo = newPlayers[6][2];
 		}
 	}else{
-		console.log("Players NOT locked!"); 
 		
+		console.log("Players NOT locked!"); 
 		playerArray[0].lockPlayer = 0;
 		
 		playerOne = getRandomIntInclusive(1, maxPlayers).toString();
