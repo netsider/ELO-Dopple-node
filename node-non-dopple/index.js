@@ -44,10 +44,9 @@ if(isEven(dirLength)){
 }
 
 // To Do:
+// Use playerArray[0].lockPlayer to set checkbox state instead of other stuff.
 // See if I can move form logic from other functions to main / (like if(Number(req.body.lockPlayer) === 1){
 //	lockPlayerCheckBox = true;)
-// fix playerArray[0].lockPlayer (may not be much I can do about it)
-// Get rid of lockPlayerCheckBox obselete by using playerArray[0].lockPlayer
 // Do I still need newPlayers[5]?
 // remove toString() around line 110.
 // make player selection work even if filenames not numerical.
@@ -56,10 +55,10 @@ if(isEven(dirLength)){
 
 app.get("/", function(req, res){
 	console.log("Serving / ...");
-	
-	console.log("-------------------------------- New Game --------------------------------");
 	//console.log("playerArray[0]: ");
 	//console.log(playerArray[0]);
+	
+	console.log("-------------------------------- New Game --------------------------------");
 	
 	// Form logic -------------------------------------------------------
 	let playerIsLocked = 0;
