@@ -11,9 +11,10 @@
 • Login system.<br>
 • SSL.<br>
 • Implement flag to enable test version and production version.<br>
-• <strike>newPlayers[7] cleanup & lockPlayerCheckBox.</strike> DONE
-• <strike>clean up playerArray[0].winner.toString() === playerOne statements to see if players same.</strike> DONE
-• <strike>get last player info from playerArray[0].winner/loser.</strike> DONE
+• <strike>See if newPlayers[6][1] needed anymore.</strike> DONE
+• <strike>newPlayers[7] cleanup & lockPlayerCheckBox.</strike> DONE 7-22-2020
+• <strike>clean up playerArray[0].winner.toString() === playerOne statements to see if players same.</strike> DONE 7-22-2020
+• <strike>get last player info from playerArray[0].winner/loser.</strike> DONE 7-22-2020
 • <strike>Make form retain locked player state.</strike><br>
 • <strike>Make it so anything locking or getting the last round's players, gets the last players from same hidden form element.<br></strike>
 • <strike>Change lines 151-170 so it doesn't use same variable checkbox is setting, and then change EJS file to reflect that (make form display checked checkbox if playerArray[0].lockPlayer = 1).</strike><br>
