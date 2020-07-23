@@ -133,6 +133,7 @@ app.get("/", function(req, res){
 	
 	let playerOneELO = (ELO(playerOneScore, playerTwoScore) * 100).toPrecision(4);
 	let playerTwoELO = (ELO(playerTwoScore, playerOneScore) * 100).toPrecision(4);
+
 		
 	newPlayers[0] = [];
 	newPlayers[1] = [];
@@ -157,14 +158,13 @@ app.get("/", function(req, res){
 	//logArray(playerArray[0]);
     	
 	res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
-	//playerArray[0].resetPressed = false;
 	
 });
 
 app.post("/submitPlayer", function(req, res){
-	//console.log("Serving /node-dopple-main (post) ..");
-	//console.log("----req.body----");
-	//logArray(req.body);
+	// console.log("Serving /node-dopple-main (post) ..");
+	// console.log("----req.body----");
+	// console.log(req.body);
 	
 	let unserialized = JSON.parse(req.body.playerName);
 	let winner = unserialized[0].toString();
