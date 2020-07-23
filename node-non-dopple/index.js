@@ -32,6 +32,7 @@ let maxPlayers = 2;
 let playerArray = [];
 let newPlayers = [];
 let resetPressed = false; // If reset pressed.
+let lockPlayerCheckBox = false;
 playerArray[0] = {};
 newPlayers[6] = []; // Contains information about last player (until I can get it via playerArray[0].winner);
 newPlayers[7] = false;  // Checkbox true/false.
@@ -56,7 +57,7 @@ app.get("/", function(req, res){
 	
 	// Form logic -------------------------------------------------------
 	let playerIsLocked = 0;
-	let lockPlayerCheckBox = newPlayers[7];
+	//let lockPlayerCheckBox = newPlayers[7];
 	
 	if(playerArray[0] != undefined){ // Answer button pressed
 		if(lockPlayerCheckBox === true && resetPressed === false){ // Answer button pressed, checkbox CHECKED
@@ -209,8 +210,10 @@ app.post("/node-dopple-main", function(req, res){
 	let lockPlayer = 0;
 	if(Number(req.body.lockPlayer) === 1){
 		newPlayers[7] = true;
+		lockPlayerCheckBox = true;
 		lockPlayer = 1;
 	}else{
+		lockPlayerCheckBox = false;
 		newPlayers[7] = false;
 	}
 	
@@ -270,11 +273,12 @@ app.post("/resetScores", function(req, res){
 			
 		if(Number(req.body.lockPlayer) === 1){
 			newPlayers[7] = true; // Checkbox checked
-				
+			lockPlayerCheckBox = true;
 			newPlayers[6][1] = playerOneOnReset; // last player
 			newPlayers[6][2] = playerTwoOnReset;
 		}else{
 			newPlayers[7] = false; // Checkbox NOT checked
+			lockPlayerCheckBox = false;
 		}
 			
 		let startingScore = "0";
