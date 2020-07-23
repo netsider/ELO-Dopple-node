@@ -13,15 +13,15 @@ const sizeOf = require("image-size");
 console.log("Starting...");
 
 const app = express();
-const port = 3000;
 
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.use(express.static("public"));
+//app.use(express.static("public"));
+app.use(express.static(__dirname + '/Dopples'));
 
 app.set("view engine", "ejs");
 
-app.listen(port);
+app.listen(3000);
 
 const namePath = "Dopples/Actress_Name/";
 const scorePath = "Dopples/Actress_Score/";
@@ -36,43 +36,12 @@ let playerTwo = 1;
 playerArray[0] = {};
 playerArray[0].lockPlayer = false;
 
-// To Do:
-// Decide/learn how to make form logic non-global, so app could support many users (checkbox will be checked for all users if one checks it). See: https://stackoverflow.com/questions/39339640/access-current-req-object-everywhere-in-node-js-express
-// Eliminate namePath and only have photoPath and scorePath, since there's no need for a name variable, or make it optional.  
-// Make score pop up as an on-screen overlay notification.
-
-
 app.get("/", function(req, res){
 	//console.log("Serving / ...");
 	console.log("-------------------------------- New Game --------------------------------");
 	//console.log("playerArray[0]: ");
 	//console.log(playerArray[0]);
-	
-	// Form logic -------------------------------------------------------
-	// let playerIsLocked = 0;
-	// if(playerArray[0].winner != undefined){ // Answer button pressed
-		// if(playerArray[0].lockPlayer === true && playerArray[0].resetPressed === false){ // Make the rest like this
-			// console.log("Answer button pressed and lockPlayerCheckBox CHECKED (players locked!)");
-			// playerArray[0].lockPlayer = true;
-		// }
-		// if(playerArray[0].lockPlayer === false && playerArray[0].resetPressed === false){
-			// console.log("Answer button pressed. lockPlayerCheckBox NOT checked");
-			// playerArray[0].lockPlayer = false;
-		// }
-	// }else{
-		// console.log("Answer button not pressed!");
-	// }
-	
-	// if(playerArray[0].lockPlayer === false && playerArray[0].resetPressed === true){
-		// console.log("Reset pressed, lockPlayerCheckBox NOT checked.");
-		// playerArray[0].lockPlayer = false;
-	// }
-	
-	// if(playerArray[0].lockPlayer === true && playerArray[0].resetPressed === true){
-		// console.log("Reset pressed, lockPlayerCheckBox CHECKED.");
-		// playerArray[0].lockPlayer = true;
-	// }
-	
+		
 	// Player Selection -------------------------------------------------------
 	if(playerArray[0].lockPlayer === true){
 		//console.log("Players locked!"); 

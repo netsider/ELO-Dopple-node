@@ -18,3 +18,30 @@ if(playerArray[0].lockPlayer !== undefined && playerArray[0].lockPlayer === true
 	<p><button type="submit" name="playerName" value="<%= playerTwoIsWinnerArray %>">I think <%= playerTwoName %> is better</button></p>
 
 <%	 }; %>
+
+
+
+	// Form logic -------------------------------------------------------
+	// let playerIsLocked = 0;
+	// if(playerArray[0].winner != undefined){ // Answer button pressed
+		// if(playerArray[0].lockPlayer === true && playerArray[0].resetPressed === false){ // Make the rest like this
+			// console.log("Answer button pressed and lockPlayerCheckBox CHECKED (players locked!)");
+			// playerArray[0].lockPlayer = true;
+		// }
+		// if(playerArray[0].lockPlayer === false && playerArray[0].resetPressed === false){
+			// console.log("Answer button pressed. lockPlayerCheckBox NOT checked");
+			// playerArray[0].lockPlayer = false;
+		// }
+	// }else{
+		// console.log("Answer button not pressed!");
+	// }
+	
+	// if(playerArray[0].lockPlayer === false && playerArray[0].resetPressed === true){
+		// console.log("Reset pressed, lockPlayerCheckBox NOT checked.");
+		// playerArray[0].lockPlayer = false;
+	// }
+	
+	// if(playerArray[0].lockPlayer === true && playerArray[0].resetPressed === true){
+		// console.log("Reset pressed, lockPlayerCheckBox CHECKED.");
+		// playerArray[0].lockPlayer = true;
+	// }
