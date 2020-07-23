@@ -43,8 +43,9 @@ if(isEven(dirLength)){
 }
 
 // To Do:
+// See if it's possible to eliminate form logic altogether
 // User playersArray objects for pretty much everything.
-// Use playerArray[0].lockPlayer to set checkbox state instead of other stuff.
+// Use playerArray[0].lockPlayer to set checkbox state instead of other stuff. // get rid of lockPlayerCheckBox = true;
 // See if I can move form logic from other functions to main / (like if(Number(req.body.lockPlayer) === 1){
 //	lockPlayerCheckBox = true;)
 // Do I still need newPlayers[5]?
