@@ -44,11 +44,9 @@ if(isEven(dirLength)){
 }
 
 // To Do:
-// newPlayers[7] cleanup & lockPlayerCheckBox
-// clean up playerArray[0].winner.toString() === playerOne statements to see if players same.
-// get last player info from playerArray[0].winner
-// make reset work even if players not numerical
+// See if newPlayers[6][1] needed anymore.
 // make player selection work even if filenames not numerical.
+// make reset work even if players not numerical
 // Make score pop up as an on-screen overlay notification.
 // Try to make playerIsLocked obselete by using playerArray[0].lockPlayer
 
@@ -87,8 +85,11 @@ app.get("/", function(req, res){
 	if(playerIsLocked === 1){
 		//console.log("Players locked!"); 
 		playerArray[0].lockPlayer = 1;
-		playerOne = newPlayers[6][1];
-		playerTwo = newPlayers[6][2];
+		//playerOne = newPlayers[6][1];
+		playerOne = playerArray[0].winner;
+		
+		//playerTwo = newPlayers[6][2];
+		playerTwo = playerArray[0].loser;
 	}else{
 		//console.log("Players NOT locked!"); 
 		playerArray[0].lockPlayer = 0;
@@ -106,9 +107,6 @@ app.get("/", function(req, res){
 					//console.log("Choosing new Player...");
 					playerTwo = getRandomIntInclusive(1, maxPlayers).toString();
 				}
-				
-				console.log("playerOne: " + playerOne);
-				console.log("playerTwo: " + playerTwo);
 			
 		}else{ // no winner/loser chosen
 		
@@ -119,8 +117,8 @@ app.get("/", function(req, res){
 		}
 	}
 	
-	console.log("playerOne: " + playerOne);
-	console.log("playerTwo: " + playerTwo);
+	//console.log("playerOne: " + playerOne);
+	//console.log("playerTwo: " + playerTwo);
 	
 	const playerOneNamePath = namePath + playerOne + ".txt";
 	const playerTwoNamePath = namePath + playerTwo + ".txt";
