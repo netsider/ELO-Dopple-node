@@ -90,7 +90,7 @@ if(playerArray[0].lockPlayer === 0 && playerArray[0].lockPlayer !== undefined){ 
 	<p><button type="submit" name="playerName" value="<%= playerOneIsWinnerArray %>">I think <%= playerOneName %> is better</button></p>
 	<p><button type="submit" name="playerName" value="<%= playerTwoIsWinnerArray %>">I think <%= playerTwoName %> is better</button></p>
 
-<% }else if(playerArray[0].lockPlayer === 2 && playerArray[0].lockPlayer !== undefined){ %>
+<% }else if(playerArray[0].lockPlayer === undefined || playerArray[0].lockPlayer === null){ %>
 
 	<div style="width: 50%; display: inline-block;"><img height="<%= playerOneImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerOneImage %>" name="playerImage" value="<%= playerOneImage %>"><img height="<%= playerTwoImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerTwoImage %>" name="playerImage" value="<%= playerTwoImage %>"></div>
 	<form action="/node-dopple-main" method="POST">
