@@ -12,13 +12,6 @@
 • Frontend enhancements.<br>
 • Login system.<br>
 • SSL.<br>
-• <strike>See if newPlayers[6][1] needed anymore.</strike> DONE
-• <strike>newPlayers[7] cleanup & lockPlayerCheckBox.</strike> DONE 7-22-2020
-• <strike>clean up playerArray[0].winner.toString() === playerOne statements to see if players same.</strike> DONE 7-22-2020
-• <strike>get last player info from playerArray[0].winner/loser.</strike> DONE 7-22-2020
-• <strike>Make form retain locked player state.</strike><br>
-• <strike>Make it so anything locking or getting the last round's players, gets the last players from same hidden form element.<br></strike>
-• <strike>Change lines 151-170 so it doesn't use same variable checkbox is setting, and then change EJS file to reflect that (make form display checked checkbox if playerArray[0].lockPlayer = 1).</strike><br>
 • <strike>Change resetArray into a boolean, since there's no other elements anymore.</strike><br>
 • <strike>Cleanup checkbox and reset button logic</strike>.<br>
 
@@ -29,6 +22,14 @@
 
 <br><h3>ELO-Dopple-node\node-non-dopple</h3>
 <br><strong>To Do:</strong><br>
-• After making it so all versions don't use numerical selection of players, make this one rate a users photos (for examle, my own photos), completing the app.<br>
+• <strike>See if newPlayers[6][1] needed anymore.</strike> DONE 7-22-2020
+• <strike>newPlayers[7] cleanup & lockPlayerCheckBox.</strike> DONE 7-22-2020
+• <strike>clean up playerArray[0].winner.toString() === playerOne statements to see if players same.</strike> DONE 7-22-2020
+• <strike>get last player info from playerArray[0].winner/loser.</strike> DONE 7-22-2020
+• <strike>Make form retain locked player state.</strike><br>
+• <strike>Make it so anything locking or getting the last round's players, gets the last players from same hidden form element.<br></strike>
+• <strike>Change lines 151-170 so it doesn't use same variable checkbox is setting, and then change EJS file to reflect that (make form display checked checkbox if playerArray[0].lockPlayer = 1).</strike><br>
+• <strike>Change meaning of buttons and their labels, since they mean different things now</strike>.
 • <strike>Make hidden field for second player.</strike><br>
 • <strike>Make non-dopple version.</strike><br>
+
