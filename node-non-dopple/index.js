@@ -35,6 +35,7 @@ let lockPlayerCheckBox = false;
 let playerOne = 1;
 let playerTwo = 1;
 playerArray[0] = {};
+playerArray[0].lockPlayer = false;
 
 if(isEven(dirLength)){
 	maxPlayers = (dirLength / 2);
@@ -89,9 +90,9 @@ app.get("/", function(req, res){
 	
 	
 	// Player Selection -------------------------------------------------------
-	if(playerIsLocked === 1){ // Change to if(playerArray[0].lockPlayer === 1){
+	if(playerArray[0].lockPlayer === true){ // Change to if(playerArray[0].lockPlayer === 1){
 		//console.log("Players locked!"); 
-		playerArray[0].lockPlayer = 1;
+		playerArray[0].lockPlayer = true;
 		
 		if(playerArray[0].lastPlayerOne != undefined){
 			console.log("winner/loser chosen, but players locked.");
@@ -109,7 +110,7 @@ app.get("/", function(req, res){
 		playerOne = getRandomIntInclusive(1, maxPlayers).toString();
 		playerTwo = getRandomIntInclusive(1, maxPlayers).toString();
 		
-		playerArray[0].lockPlayer = null;
+		//playerArray[0].lockPlayer = false;
 		
 		while(playerOne === playerTwo){
 			playerTwo = getRandomIntInclusive(1, maxPlayers).toString();
@@ -212,10 +213,10 @@ app.post("/node-dopple-main", function(req, res){
 
 	if(Number(req.body.lockPlayer) === 1){
 		lockPlayerCheckBox = true;
-		lockPlayer = 1;
+		lockPlayer = true;
 	}else{
 		lockPlayerCheckBox = false;
-		lockPlayer = null;
+		lockPlayer = false;
 	}
 	
 	let unserialized = JSON.parse(req.body.playerName);
@@ -274,6 +275,7 @@ app.post("/resetScores", function(req, res){
 			playerArray[0].lastPlayerTwo = req.body.playerTwoHidden;
 		}else{
 			lockPlayerCheckBox = false;
+			playerArray[0].lockPlayer = false;
 		}
 			
 		let startingScore = "0";
