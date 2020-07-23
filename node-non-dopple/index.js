@@ -31,7 +31,6 @@ const k = 32;
 let maxPlayers = 2;
 let playerArray = [];
 let newPlayers = [];
-//let lockPlayerCheckBox = false;
 let playerOne = 1;
 let playerTwo = 1;
 playerArray[0] = {};
@@ -43,22 +42,25 @@ if(isEven(dirLength)){
 	console.log("Number of players in directory not even number!");
 }
 
+//console.log("Files in Dir: " + fs.readdirSync(namePath));
+
+
 // To Do:
+// Eliminate namePath and only have photoPath and other.
+// Eliminate duplicate form logic and logic in player selection.
 // Fix EJS files since variables fixed.
-// Fix playerArray[0].lockPlayer type.
 // See if it's possible to eliminate form logic altogether
-// User playersArray objects for pretty much everything.
-// Use playerArray[0].lockPlayer to set checkbox state instead of other stuff. // get rid of lockPlayerCheckBox = true;
-// See if I can move form logic from other functions to main / (like if(Number(req.body.lockPlayer) === 1){
-//	lockPlayerCheckBox = true;)
-// Do I still need newPlayers[5]?
+// See if I can move form logic from other functions to main / (like if(Number(req.body.lockPlayer) === 1){ lockPlayerCheckBox = true;)
 // remove toString() around line 110.
-// make player selection work even if filenames not numerical.
+// <strike>make player selection work even if filenames not numerical.</strike> DONE 7-23-2020
 // make reset work even if players not numerical
 // Make score pop up as an on-screen overlay notification.
+// <strike>User playersArray objects for pretty much everything.</strike>
+// <strike>Use playerArray[0].lockPlayer to set checkbox state instead of other stuff. // get rid of lockPlayerCheckBox = true; </strike>
+// <strike>Do I still need newPlayers[5]?</strike>
 
 app.get("/", function(req, res){
-	//console.log("Serving / ...");
+	console.log("Serving / ...");
 	//console.log("playerArray[0]: ");
 	//console.log(playerArray[0]);
 	
@@ -107,23 +109,37 @@ app.get("/", function(req, res){
 	}else{
 		//console.log("Players NOT locked!"); 
 		
-		playerOne = getRandomIntInclusive(1, maxPlayers).toString();
-		playerTwo = getRandomIntInclusive(1, maxPlayers).toString();
+		let obj = fs.readdirSync(namePath);
+		let dlength = fs.readdirSync(namePath).length;
+		let fileArray = [];
+		for (let i = 0; i < dlength; i++) {
+			fileArray[i] = obj[i];
+		}
+		console.log(fileArray);
+		
+		playerOne = fileArray[getRandomIntInclusive(0, dlength)];
+		playerOne = playerOne.substring(0, playerOne.length - 4);
+		
+		playerTwo = fileArray[getRandomIntInclusive(0, dlength)];
+		playerTwo = playerTwo.substring(0, playerTwo.length - 4);
 		
 		while(playerOne === playerTwo){
-			playerTwo = getRandomIntInclusive(1, maxPlayers).toString();
+			playerTwo = fileArray[getRandomIntInclusive(0, dlength)];
+			playerTwo = playerTwo.substring(0, playerTwo.length - 4);
 		}
 		
 		if(playerArray[0].winner != undefined){
 			//console.log("winner/loser chosen, players NOT locked.");
 				while(playerArray[0].winner.toString() === playerOne || playerArray[0].loser.toString() === playerOne || playerOne === playerTwo){
 					//console.log("Choosing new Player...");
-					playerOne = getRandomIntInclusive(1, maxPlayers).toString();
+					playerOne = fileArray[getRandomIntInclusive(0, dlength)];
+					playerOne = playerOne.substring(0, playerOne.length - 4);
 				}
 				
 				while(playerArray[0].winner.toString() === playerTwo || playerArray[0].loser.toString() === playerTwo || playerOne === playerTwo){
 					//console.log("Choosing new Player...");
-					playerTwo = getRandomIntInclusive(1, maxPlayers).toString();
+					playerTwo = fileArray[getRandomIntInclusive(0, dlength)];
+					playerTwo = playerTwo.substring(0, playerTwo.length - 4);
 				}
 			
 		}else{
@@ -189,7 +205,6 @@ app.get("/", function(req, res){
 
 	playerArray[0].resetPressed = false;
 
-	
 	//Debugging:
 	//logArray(newPlayers);
 	//console.log("newPlayers: ");
