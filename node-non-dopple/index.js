@@ -16,16 +16,15 @@ const app = express();
 
 app.use(bodyParser.urlencoded({extended: true}));
 
-//app.use(express.static("public"));
-app.use(express.static(__dirname + '/Dopples'));
+const publicDir = "Dopples";
 
+app.use(express.static(__dirname + "/" + publicDir));
 app.set("view engine", "ejs");
-
 app.listen(3000);
 
-const namePath = "Dopples/Actress_Name/";
-const scorePath = "Dopples/Actress_Score/";
-const photoPath  = "Dopples/Actress_Picture/";
+const namePath = publicDir + "/Actress_Name/";
+const scorePath = publicDir + "/Actress_Score/";
+const photoPath  = publicDir + "/Actress_Picture/";
 const dirLength = fs.readdirSync(namePath).length;
 const k = 32;
 let maxPlayers = 2;

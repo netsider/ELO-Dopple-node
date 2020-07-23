@@ -1,8 +1,8 @@
 
 
 
+&& playerArray.length && Array.isArray(playerArray) && 
 
-if(playerArray[0].lockPlayer !== undefined && playerArray[0].lockPlayer === true){ %>
 
 
 <%

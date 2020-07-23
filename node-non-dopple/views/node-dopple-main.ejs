@@ -12,11 +12,10 @@
 	};
 	
 	function getNewHeightInAspectRatio(width, aspectRatio){
-		let newHeight = Math.floor(width * aspectRatio);
-		return newHeight;
+		//let newHeight = Math.floor(width * aspectRatio);
+		return Math.floor(width * aspectRatio);
 	};
 	
-	//const photoPath  = "Dopples/Actress_Picture/";
 	const photoPath  = "Actress_Picture/";
 	const rando = getRandomIntInclusive(1, 2);
 	const newImgWidth = 240;
@@ -71,7 +70,7 @@
 	<input type="hidden" name="playerTwoHidden" value="<%= playerTwo %>" >
 	<input type="hidden" name="playerOneHidden" value="<%= playerOne %>" >
 
-	<div id="testingBox">
+	<div id="debugFormBox">
 		<% if(playerArray[0] !== undefined && playerArray[0].lockPlayer === true){ %>
 			<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="1" checked>
 		<% }else{ %>
@@ -79,36 +78,36 @@
 		<% }; %>
 		<button type="submit" name="reset" value="1" formaction="/resetScores">Reset all scores to 0.</button>
 	</div>
-</form>
 
-<%
-	if (Array.isArray(playerArray) && playerArray[0].winnerName != undefined && playerArray != undefined && playerArray.length && playerArray[0].resetPressed === false){		
-			playerArray.forEach(function(currentArray){       
-%>
-				<div id="scoreBoard">
-					<p><u>Last Round:</u></p>
-					<p><strong>You chose <%= currentArray.winnerName %> over <%= currentArray.loserName %>.</strong></p>
-					<!-- <p>Winner: <%= currentArray.winner %></p> -->
-					<!-- <p>Loser: <%= currentArray.loser %></p> -->
-					<!-- <p>Winner Name: <%= currentArray.winnerName %></p> -->
-					<!-- <p>Loser Name: <%= currentArray.loserName %></p> -->
-					<p><%= currentArray.winnerName %> Old Score: <%= currentArray.winnerOldScore.toString().substr(0,8) %></p>
-					<p><%= currentArray.winnerName %> New Score: <%= currentArray.winnerNewScore.toString().substr(0,8) %></p>
-					<p><%= currentArray.loserName %> Old Score: <%= currentArray.loserOldScore.toString().substr(0,8) %></p>
-					<p><%= currentArray.loserName %> New Score: <%= currentArray.loserNewScore.toString().substr(0,8) %></p>
-					<p><%= currentArray.winnerName %> ELO (old): <%= (currentArray.winnerELO * 100).toString().substr(0,5) %>%</p>
-					<p><%= currentArray.winnerName %> ELO (new): <%= (currentArray.winnerNewELO * 100).toString().substr(0,5) %>%</p>
-					<p><%= currentArray.loserName %> ELO (old): <%= (currentArray.loserELO * 100).toString().substr(0,5) %>%</p>
-					<p><%= currentArray.loserName %> ELO (new): <%= (currentArray.loserNewELO * 100).toString().substr(0,5) %>%</p>
-					<p>lockPlayer: <%= currentArray.lockPlayer %></p>
-				</div>
-<% 		
-			});
-	}else{
-		//console.log("Array Empty!"); %>
-<%	
-	};
-%>
+</form>
+<div id="scoreBoard">
+	<%
+		if (playerArray[0].winnerELO !== undefined && playerArray[0].resetPressed === false){		
+				playerArray.forEach(function(currentArray){
+	%>					
+						<p><u>Last Round:</u></p>
+						<p><strong>You chose <%= currentArray.winnerName %> over <%= currentArray.loserName %>.</strong></p>
+						<p>Winner: <%= currentArray.winner %></p>
+						<p>Loser: <%= currentArray.loser %></p>
+						<p>Winner Name: <%= currentArray.winnerName %></p>
+						<p>Loser Name: <%= currentArray.loserName %></p>
+						<p><%= currentArray.winnerName %> Old Score: <%= currentArray.winnerOldScore.toString().substr(0,8) %></p>
+						<p><%= currentArray.winnerName %> New Score: <%= currentArray.winnerNewScore.toString().substr(0,8) %></p>
+						<p><%= currentArray.loserName %> Old Score: <%= currentArray.loserOldScore.toString().substr(0,8) %></p>
+						<p><%= currentArray.loserName %> New Score: <%= currentArray.loserNewScore.toString().substr(0,8) %></p>
+						<p><%= currentArray.winnerName %> ELO (old): <%= (currentArray.winnerELO * 100).toString().substr(0,5) %>%</p>
+						<p><%= currentArray.winnerName %> ELO (new): <%= (currentArray.winnerNewELO * 100).toString().substr(0,5) %>%</p>
+						<p><%= currentArray.loserName %> ELO (old): <%= (currentArray.loserELO * 100).toString().substr(0,5) %>%</p>
+						<p><%= currentArray.loserName %> ELO (new): <%= (currentArray.loserNewELO * 100).toString().substr(0,5) %>%</p>
+						<p>lockPlayer: <%= currentArray.lockPlayer %></p>				
+	<%
+				});
+		}else{
+			//console.log("Array Empty!"); %>
+	<%	
+		};
+	%>
+</div>
 </center>
 </body>
 </html>

@@ -1,6 +1,7 @@
 <br><h3>ELO-Dopple-node\node-non-dopple</h3>
 
 <br><strong>To Do:</strong><br>
+• Take out winnerName and some other unneeded variables for this non-dopple version.<br>
 • Incorporate stuff from old readme back into this one.<br>
 • Incorporate this file back into readme.txt, since it has it'll have its own repo now?<br>
 • <strong>Decide/learn how to make form logic non-global, so app could support many users (checkbox will be checked for all users if one checks it). See: https://stackoverflow.com/questions/39339640/access-current-req-object-everywhere-in-node-js-express </strong><br>
