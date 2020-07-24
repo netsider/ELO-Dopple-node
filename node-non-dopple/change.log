@@ -1,5 +1,17 @@
 <br><h3>ELO-Dopple-node\node-non-dopple</h3>
 
+Add to Notes or Scan Over:
+	https://eloquentjavascript.net/06_object.html
+	https://eloquentjavascript.net/19_paint.html
+	https://eloquentjavascript.net/17_canvas.html
+	https://eloquentjavascript.net/07_robot.html
+
+Learn/Keep in Mind:
+	https://developer.mozilla.org/en-US/docs/Web/API/NodeList
+	https://redis.io/topics/twitter-clone
+	https://www.w3schools.com/howto/howto_js_draggable.asp
+	https://dzone.com/articles/nodejs-tutorial-for-beginners-part-4-making-an-app?preview=true
+
 <br><strong>To Do:</strong><br>
 • Change lockplayer in EJS file to true/false rather than numerical.<br>
 • Take out winnerName and some other unneeded variables for this non-dopple version.<br>
