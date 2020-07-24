@@ -5,18 +5,12 @@
 <body>
 <center>
 <% 
-	function getRandomIntInclusive(min, max) {
-		min = Math.ceil(min);
-		max = Math.floor(max);
-	return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
-	};
-	
 	function getNewHeightInAspectRatio(width, aspectRatio){
 		//let newHeight = Math.floor(width * aspectRatio);
 		return Math.floor(width * aspectRatio);
 	};
 	
-	const photoPath  = "Actress_Picture/";
+	const photoPath  = "Selfies/";
 	const newImgWidth = 240;
 	
 	let playerOne = newPlayers[0][0];
@@ -34,7 +28,6 @@
 	const playerOneImage = photoPath + playerOne + ".jpg";
 	const playerTwoImage = photoPath + playerTwo + ".jpg";
 	
-	// Keep original aspect ratio
 	let playerOneImgHeight = getNewHeightInAspectRatio(newImgWidth, playerOneAR);
 	let playerTwoImgHeight = getNewHeightInAspectRatio(newImgWidth, playerTwoAR);
 
@@ -71,9 +64,9 @@
 
 	<div id="debugFormBox">
 		<% if(playerArray[0] !== undefined && playerArray[0].lockPlayer === true){ %>
-			<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="1" checked>
+			<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="true" checked>
 		<% }else{ %>
-			<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="1">
+			<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="true">
 		<% }; %>
 		<button type="submit" name="reset" value="1" formaction="/resetScores">Reset all scores to 0.</button>
 	</div>
