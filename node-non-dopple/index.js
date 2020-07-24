@@ -35,18 +35,12 @@ let playerTwo = 1;
 playerArray[0] = {};
 playerArray[0].lockPlayer = false;
 
-
-// Figure this out:
-// https://stackoverflow.com/questions/39339640/access-current-req-object-everywhere-in-node-js-express
-// https://stackoverflow.com/questions/21405872/using-local-and-global-variables-properly-in-node-js
-
 app.get("/", function(req, res){
 	//console.log("Serving / ...");
 	console.log("-------------------------------- New Game --------------------------------");
 	//console.log("playerArray[0]: ");
 	//console.log(playerArray[0]);
-	let customID = getRandomIntInclusive(1, 1000);
-	console.log("customID: " + customID); // Still going to either be different or the same for all users, so this won't work.
+
 	// Player Selection -------------------------------------------------------
 	if(playerArray[0].lockPlayer === true){
 		//console.log("Players locked!"); 
