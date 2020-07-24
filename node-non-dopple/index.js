@@ -52,6 +52,8 @@ if(fs.existsSync(photoPath) !== true) {
 	fs.mkdirSync(photoPath);
 }
 
+
+
 app.get("/", function(req, res){
 	//console.log("Serving / ...");
 	console.log("-------------------------------- New Game --------------------------------");
