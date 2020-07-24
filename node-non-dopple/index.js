@@ -10,14 +10,11 @@ const ejs = require("ejs");
 const bodyParser = require("body-parser");
 const sizeOf = require("image-size");
 
-console.log("Starting...");
-
 const app = express();
 
 app.use(bodyParser.urlencoded({extended: true}));
 
 const publicDir = "files";
-
 app.use(express.static(__dirname + "/" + publicDir));
 app.set("view engine", "ejs");
 app.listen(3000);
@@ -52,12 +49,11 @@ if(fs.existsSync(photoPath) !== true) {
 	fs.mkdirSync(photoPath);
 }
 
-
+console.log("Starting...");
 
 app.get("/", function(req, res){
 	//console.log("Serving / ...");
 	console.log("-------------------------------- New Game --------------------------------");
-
 
 	// Player Selection -------------------------------------------------------
 	if(playerArray[0].lockPlayer === true){
@@ -157,16 +153,11 @@ app.get("/", function(req, res){
 	newPlayers[1][3] = playerTwoELO;
 	newPlayers[1][4] = aspectRatioP2;
 
-	//console.log("Rending page...");
 	res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
 	
 });
 
 app.post("/submitPlayer", function(req, res){
-	// console.log("Serving /node-dopple-main (post) ..");
-	console.log("----req.body----");
-	// console.log(req.body);
-	console.dir(req.body);
 	
 	let unserialized = JSON.parse(req.body.playerName);
 	let winner = unserialized[0].toString();
@@ -216,8 +207,6 @@ app.post("/submitPlayer", function(req, res){
 
 app.post("/resetScores", function(req, res){
 	console.log("Resetting Scores...");
-	//console.log("----req.body----");
-	//console.log(req.body);
 	
 	// Form Logic --------
 	playerArray[0].lastPlayerOne = req.body.playerOneHidden;
@@ -232,9 +221,6 @@ app.post("/resetScores", function(req, res){
 		
 	let scoreDirContents = fs.readdirSync(scorePath);
 	let scorePathLength = (fs.readdirSync(scorePath).length);
-	//console.log("scorePathLength: " + scorePathLength);
-	//console.log("scoreDirContents: " + scoreDirContents);
-	
 	
 	for (let i = 0; i < scorePathLength; i++) {
 		let scoreFileTemp1 = scorePath + scoreDirContents[i];
@@ -245,7 +231,6 @@ app.post("/resetScores", function(req, res){
 		}
 	}
 	
-	//console.log(playerArray);
 	res.redirect("/");
 });
 

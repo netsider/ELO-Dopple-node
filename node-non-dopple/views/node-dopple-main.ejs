@@ -57,8 +57,8 @@
 </div>
 
 <form action="/submitPlayer" method="POST">
-	<p><button type="submit" name="playerName" value="<%= playerOneIsWinnerArray %>">I think <%= playerOneName %> is better</button></p>
-	<p><button type="submit" name="playerName" value="<%= playerTwoIsWinnerArray %>">I think <%= playerTwoName %> is better</button></p>
+	<p><button type="submit" name="playerName" value="<%= playerOneIsWinnerArray %>">I like <%= playerOneName %> (left) better</button></p>
+	<p><button type="submit" name="playerName" value="<%= playerTwoIsWinnerArray %>">I like <%= playerTwoName %> (right) better</button></p>
 	<input type="hidden" name="playerTwoHidden" value="<%= playerTwo %>" >
 	<input type="hidden" name="playerOneHidden" value="<%= playerOne %>" >
 
