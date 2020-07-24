@@ -35,6 +35,8 @@ let playerTwo = 1;
 playerArray[0] = {};
 playerArray[0].lockPlayer = false;
 
+// https://stackoverflow.com/questions/39339640/access-current-req-object-everywhere-in-node-js-express
+
 app.get("/", function(req, res){
 	//console.log("Serving / ...");
 	console.log("-------------------------------- New Game --------------------------------");
@@ -58,6 +60,16 @@ app.get("/", function(req, res){
 		
 	}else{
 		//console.log("Players NOT locked!"); 
+		
+		if(fs.existsSync(publicDir) !== true) {
+			console.log("Public file directory not exists!");
+			
+		}
+		
+		if(fs.existsSync(namePath) !== true) {
+			console.log("Player directory not exists!");
+			
+		}
 		
 		let obj = fs.readdirSync(namePath);
 		let dlength = fs.readdirSync(namePath).length - 1;
@@ -157,6 +169,7 @@ app.get("/", function(req, res){
 	//console.log(playerArray[0]);
 	//logArray(playerArray[0]);
     	
+	console.log("Rending page...");
 	res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
 	
 });
