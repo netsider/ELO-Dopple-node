@@ -16,17 +16,18 @@ const app = express();
 
 app.use(bodyParser.urlencoded({extended: true}));
 
-const publicDir = "Dopples";
+const publicDir = "files";
 
 app.use(express.static(__dirname + "/" + publicDir));
 app.set("view engine", "ejs");
 app.listen(3000);
 
-const namePath = publicDir + "/Actress_Name/";
-const scorePath = publicDir + "/Actress_Score/";
-const photoPath  = publicDir + "/Actress_Picture/";
-const dirLength = fs.readdirSync(namePath).length;
+const scorePath = publicDir + "/Selfie_Score/";
+const photoPath  = publicDir + "/Selfies/";
 const k = 32;
+const startingScore = "0";
+const obj = fs.readdirSync(photoPath);
+const dlength = fs.readdirSync(photoPath).length - 1;
 let maxPlayers = 2;
 let playerArray = [];
 let newPlayers = [];
@@ -35,11 +36,26 @@ let playerTwo = 1;
 playerArray[0] = {};
 playerArray[0].lockPlayer = false;
 
+// Initial setup
+if(fs.existsSync(publicDir) !== true) {
+	console.log("PUBLIC directory not exists!");
+	fs.mkdirSync(publicDir);
+}
+
+if(fs.existsSync(scorePath) !== true){
+	fs.mkdirSync(scorePath);
+	console.log("SCORE directory not exists!");
+}
+
+if(fs.existsSync(photoPath) !== true) {
+	console.log("PHOTO directory not exists!");
+	fs.mkdirSync(photoPath);
+}
+
 app.get("/", function(req, res){
 	//console.log("Serving / ...");
 	console.log("-------------------------------- New Game --------------------------------");
-	//console.log("playerArray[0]: ");
-	//console.log(playerArray[0]);
+
 
 	// Player Selection -------------------------------------------------------
 	if(playerArray[0].lockPlayer === true){
@@ -57,27 +73,12 @@ app.get("/", function(req, res){
 		
 	}else{
 		//console.log("Players NOT locked!"); 
-		
-		if(fs.existsSync(publicDir) !== true) {
-			console.log("Public file directory not exists!");
-			
-		}
-		
-		if(fs.existsSync(namePath) !== true) {
-			console.log("Player directory not exists!");
-			
-		}
-		
-		let obj = fs.readdirSync(namePath);
-		let dlength = fs.readdirSync(namePath).length - 1;
-
+				
 		playerOne = obj[getRandomIntInclusive(0, dlength)];
 		playerOne = playerOne.substring(0, playerOne.length - 4);
-		//console.log("playerOne: " + playerOne);
 		
 		playerTwo = obj[getRandomIntInclusive(0, dlength)];
 		playerTwo = playerTwo.substring(0, playerTwo.length - 4);
-		//console.log("playerTwo: " + playerTwo);
 		
 		while(playerOne === playerTwo){
 			playerTwo = obj[getRandomIntInclusive(0, dlength)];
@@ -96,7 +97,6 @@ app.get("/", function(req, res){
 					playerTwo = obj[getRandomIntInclusive(0, dlength)];
 					playerTwo = playerTwo.substring(0, playerTwo.length - 4);
 				}
-			
 		}else{
 			//console.log("NO winner/loser chosen, players NOT locked.");
 		}
@@ -105,45 +105,41 @@ app.get("/", function(req, res){
 	//console.log("playerOne: " + playerOne);
 	//console.log("playerTwo: " + playerTwo);
 	
-	const playerOneNamePath = namePath + playerOne + ".txt";
-	const playerTwoNamePath = namePath + playerTwo + ".txt";
+	const playerOneNamePath = photoPath + playerOne + ".txt";
+	const playerTwoNamePath = photoPath + playerTwo + ".txt";
 	
 	const playerOneScorePath = scorePath + playerOne + ".txt";
 	const playerTwoScorePath = scorePath + playerTwo + ".txt";
 	
 	const playerOneImage = photoPath + playerOne + ".jpg";
 	const playerTwoImage = photoPath + playerTwo + ".jpg";
-	
+
 	// Calculate original aspect ratio of pictures
 	const dimensions1 = sizeOf(playerOneImage);
 	const dimensions2 = sizeOf(playerTwoImage);
 	const aspectRatioP1 = getAspectRatio(dimensions1.width, dimensions1.height);
 	const aspectRatioP2 = getAspectRatio(dimensions2.width, dimensions2.height);
 	
-	let playerOneName = "Namefile Not Found";
-	if(fs.existsSync(playerOneNamePath)){
-		playerOneName = fs.readFileSync(playerOneNamePath).toString();
-	}
-		
-	let playerTwoName = "Namefile Not Found";
-	if(fs.existsSync(playerTwoNamePath)){
-		playerTwoName = fs.readFileSync(playerTwoNamePath).toString();
-	}
+	const playerOneName = playerOne + ".jpg";
+	const playerTwoName = playerTwo + ".jpg";
 		
 	let playerOneScore = 0;
 	if(fs.existsSync(playerOneScorePath)){
 		playerOneScore = Number(fs.readFileSync(playerOneScorePath));
+	}else{
+		fs.writeFileSync(playerOneScorePath, startingScore);
 	}
 		
 	let playerTwoScore = 0;
 	if(fs.existsSync(playerTwoScorePath)){
 		playerTwoScore = Number(fs.readFileSync(playerTwoScorePath));
+	}else{
+		fs.writeFileSync(playerTwoScorePath, startingScore);
 	}
 	
 	let playerOneELO = (ELO(playerOneScore, playerTwoScore) * 100).toPrecision(4);
 	let playerTwoELO = (ELO(playerTwoScore, playerOneScore) * 100).toPrecision(4);
 
-		
 	newPlayers[0] = [];
 	newPlayers[1] = [];
 	
@@ -159,29 +155,23 @@ app.get("/", function(req, res){
 	newPlayers[1][3] = playerTwoELO;
 	newPlayers[1][4] = aspectRatioP2;
 
-	//Debugging:
-	//logArray(newPlayers);
-	//console.log("newPlayers: ");
-	//console.log(newPlayers);
-	//console.log(playerArray[0]);
-	//logArray(playerArray[0]);
-    	
-	console.log("Rending page...");
+	//console.log("Rending page...");
 	res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
 	
 });
 
 app.post("/submitPlayer", function(req, res){
 	// console.log("Serving /node-dopple-main (post) ..");
-	// console.log("----req.body----");
+	console.log("----req.body----");
 	// console.log(req.body);
+	console.dir(req.body);
 	
 	let unserialized = JSON.parse(req.body.playerName);
 	let winner = unserialized[0].toString();
 	let loser = unserialized[1].toString();
 	
-	let winnerScoreFile = "Dopples/Actress_Score/" + winner + ".txt";
-	let loserScoreFile = "Dopples/Actress_Score/" + loser + ".txt";
+	let winnerScoreFile = scorePath + winner + ".txt";
+	let loserScoreFile = scorePath + loser + ".txt";
 	
 	let winnerOldScore = Number(fs.readFileSync(winnerScoreFile));
 	let loserOldScore = Number(fs.readFileSync(loserScoreFile));
@@ -195,11 +185,8 @@ app.post("/submitPlayer", function(req, res){
 	let winnerNewELO = ELO(winnerNewScore, loserNewScore);
 	let loserNewELO = ELO(loserNewScore, winnerNewScore);
 	
-	let winnerNamePath = namePath + winner + ".txt";
-	let loserNamePath = namePath + loser + ".txt";
-	
-	let winnerName = fs.readFileSync(winnerNamePath).toString();
-	let loserName = fs.readFileSync(loserNamePath).toString();
+	let winnerName = winner + ".jpg";
+	let loserName = loser + ".jpg";
 	
 	fs.writeFileSync(winnerScoreFile, String(winnerNewScore));
 	fs.writeFileSync(loserScoreFile, String(loserNewScore));
@@ -207,12 +194,13 @@ app.post("/submitPlayer", function(req, res){
 	let winnerLoserObject = {winner: winner, loser: loser, winnerName: winnerName, loserName: loserName, winnerOldScore: winnerOldScore, loserOldScore: loserOldScore, winnerELO: winnerELO, loserELO: loserELO, winnerNewScore: winnerNewScore, loserNewScore: loserNewScore, winnerNewELO: winnerNewELO, loserNewELO: loserNewELO};
 	
 	playerArray[0] = winnerLoserObject; //playerArray.push(winnerLoserObject);
-	
+		
 	// Form Logic --------
 	playerArray[0].lastPlayerOne = req.body.playerOneHidden;
 	playerArray[0].lastPlayerTwo = req.body.playerTwoHidden;
 	playerArray[0].resetPressed = false;
-	if(Number(req.body.lockPlayer) === 1){
+	
+	if(req.body.lockPlayer === "true"){
 		playerArray[0].lockPlayer = true;
 	}else{
 		playerArray[0].lockPlayer = false;
@@ -227,14 +215,13 @@ app.post("/submitPlayer", function(req, res){
 app.post("/resetScores", function(req, res){
 	console.log("Resetting Scores...");
 	//console.log("----req.body----");
-	//logArray(req.body);
+	//console.log(req.body);
 	
 	// Form Logic --------
 	playerArray[0].lastPlayerOne = req.body.playerOneHidden;
 	playerArray[0].lastPlayerTwo = req.body.playerTwoHidden;
 	playerArray[0].resetPressed = true;
-			
-	if(Number(req.body.lockPlayer) === 1){
+	if(req.body.lockPlayer === "true"){
 		playerArray[0].lockPlayer = true;
 	}else{
 		playerArray[0].lockPlayer = false;
@@ -246,7 +233,7 @@ app.post("/resetScores", function(req, res){
 	//console.log("scorePathLength: " + scorePathLength);
 	//console.log("scoreDirContents: " + scoreDirContents);
 	
-	let startingScore = "0";
+	
 	for (let i = 0; i < scorePathLength; i++) {
 		let scoreFileTemp1 = scorePath + scoreDirContents[i];
 		console.log("Resetting " + scoreFileTemp1);
