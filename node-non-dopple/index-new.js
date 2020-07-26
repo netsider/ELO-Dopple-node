@@ -1,15 +1,11 @@
 // Made by Russell Rounds
 
-// Node Modules
 const http = require("http");
 const fs = require("fs");
-
-// NPM Modules
 const express  = require("express");
 const ejs = require("ejs");
 const bodyParser = require("body-parser");
 const sizeOf = require("image-size");
-
 const app = express();
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -25,8 +21,6 @@ const k = 32;
 const startingScore = "0";
 const dlength = fs.readdirSync(photoPath).length - 1;
 const obj = fs.readdirSync(photoPath);
-// playerArray[0] = {};
-// playerArray[0].lockPlayer = false;
 
 // Initial setup
 if(fs.existsSync(publicDir) !== true) {
@@ -47,114 +41,16 @@ if(fs.existsSync(photoPath) !== true) {
 console.log("Starting...");
 
 app.get("/", function(req, res){
-	//console.log("Serving / ...");
-	console.log("-------------------------------- New Game --------------------------------");
+	console.log("Serving / ...");
 	
-	let newPlayers = [];
-	let playerOne = 1;
-	let playerTwo = 1;
-	
-	
-	// Player Selection -------------------------------------------------------
-	// if(playerArray[0].lockPlayer === true){
-		//console.log("Players locked!"); 
-		
-		// if(playerArray[0].lastPlayerOne !== undefined){
-			// console.log("winner/loser chosen, but players locked.");
-			// playerOne = playerArray[0].lastPlayerOne;
-			// playerTwo = playerArray[0].lastPlayerTwo;
-		// }else{
-			// console.log("reset pressed, but player locked.");
-			// playerOne = playerArray[0].lastPlayerOne;
-			// playerTwo = playerArray[0].lastPlayerTwo;
-		// }
-		
-	// }else{
-		// console.log("Players NOT locked!"); 
-		
-		
-		playerOne = obj[getRandomIntInclusive(0, dlength)];
-		playerOne = playerOne.substring(0, playerOne.length - 4);
-		playerTwo = obj[getRandomIntInclusive(0, dlength)];
-		playerTwo = playerTwo.substring(0, playerTwo.length - 4);
-		
-		while(playerOne === playerTwo){
-			console.log("Players the same!");
-			playerTwo = obj[getRandomIntInclusive(0, dlength)];
-			playerTwo = playerTwo.substring(0, playerTwo.length - 4);
-		}
-		
-		// if(playerArray[0].winner !== undefined){
-			// console.log("winner/loser chosen, players NOT locked.");
-				// while(playerArray[0].winner === playerOne || playerArray[0].loser === playerOne || playerOne === playerTwo){
-					// console.log("Choosing new Player...");
-					// playerOne = obj[getRandomIntInclusive(0, dlength)];
-					// playerOne = playerOne.substring(0, playerOne.length - 4);
-				// }
-				// while(playerArray[0].winner === playerTwo || playerArray[0].loser === playerTwo || playerOne === playerTwo){
-					// console.log("Choosing new Player...");
-					// playerTwo = obj[getRandomIntInclusive(0, dlength)];
-					// playerTwo = playerTwo.substring(0, playerTwo.length - 4);
-				// }
-		// }else{
-			// console.log("NO winner/loser chosen, players NOT locked.");
-		// }
-	// }
-	
-	//console.log("playerOne: " + playerOne);
-	//console.log("playerTwo: " + playerTwo);
-	
-	const playerOneNamePath = photoPath + playerOne + ".txt";
-	const playerTwoNamePath = photoPath + playerTwo + ".txt";
-	const playerOneScorePath = scorePath + playerOne + ".txt";
-	const playerTwoScorePath = scorePath + playerTwo + ".txt";
-	const playerOneImage = photoPath + playerOne + ".jpg";
-	const playerTwoImage = photoPath + playerTwo + ".jpg";
-	const dimensions1 = sizeOf(playerOneImage);
-	const dimensions2 = sizeOf(playerTwoImage);
-	const aspectRatioP1 = getAspectRatio(dimensions1.width, dimensions1.height);
-	const aspectRatioP2 = getAspectRatio(dimensions2.width, dimensions2.height);
-	const playerOneName = playerOne + ".jpg";
-	const playerTwoName = playerTwo + ".jpg";
-	
-	let playerOneScore = 0;
-	if(fs.existsSync(playerOneScorePath)){
-		playerOneScore = Number(fs.readFileSync(playerOneScorePath));
-	}else{
-		fs.writeFileSync(playerOneScorePath, startingScore);
-	}
-		
-	let playerTwoScore = 0;
-	if(fs.existsSync(playerTwoScorePath)){
-		playerTwoScore = Number(fs.readFileSync(playerTwoScorePath));
-	}else{
-		fs.writeFileSync(playerTwoScorePath, startingScore);
-	}
-	
-	let playerOneELO = (ELO(playerOneScore, playerTwoScore) * 100).toPrecision(4);
-	let playerTwoELO = (ELO(playerTwoScore, playerOneScore) * 100).toPrecision(4);
+	let newPlayers = generatePlayers();
 
-	newPlayers[0] = [];
-	newPlayers[1] = [];
-	
-	newPlayers[0][0] = playerOne;
-	newPlayers[0][1] = playerOneName;
-	newPlayers[0][2] = playerOneScore;
-	newPlayers[0][3] = playerOneELO;
-	newPlayers[0][4] = aspectRatioP1;
-	
-	newPlayers[1][0] = playerTwo;
-	newPlayers[1][1] = playerTwoName;
-	newPlayers[1][2] = playerTwoScore;
-	newPlayers[1][3] = playerTwoELO;
-	newPlayers[1][4] = aspectRatioP2;
-
-	res.render("node-dopple-main", {newPlayers: newPlayers});
+	res.render("node-dopple-main-new", {newPlayers: newPlayers});
 });
 
 app.post("/submitPlayer", function(req, res){
 	
-	let playerArray = [];
+	let newPlayers = generatePlayers();
 	
 	let unserialized = JSON.parse(req.body.playerName);
 	let winner = unserialized[0].toString();
@@ -183,6 +79,7 @@ app.post("/submitPlayer", function(req, res){
 	
 	let winnerLoserObject = {winner: winner, loser: loser, winnerName: winnerName, loserName: loserName, winnerOldScore: winnerOldScore, loserOldScore: loserOldScore, winnerELO: winnerELO, loserELO: loserELO, winnerNewScore: winnerNewScore, loserNewScore: loserNewScore, winnerNewELO: winnerNewELO, loserNewELO: loserNewELO};
 	
+	let playerArray = [];
 	playerArray[0] = winnerLoserObject; //playerArray.push(winnerLoserObject);
 		
 	// Form Logic --------
@@ -199,7 +96,7 @@ app.post("/submitPlayer", function(req, res){
 	
 	console.log(winnerLoserObject);
 	
-	res.render("node-dopple-main", {playerArray: playerArray});
+	res.render("node-dopple-main-new", {playerArray: playerArray, newPlayers: newPlayers});
 	//res.redirect("/");
 });
 
@@ -260,4 +157,65 @@ function logArray(theArray){
 	});
 };
 
-// Deleted Code:
+function generatePlayers(){
+	let newPlayers = [];
+	let playerOne = 1;
+	let playerTwo = 1;
+	playerOne = obj[getRandomIntInclusive(0, dlength)];
+	playerOne = playerOne.substring(0, playerOne.length - 4);
+	playerTwo = obj[getRandomIntInclusive(0, dlength)];
+	playerTwo = playerTwo.substring(0, playerTwo.length - 4);
+	
+	while(playerOne === playerTwo){
+		//console.log("Players the same!");
+		playerTwo = obj[getRandomIntInclusive(0, dlength)];
+		playerTwo = playerTwo.substring(0, playerTwo.length - 4);
+	}
+	
+	const playerOneNamePath = photoPath + playerOne + ".txt";
+	const playerTwoNamePath = photoPath + playerTwo + ".txt";
+	const playerOneScorePath = scorePath + playerOne + ".txt";
+	const playerTwoScorePath = scorePath + playerTwo + ".txt";
+	const playerOneImage = photoPath + playerOne + ".jpg";
+	const playerTwoImage = photoPath + playerTwo + ".jpg";
+	const dimensions1 = sizeOf(playerOneImage);
+	const dimensions2 = sizeOf(playerTwoImage);
+	const aspectRatioP1 = getAspectRatio(dimensions1.width, dimensions1.height);
+	const aspectRatioP2 = getAspectRatio(dimensions2.width, dimensions2.height);
+	const playerOneName = playerOne + ".jpg";
+	const playerTwoName = playerTwo + ".jpg";
+	
+	let playerOneScore = 0;
+	if(fs.existsSync(playerOneScorePath)){
+		playerOneScore = Number(fs.readFileSync(playerOneScorePath));
+	}else{
+		fs.writeFileSync(playerOneScorePath, startingScore);
+	}
+		
+	let playerTwoScore = 0;
+	if(fs.existsSync(playerTwoScorePath)){
+		playerTwoScore = Number(fs.readFileSync(playerTwoScorePath));
+	}else{
+		fs.writeFileSync(playerTwoScorePath, startingScore);
+	}
+	
+	let playerOneELO = (ELO(playerOneScore, playerTwoScore) * 100).toPrecision(4);
+	let playerTwoELO = (ELO(playerTwoScore, playerOneScore) * 100).toPrecision(4);
+
+	newPlayers[0] = [];
+	newPlayers[1] = [];
+	
+	newPlayers[0][0] = playerOne;
+	newPlayers[0][1] = playerOneName;
+	newPlayers[0][2] = playerOneScore;
+	newPlayers[0][3] = playerOneELO;
+	newPlayers[0][4] = aspectRatioP1;
+	
+	newPlayers[1][0] = playerTwo;
+	newPlayers[1][1] = playerTwoName;
+	newPlayers[1][2] = playerTwoScore;
+	newPlayers[1][3] = playerTwoELO;
+	newPlayers[1][4] = aspectRatioP2;	
+	
+	return newPlayers;
+};
