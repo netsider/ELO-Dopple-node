@@ -43,14 +43,12 @@ console.log("Starting...");
 app.get("/", function(req, res){
 	console.log("Serving / ...");
 	
-	let newPlayers = generatePlayers();
+	let newPlayers =generateRandomPlayers();
 
 	res.render("node-dopple-main-new", {newPlayers: newPlayers});
 });
 
 app.post("/submitPlayer", function(req, res){
-	
-	let newPlayers = generatePlayers();
 	
 	let unserialized = JSON.parse(req.body.playerName);
 	let winner = unserialized[0].toString();
@@ -87,9 +85,12 @@ app.post("/submitPlayer", function(req, res){
 	playerArray[0].lastPlayerTwo = req.body.playerTwoHidden;
 	playerArray[0].resetPressed = false;
 	
+	let newPlayers = [];
 	if(req.body.lockPlayer === "true"){
 		playerArray[0].lockPlayer = true;
+		newPlayers = generateFixedPlayers(req.body.playerOneHidden, req.body.playerTwoHidden);
 	}else{
+		newPlayers = generateRandomPlayers();
 		playerArray[0].lockPlayer = false;
 	}
 	// Form Logic -------
@@ -157,7 +158,7 @@ function logArray(theArray){
 	});
 };
 
-function generatePlayers(){
+function generateRandomPlayers(){
 	let newPlayers = [];
 	let playerOne = 1;
 	let playerTwo = 1;
@@ -171,6 +172,59 @@ function generatePlayers(){
 		playerTwo = obj[getRandomIntInclusive(0, dlength)];
 		playerTwo = playerTwo.substring(0, playerTwo.length - 4);
 	}
+	
+	const playerOneNamePath = photoPath + playerOne + ".txt";
+	const playerTwoNamePath = photoPath + playerTwo + ".txt";
+	const playerOneScorePath = scorePath + playerOne + ".txt";
+	const playerTwoScorePath = scorePath + playerTwo + ".txt";
+	const playerOneImage = photoPath + playerOne + ".jpg";
+	const playerTwoImage = photoPath + playerTwo + ".jpg";
+	const dimensions1 = sizeOf(playerOneImage);
+	const dimensions2 = sizeOf(playerTwoImage);
+	const aspectRatioP1 = getAspectRatio(dimensions1.width, dimensions1.height);
+	const aspectRatioP2 = getAspectRatio(dimensions2.width, dimensions2.height);
+	const playerOneName = playerOne + ".jpg";
+	const playerTwoName = playerTwo + ".jpg";
+	
+	let playerOneScore = 0;
+	if(fs.existsSync(playerOneScorePath)){
+		playerOneScore = Number(fs.readFileSync(playerOneScorePath));
+	}else{
+		fs.writeFileSync(playerOneScorePath, startingScore);
+	}
+		
+	let playerTwoScore = 0;
+	if(fs.existsSync(playerTwoScorePath)){
+		playerTwoScore = Number(fs.readFileSync(playerTwoScorePath));
+	}else{
+		fs.writeFileSync(playerTwoScorePath, startingScore);
+	}
+	
+	let playerOneELO = (ELO(playerOneScore, playerTwoScore) * 100).toPrecision(4);
+	let playerTwoELO = (ELO(playerTwoScore, playerOneScore) * 100).toPrecision(4);
+
+	newPlayers[0] = [];
+	newPlayers[1] = [];
+	
+	newPlayers[0][0] = playerOne;
+	newPlayers[0][1] = playerOneName;
+	newPlayers[0][2] = playerOneScore;
+	newPlayers[0][3] = playerOneELO;
+	newPlayers[0][4] = aspectRatioP1;
+	
+	newPlayers[1][0] = playerTwo;
+	newPlayers[1][1] = playerTwoName;
+	newPlayers[1][2] = playerTwoScore;
+	newPlayers[1][3] = playerTwoELO;
+	newPlayers[1][4] = aspectRatioP2;	
+	
+	return newPlayers;
+};
+
+function generateFixedPlayers(player_One, player_Two){
+	let newPlayers = [];
+	let playerOne = player_One.toString();
+	let playerTwo = player_Two.toString();
 	
 	const playerOneNamePath = photoPath + playerOne + ".txt";
 	const playerTwoNamePath = photoPath + playerTwo + ".txt";

@@ -27,35 +27,21 @@
 	
 	if(typeof playerArray === "undefined" && typeof newPlayers !== "undefined"){
 		console.log("No Buttons Pressed (initial load).");
-		// playerOne = newPlayers[0][0];
-		// playerOneName = newPlayers[0][1];
-		// playerOneScore = newPlayers[0][2];
-		// playerOneELO = newPlayers[0][3];
-		// playerOneAR = newPlayers[0][4];
-	
-		// playerTwo = newPlayers[1][0];
-		// playerTwoName = newPlayers[1][1];
-		// playerTwoScore = newPlayers[1][2];
-		// playerTwoELO = newPlayers[1][3];
-		// playerTwoAR = newPlayers[1][4];
-		
 	}else{
 		console.log("Button Pressed!");
 		
 		if(playerArray[0].lockPlayer === "true"){
 			console.log("Player Locked! (client)");
-			playerOne = playerArray[0].lastPlayerOne;
-			playerOneName = playerOne;
+			// playerOne = playerArray[0].lastPlayerOne;
+			// playerOneName = playerOne;
 			
-			playerTwo = playerArray[0].lastPlayerTwo;
-			playerTwoName = playerTwo;
-			
+			// playerTwo = playerArray[0].lastPlayerTwo;
+			// playerTwoName = playerTwo;
 		}else{
 			console.log("Player NOT Locked! (client)");
 			
 		}
 	};
-	
 	
 	const playerOneImage = photoPath + playerOne + ".jpg";
 	const playerTwoImage = photoPath + playerTwo + ".jpg";
@@ -63,12 +49,12 @@
 	let playerOneImgHeight = getNewHeightInAspectRatio(newImgWidth, playerOneAR);
 	let playerTwoImgHeight = getNewHeightInAspectRatio(newImgWidth, playerTwoAR);
 
-	playerOneIsWinnerArray = [];
+	let playerOneIsWinnerArray = [];
 	playerOneIsWinnerArray[0] = playerOne;
 	playerOneIsWinnerArray[1] = playerTwo;
 	playerOneIsWinnerArray = JSON.stringify(playerOneIsWinnerArray);
 	
-	playerTwoIsWinnerArray = [];
+	let playerTwoIsWinnerArray = [];
 	playerTwoIsWinnerArray[0] = playerTwo;
 	playerTwoIsWinnerArray[1] = playerOne;
 	playerTwoIsWinnerArray = JSON.stringify(playerTwoIsWinnerArray);
