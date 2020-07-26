@@ -41,9 +41,9 @@ if(fs.existsSync(photoPath) !== true) {
 console.log("Starting...");
 
 app.get("/", function(req, res){
-	console.log("Serving / ...");
+	//console.log("Serving / ...");
 	
-	let newPlayers =generateRandomPlayers();
+	let newPlayers = generateRandomPlayers();
 
 	res.render("node-dopple-main-new", {newPlayers: newPlayers});
 });
