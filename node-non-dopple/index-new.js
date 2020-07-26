@@ -43,8 +43,7 @@ console.log("Starting...");
 app.get("/", function(req, res){
 	//console.log("Serving / ...");
 	
-	//let newPlayers = generateRandomPlayers();
-	let newPlayers = generateRandomPlayers(null, null);
+	let newPlayers = generatePlayers(null, null, "random");
 
 	res.render("node-dopple-main-new", {newPlayers: newPlayers});
 });
@@ -89,9 +88,11 @@ app.post("/submitPlayer", function(req, res){
 	let newPlayers = [];
 	if(req.body.lockPlayer === "true"){
 		playerArray[0].lockPlayer = true;
-		newPlayers = generateFixedPlayers(req.body.playerOneHidden, req.body.playerTwoHidden);
+		// newPlayers = generateFixedPlayers(req.body.playerOneHidden, req.body.playerTwoHidden);
+		newPlayers = generatePlayers(req.body.playerOneHidden, req.body.playerTwoHidden, "fixed");
 	}else{
-		newPlayers = generateRandomPlayers(winner, loser);
+		// newPlayers = generateRandomPlayers(winner, loser);
+		newPlayers = generatePlayers(winner, loser, "random");
 		playerArray[0].lockPlayer = false;
 	}
 	// Form Logic -------
@@ -142,91 +143,32 @@ function ELO(A, B){
 function getRandomIntInclusive(min, max) {
 		min = Math.ceil(min);
 		max = Math.floor(max);
-		return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
+		return Math.floor(Math.random() * (max - min + 1)) + min;
 };
-
-function isEven(value) {
-	if (value%2 == 0)
-		return true;
-	else
-		return false;
-}
-
-function logArray(theArray){
-	Array.from(Object.keys(theArray)).forEach(function(key){
-		console.log(key + ": " + theArray[key]);
-	});
-};
-
-function generateRandomPlayers(winner, loser){
-	let playerOne = obj[getRandomIntInclusive(0, dlength)];
-	playerOne = playerOne.substring(0, playerOne.length - 4);
-	let playerTwo = obj[getRandomIntInclusive(0, dlength)];
-	playerTwo = playerTwo.substring(0, playerTwo.length - 4);
+function generatePlayers(p1, p2, method){
+	let playerOne = "0";
+	let playerTwo = "0";
 	
-	if(winner !== null || loser !== null){  // Inputting null as params allows duplicates
-		console.log("Null!");
-		while(winner === playerOne || loser === playerOne || playerOne === playerTwo){
-			playerOne = obj[getRandomIntInclusive(0, dlength)];
-			playerOne = playerOne.substring(0, playerOne.length - 4);
-		}
-		while(winner === playerTwo || loser === playerTwo || playerOne === playerTwo){
-			playerTwo = obj[getRandomIntInclusive(0, dlength)];
-			playerTwo = playerTwo.substring(0, playerTwo.length - 4);
+	if(method === "fixed"){
+		playerOne = p1.toString();
+		playerTwo = p2.toString();
+	}else if(method === "random"){
+		playerOne = obj[getRandomIntInclusive(0, dlength)];
+		playerOne = playerOne.substring(0, playerOne.length - 4);
+		playerTwo = obj[getRandomIntInclusive(0, dlength)];
+		playerTwo = playerTwo.substring(0, playerTwo.length - 4);
+	
+		if(p1 !== null || p2 !== null){  // Inputting null as param allows duplicates
+			while(p1 === playerOne || p2 === playerOne || playerOne === playerTwo){
+				playerOne = obj[getRandomIntInclusive(0, dlength)];
+				playerOne = playerOne.substring(0, playerOne.length - 4);
+			}
+			while(p1 === playerTwo || p2 === playerTwo || playerOne === playerTwo){
+				playerTwo = obj[getRandomIntInclusive(0, dlength)];
+				playerTwo = playerTwo.substring(0, playerTwo.length - 4);
+			}
 		}
 	}
-	
-	const playerOneNamePath = photoPath + playerOne + ".txt";
-	const playerTwoNamePath = photoPath + playerTwo + ".txt";
-	const playerOneScorePath = scorePath + playerOne + ".txt";
-	const playerTwoScorePath = scorePath + playerTwo + ".txt";
-	const playerOneImage = photoPath + playerOne + ".jpg";
-	const playerTwoImage = photoPath + playerTwo + ".jpg";
-	const dimensions1 = sizeOf(playerOneImage);
-	const dimensions2 = sizeOf(playerTwoImage);
-	const aspectRatioP1 = getAspectRatio(dimensions1.width, dimensions1.height);
-	const aspectRatioP2 = getAspectRatio(dimensions2.width, dimensions2.height);
-	const playerOneName = playerOne + ".jpg";
-	const playerTwoName = playerTwo + ".jpg";
-	
-	let playerOneScore = 0;
-	if(fs.existsSync(playerOneScorePath)){
-		playerOneScore = Number(fs.readFileSync(playerOneScorePath));
-	}else{
-		fs.writeFileSync(playerOneScorePath, startingScore);
-	}
-		
-	let playerTwoScore = 0;
-	if(fs.existsSync(playerTwoScorePath)){
-		playerTwoScore = Number(fs.readFileSync(playerTwoScorePath));
-	}else{
-		fs.writeFileSync(playerTwoScorePath, startingScore);
-	}
-	
-	let playerOneELO = (ELO(playerOneScore, playerTwoScore) * 100).toPrecision(4);
-	let playerTwoELO = (ELO(playerTwoScore, playerOneScore) * 100).toPrecision(4);
-
-	let newPlayers = [];
-	newPlayers[0] = [];
-	newPlayers[1] = [];
-	
-	newPlayers[0][0] = playerOne;
-	newPlayers[0][1] = playerOneName;
-	newPlayers[0][2] = playerOneScore;
-	newPlayers[0][3] = playerOneELO;
-	newPlayers[0][4] = aspectRatioP1;
-	
-	newPlayers[1][0] = playerTwo;
-	newPlayers[1][1] = playerTwoName;
-	newPlayers[1][2] = playerTwoScore;
-	newPlayers[1][3] = playerTwoELO;
-	newPlayers[1][4] = aspectRatioP2;	
-	
-	return newPlayers;
-};
-function generateFixedPlayers(player_One, player_Two){
-	let playerOne = player_One.toString();
-	let playerTwo = player_Two.toString();
 	
 	const playerOneNamePath = photoPath + playerOne + ".txt";
 	const playerTwoNamePath = photoPath + playerTwo + ".txt";
