@@ -6,48 +6,24 @@
 <center>
 <% 
 	function getNewHeightInAspectRatio(width, aspectRatio){
-		let newHeight = Math.floor(width * aspectRatio);
-		return newHeight;
+		//let newHeight = Math.floor(width * aspectRatio);
+		return Math.floor(width * aspectRatio);
 	};
 	
 	const photoPath  = "Selfies/";
 	const newImgWidth = 240;
 	
-	let playerOne = "1";
-	let playerTwo = "1";
-	let playerOneAR = 1;
-	let playerTwoAR = 1;
-	let playerOneName = "Blank";
-	let playerTwoName = "Blank";
-	let playerOneScore = 0;
-	let playerTwoScore = 0;
-	let playerOneELO = .5;
-	let playerTwoELO = .5;
+	let playerOne = newPlayers[0][0];
+	let playerOneName = newPlayers[0][1];
+	let playerOneScore = newPlayers[0][2];
+	let playerOneELO = newPlayers[0][3];
+	let playerOneAR = newPlayers[0][4];
 	
-	if(typeof playerArray === "undefined" && typeof newPlayers !== "undefined"){ // Called from root function
-		playerOne = newPlayers[0][0];
-		playerOneName = newPlayers[0][1];
-		playerOneScore = newPlayers[0][2];
-		playerOneELO = newPlayers[0][3];
-		playerOneAR = newPlayers[0][4];
-	
-		playerTwo = newPlayers[1][0];
-		playerTwoName = newPlayers[1][1];
-		playerTwoScore = newPlayers[1][2];
-		playerTwoELO = newPlayers[1][3];
-		playerTwoAR = newPlayers[1][4];
-		
-	}else{ // Called from /Submit function
-		
-		if(playerArray[0].lockPlayer === "true"){
-			console.log("Player Locked! (client)");
-			playerOne = playerArray[0].lastPlayerOne;
-			playerTwo = playerArray[0].lastPlayerTwo;
-		}else{
-			console.log("Player NOT Locked! (client)");
-		}
-	};
-	
+	let playerTwo = newPlayers[1][0];
+	let playerTwoName = newPlayers[1][1];
+	let playerTwoScore = newPlayers[1][2];
+	let playerTwoELO = newPlayers[1][3];
+	let playerTwoAR = newPlayers[1][4];
 	
 	const playerOneImage = photoPath + playerOne + ".jpg";
 	const playerTwoImage = photoPath + playerTwo + ".jpg";
@@ -87,7 +63,7 @@
 	<input type="hidden" name="playerOneHidden" value="<%= playerOne %>" >
 
 	<div id="debugFormBox">
-		<% if(typeof playerArray !== "undefined" && playerArray[0] !== undefined && playerArray[0].lockPlayer === true){ %>
+		<% if(playerArray[0] !== undefined && playerArray[0].lockPlayer === true){ %>
 			<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="true" checked>
 		<% }else{ %>
 			<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="true">
@@ -98,7 +74,7 @@
 </form>
 <div id="scoreBoard">
 	<%
-		if (typeof playerArray !== "undefined" && playerArray[0].winnerELO !== undefined && playerArray[0].resetPressed === false){
+		if (playerArray[0].winnerELO !== undefined && playerArray[0].resetPressed === false){
 				playerArray.forEach(function(currentArray){
 	%>					
 						<p><u>Last Round:</u></p>
