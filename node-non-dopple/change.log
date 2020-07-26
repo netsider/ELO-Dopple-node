@@ -1,12 +1,13 @@
 <br><h3>ELO-Dopple-node\node-non-dopple</h3>
 
 <br><strong>To Do:</strong><br>
-• Combine both random player functions into one.<br>
+
 • Make sure reset button works.<br>
 • Incorporate stuff from old readme back into this one.<br>
 • Incorporate this file back into readme.txt, since it'll have its own repo soon?<br>
 • Make score pop up as an on-screen overlay notification.<br>
 • Make this folder have its own repo, for easier deployment.<br>
+• <strike>Combine both random player functions into one.</strike> DONE 7-26-2020<br>
 • <strike>Redesign entire shit so it doesn't use any public variables.</strike> DONE! (7-26-2020) <br>
 • <strike>Change lockplayer in EJS file to true/false rather than numerical.</strike><br>
 • <strike>Take out winnerName and some other unneeded variables for this non-dopple version.</strike><br>
