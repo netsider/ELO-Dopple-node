@@ -13,12 +13,13 @@ Learn/Keep in Mind:
 	https://dzone.com/articles/nodejs-tutorial-for-beginners-part-4-making-an-app?preview=true
 
 <br><strong>To Do:</strong><br>
-• Change lockplayer in EJS file to true/false rather than numerical.<br>
-• Take out winnerName and some other unneeded variables for this non-dopple version.<br>
+• Redesign entire shit so it doesn't use any public variables.<br> Getting there! (7-26-2020)
+• <strike>Change lockplayer in EJS file to true/false rather than numerical.</strike><br>
+• <strike>Take out winnerName and some other unneeded variables for this non-dopple version.</strike><br>
 • Incorporate stuff from old readme back into this one.<br>
 • Incorporate this file back into readme.txt, since it'll have its own repo soon?<br>
 • <strong>Decide/learn how to make form logic non-global, so app could support many users (checkbox will be checked for all users if one checks it). See: https://stackoverflow.com/questions/39339640/access-current-req-object-everywhere-in-node-js-express </strong><br>
-• Eliminate namePath and only have photoPath and scorePath, since there's no need for a name variable, or make it optional.<br>
+• <strike>Eliminate namePath and only have photoPath and scorePath, since there's no need for a name variable, or make it optional.</strike><br>
 • Make score pop up as an on-screen overlay notification.<br>
 • Make this folder have its own repo, for easier deployment.<br>
 • <strike>Change name of app.post("/node-dopple-main", function() so that it doesn't have same name as EJS file.</strike> DONE 7-23-2020<br>
