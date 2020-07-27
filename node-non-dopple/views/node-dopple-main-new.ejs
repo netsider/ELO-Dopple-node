@@ -6,8 +6,7 @@
 <center>
 <% 
 	function getNewHeightInAspectRatio(width, aspectRatio){
-		let newHeight = Math.floor(width * aspectRatio);
-		return newHeight;
+		return Math.floor(width * aspectRatio);
 	};
 	
 	//For Debugging
@@ -15,7 +14,6 @@
 		// console.log("No Buttons Pressed (initial load).");
 	// }else{
 		// console.log("Button Pressed!");
-		
 		// if(playerArray[0].lockPlayer === true){
 			// console.log("Player Locked! (client)");
 		// }else{
