@@ -28,14 +28,14 @@ if(fs.existsSync(publicDir) !== true) {
 	fs.mkdirSync(publicDir);
 }
 
-if(fs.existsSync(scorePath) !== true){
-	fs.mkdirSync(scorePath);
-	console.log("Score directory not exists! Creating...");
-}
-
 if(fs.existsSync(photoPath) !== true) {
 	console.log("Photo directory not exists! Creating... (now just put photos into this directory, and you should be good!)");
 	fs.mkdirSync(photoPath);
+}
+
+if(fs.existsSync(scorePath) !== true){
+	fs.mkdirSync(scorePath);
+	console.log("Score directory not exists! Creating...");
 }
 
 let playerScoresObj = {};
@@ -43,7 +43,6 @@ for (let item of obj) {
 	
 	let file = item.substring(0, item.length - 4);
 	let filePath = scorePath + file + ".txt";
-	//console.log("FilePath: " + filePath);
 
 	if(!fs.existsSync(filePath)){
 		console.log("Writing Score File " + filePath);
@@ -52,20 +51,17 @@ for (let item of obj) {
 		playerScoresObj[file] = Number(fs.readFileSync(filePath)); // Read into memory
 	}
 }
-//console.log(playerScoresObj);
+console.log(playerScoresObj);
 
 console.log("Starting...");
 
 app.get("/", function(req, res){
-	console.log("Serving / ...");
-	
 	let newPlayers = generatePlayers(null, null, "random");
 
 	res.render("node-dopple-main", {newPlayers: newPlayers});
 });
 
 app.post("/submitPlayer", function(req, res){
-	
 	let unserialized = JSON.parse(req.body.playerName);
 	let winner = unserialized[0].toString();
 	let loser = unserialized[1].toString();
@@ -73,8 +69,8 @@ app.post("/submitPlayer", function(req, res){
 	let winnerScoreFile = scorePath + winner + ".txt";
 	let loserScoreFile = scorePath + loser + ".txt";
 	
-	let winnerOldScore = Number(fs.readFileSync(winnerScoreFile));
-	let loserOldScore = Number(fs.readFileSync(loserScoreFile));
+	let winnerOldScore = playerScoresObj[winner];
+	let loserOldScore = playerScoresObj[loser];
 
 	let winnerELO = ELO(winnerOldScore, loserOldScore);
 	let loserELO = ELO(loserOldScore, winnerOldScore);
@@ -88,7 +84,7 @@ app.post("/submitPlayer", function(req, res){
 	let winnerName = winner + ".jpg";
 	let loserName = loser + ".jpg";
 	
-	//fs.writeFileSync(winnerScoreFile, String(winnerNewScore));
+	//fs.writeFileSync(winnerScoreFile, String(winnerNewScore)); // Perform batch write on shutdown
 	//fs.writeFileSync(loserScoreFile, String(loserNewScore));
 	
 	playerScoresObj[winner] = winnerNewScore;
@@ -195,20 +191,11 @@ function generatePlayers(p1, p2, method){
 	const aspectRatioP2 = getAspectRatio(dimensions2.width, dimensions2.height);
 	const playerOneName = playerOne + ".jpg";
 	const playerTwoName = playerTwo + ".jpg";
-	
-	console.log("playerOne: " + playerOne);
-	
-	let playerOneScore = 0;
-	if(fs.existsSync(playerOneScorePath)){
-		playerOneScore = Number(fs.readFileSync(playerOneScorePath));
-	}
-	playerOneScore = playerScoresObj[playerOne];
 		
-	let playerTwoScore = 0;
-	if(fs.existsSync(playerTwoScorePath)){
-		playerTwoScore = Number(fs.readFileSync(playerTwoScorePath));
-	}
+	playerOneScore = playerScoresObj[playerOne];
 	playerTwoScore = playerScoresObj[playerTwo];
+	
+	console.log("playerOneScore: " + playerOneScore);
 	
 	let playerOneELO = (ELO(playerOneScore, playerTwoScore) * 100).toPrecision(4);
 	let playerTwoELO = (ELO(playerTwoScore, playerOneScore) * 100).toPrecision(4);
