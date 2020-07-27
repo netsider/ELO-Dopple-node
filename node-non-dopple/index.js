@@ -77,15 +77,11 @@ app.post("/submitPlayer", function(req, res){
 	
 	let winnerLoserObject = {winner: winner, loser: loser, winnerName: winnerName, loserName: loserName, winnerOldScore: winnerOldScore, loserOldScore: loserOldScore, winnerELO: winnerELO, loserELO: loserELO, winnerNewScore: winnerNewScore, loserNewScore: loserNewScore, winnerNewELO: winnerNewELO, loserNewELO: loserNewELO};
 	
+	let newPlayers = [];
 	let playerArray = [];
 	playerArray[0] = winnerLoserObject; //playerArray.push(winnerLoserObject);
 		
 	// Form Logic -------- 
-	playerArray[0].lastPlayerOne = req.body.playerOneHidden; // Do I still need this?  Check.
-	playerArray[0].lastPlayerTwo = req.body.playerTwoHidden; // Do I still need this?  Check
-	playerArray[0].resetPressed = false; // Do I still need this?
-	
-	let newPlayers = [];
 	if(req.body.lockPlayer === "true"){
 		playerArray[0].lockPlayer = true;
 		newPlayers = generatePlayers(req.body.playerOneHidden, req.body.playerTwoHidden, "fixed");
