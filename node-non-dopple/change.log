@@ -1,6 +1,8 @@
 <br><h3>ELO-Dopple-node\node-non-dopple</h3>
 
 <br><strong>To Do:</strong><br>
+• Finish changing app to use memory instead of files while running.<br>
+• Make app perform shutdown.<br>
 • Incorporate stuff from old readme back into this one.<br>
 • Incorporate this file back into readme.txt, since it'll have its own repo soon?<br>
 • Make score pop up as an on-screen overlay notification.<br>
