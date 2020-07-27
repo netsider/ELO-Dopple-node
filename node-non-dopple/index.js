@@ -41,11 +41,11 @@ if(fs.existsSync(photoPath) !== true) {
 console.log("Starting...");
 
 app.get("/", function(req, res){
-	//console.log("Serving / ...");
+	console.log("Serving / ...");
 	
 	let newPlayers = generatePlayers(null, null, "random");
 
-	res.render("node-dopple-main-new", {newPlayers: newPlayers});
+	res.render("node-dopple-main", {newPlayers: newPlayers});
 });
 
 app.post("/submitPlayer", function(req, res){
@@ -93,7 +93,7 @@ app.post("/submitPlayer", function(req, res){
 	
 	console.log(winnerLoserObject);
 	
-	res.render("node-dopple-main-new", {playerArray: playerArray, newPlayers: newPlayers});
+	res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
 });
 
 app.post("/resetScores", function(req, res){
@@ -125,7 +125,7 @@ app.post("/resetScores", function(req, res){
 	}
 	// Form Logic --------
 	
-	res.render("node-dopple-main-new", {playerArray: playerArray, newPlayers: newPlayers});
+	res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
 });
 
 function getAspectRatio(w, h){

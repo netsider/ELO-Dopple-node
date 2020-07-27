@@ -153,7 +153,7 @@ app.get("/", function(req, res){
 	newPlayers[1][3] = playerTwoELO;
 	newPlayers[1][4] = aspectRatioP2;
 
-	res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
+	res.render("node-dopple-main-old", {playerArray: playerArray, newPlayers: newPlayers});
 	
 });
 
