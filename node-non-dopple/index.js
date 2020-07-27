@@ -115,6 +115,7 @@ app.post("/resetScores", function(req, res){
 	playerArray[0] = {};
 	let newPlayers = [];
 	// Form Logic --------
+	playerArray[0].resetPressed = true;
 	if(req.body.lockPlayer === "true"){
 		newPlayers = generatePlayers(req.body.playerOneHidden, req.body.playerTwoHidden, "fixed");
 		playerArray[0].lockPlayer = true;
