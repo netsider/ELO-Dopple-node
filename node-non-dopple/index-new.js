@@ -83,15 +83,13 @@ app.post("/submitPlayer", function(req, res){
 	// Form Logic --------
 	playerArray[0].lastPlayerOne = req.body.playerOneHidden;
 	playerArray[0].lastPlayerTwo = req.body.playerTwoHidden;
-	playerArray[0].resetPressed = false;
+	playerArray[0].resetPressed = false; // Do I still need this?
 	
 	let newPlayers = [];
 	if(req.body.lockPlayer === "true"){
 		playerArray[0].lockPlayer = true;
-		// newPlayers = generateFixedPlayers(req.body.playerOneHidden, req.body.playerTwoHidden);
 		newPlayers = generatePlayers(req.body.playerOneHidden, req.body.playerTwoHidden, "fixed");
 	}else{
-		// newPlayers = generateRandomPlayers(winner, loser);
 		newPlayers = generatePlayers(winner, loser, "random");
 		playerArray[0].lockPlayer = false;
 	}
@@ -103,20 +101,8 @@ app.post("/submitPlayer", function(req, res){
 });
 
 app.post("/resetScores", function(req, res){
-	console.log("Resetting Scores...");
+	//console.log("Resetting Scores...");
 	
-	// Form Logic --------
-	// playerArray[0].lastPlayerOne = req.body.playerOneHidden;
-	// playerArray[0].lastPlayerTwo = req.body.playerTwoHidden;
-	// playerArray[0].resetPressed = true;
-	if(req.body.lockPlayer === "true"){
-		console.log("Checkbox Checked!");
-		// playerArray[0].lockPlayer = true;
-	}else{
-		// playerArray[0].lockPlayer = false;
-	}
-	// Form Logic --------
-		
 	let scoreDirContents = fs.readdirSync(scorePath);
 	let scorePathLength = (fs.readdirSync(scorePath).length);
 	
@@ -129,7 +115,18 @@ app.post("/resetScores", function(req, res){
 		}
 	}
 	
-	res.redirect("/");
+	// Form Logic --------
+	let newPlayers = [];
+	if(req.body.lockPlayer === "true"){
+		console.log("Checkbox Checked!");
+		newPlayers = generatePlayers(req.body.playerOneHidden, req.body.playerTwoHidden, "fixed");
+		
+	}else{
+		newPlayers = generatePlayers(null, null, "random");
+	}
+	// Form Logic --------
+	
+	res.render("node-dopple-main-new", {newPlayers: newPlayers});
 });
 
 function getAspectRatio(w, h){
@@ -158,7 +155,7 @@ function generatePlayers(p1, p2, method){
 		playerTwo = obj[getRandomIntInclusive(0, dlength)];
 		playerTwo = playerTwo.substring(0, playerTwo.length - 4);
 	
-		if(p1 !== null || p2 !== null){  // Inputting null as param allows duplicates
+		if(p1 !== null && p2 !== null){  // Inputting null as first two params allows duplicates
 			while(p1 === playerOne || p2 === playerOne || playerOne === playerTwo){
 				playerOne = obj[getRandomIntInclusive(0, dlength)];
 				playerOne = playerOne.substring(0, playerOne.length - 4);
