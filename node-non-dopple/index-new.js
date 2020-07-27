@@ -115,18 +115,22 @@ app.post("/resetScores", function(req, res){
 		}
 	}
 	
-	// Form Logic --------
+	let playerArray = [];
+	playerArray[0] = {};
 	let newPlayers = [];
+	// Form Logic --------
 	if(req.body.lockPlayer === "true"){
-		console.log("Checkbox Checked!");
+		//console.log("Checkbox Checked!");
 		newPlayers = generatePlayers(req.body.playerOneHidden, req.body.playerTwoHidden, "fixed");
-		
+		playerArray[0].lockPlayer = true;
 	}else{
+		//console.log("Checkbox NOT Checked!");
+		playerArray[0].lockPlayer = false;
 		newPlayers = generatePlayers(null, null, "random");
 	}
 	// Form Logic --------
 	
-	res.render("node-dopple-main-new", {newPlayers: newPlayers});
+	res.render("node-dopple-main-new", {playerArray: playerArray, newPlayers: newPlayers});
 });
 
 function getAspectRatio(w, h){
@@ -161,6 +165,11 @@ function generatePlayers(p1, p2, method){
 				playerOne = playerOne.substring(0, playerOne.length - 4);
 			}
 			while(p1 === playerTwo || p2 === playerTwo || playerOne === playerTwo){
+				playerTwo = obj[getRandomIntInclusive(0, dlength)];
+				playerTwo = playerTwo.substring(0, playerTwo.length - 4);
+			}
+		}else{ // Random, but not null
+			while(playerOne === playerTwo){
 				playerTwo = obj[getRandomIntInclusive(0, dlength)];
 				playerTwo = playerTwo.substring(0, playerTwo.length - 4);
 			}
