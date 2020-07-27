@@ -101,9 +101,9 @@
 						<p><%= currentArray.loserName %> Old Score: <%= currentArray.loserOldScore.toString().substr(0,8) %></p>
 						<p><%= currentArray.loserName %> New Score: <%= currentArray.loserNewScore.toString().substr(0,8) %></p>
 						<p><%= currentArray.winnerName %> ELO (old): <%= (currentArray.winnerELO * 100).toString().substr(0,5) %>%</p>
-						<p><%= currentArray.winnerName %> ELO (new): <%= (currentArray.winnerNewELO * 100).toString().substr(0,5) %>%</p>
+						<p><%= currentArray.winnerName %> ELO (new): <%= (currentArray.winnerNewELO * 100).toPrecision(4).toString().substr(0,5) %>%</p>
 						<p><%= currentArray.loserName %> ELO (old): <%= (currentArray.loserELO * 100).toString().substr(0,5) %>%</p>
-						<p><%= currentArray.loserName %> ELO (new): <%= (currentArray.loserNewELO * 100).toString().substr(0,5) %>%</p>
+						<p><%= currentArray.loserName %> ELO (new): <%= (currentArray.loserNewELO * 100).toPrecision(4).toString().substr(0,5) %>%</p>
 						<p>lockPlayer: <%= currentArray.lockPlayer %></p>				
 	<%			});		
 		}else{
