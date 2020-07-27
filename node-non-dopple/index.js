@@ -38,6 +38,19 @@ if(fs.existsSync(photoPath) !== true) {
 	fs.mkdirSync(photoPath);
 }
 
+for (let item of obj) {
+	let file = item.substring(0, item.length - 4);
+	let filePath = scorePath + file + ".txt";
+	//console.log("FilePath: " + filePath);
+	
+	if(!fs.existsSync(filePath)){
+		console.log("Writing Score File " + filePath);
+		fs.writeFileSync(filePath, startingScore);
+	}else{
+		// Read into memory now?
+	}
+}
+
 console.log("Starting...");
 
 app.get("/", function(req, res){
@@ -180,15 +193,11 @@ function generatePlayers(p1, p2, method){
 	let playerOneScore = 0;
 	if(fs.existsSync(playerOneScorePath)){
 		playerOneScore = Number(fs.readFileSync(playerOneScorePath));
-	}else{
-		fs.writeFileSync(playerOneScorePath, startingScore);
 	}
 		
 	let playerTwoScore = 0;
 	if(fs.existsSync(playerTwoScorePath)){
 		playerTwoScore = Number(fs.readFileSync(playerTwoScorePath));
-	}else{
-		fs.writeFileSync(playerTwoScorePath, startingScore);
 	}
 	
 	let playerOneELO = (ELO(playerOneScore, playerTwoScore) * 100).toPrecision(4);
