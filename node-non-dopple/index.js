@@ -29,7 +29,7 @@ if(fs.existsSync(publicDir) !== true) {
 }
 
 if(fs.existsSync(photoPath) !== true) {
-	console.log("Photo directory not exists! Creating... (now just put photos into this directory, and you should be good!)");
+	console.log("Photo directory not exists! Creating...");
 	fs.mkdirSync(photoPath);
 }
 
@@ -40,15 +40,15 @@ if(fs.existsSync(scorePath) !== true){
 
 let playerScoresObj = {};
 for (let item of obj) {
-	
 	let file = item.substring(0, item.length - 4);
 	let filePath = scorePath + file + ".txt";
 
 	if(!fs.existsSync(filePath)){
 		console.log("Writing Score File " + filePath);
 		fs.writeFileSync(filePath, startingScore);
+		playerScoresObj[file] = startingScore;
 	}else{
-		playerScoresObj[file] = Number(fs.readFileSync(filePath)); // Read into memory
+		playerScoresObj[file] = Number(fs.readFileSync(filePath));
 	}
 }
 console.log(playerScoresObj);
@@ -65,9 +65,6 @@ app.post("/submitPlayer", function(req, res){
 	let unserialized = JSON.parse(req.body.playerName);
 	let winner = unserialized[0].toString();
 	let loser = unserialized[1].toString();
-	
-	let winnerScoreFile = scorePath + winner + ".txt";
-	let loserScoreFile = scorePath + loser + ".txt";
 	
 	let winnerOldScore = playerScoresObj[winner];
 	let loserOldScore = playerScoresObj[loser];
@@ -179,10 +176,6 @@ function generatePlayers(p1, p2, method){
 		}
 	}
 	
-	const playerOneNamePath = photoPath + playerOne + ".txt";
-	const playerTwoNamePath = photoPath + playerTwo + ".txt";
-	const playerOneScorePath = scorePath + playerOne + ".txt";
-	const playerTwoScorePath = scorePath + playerTwo + ".txt";
 	const playerOneImage = photoPath + playerOne + ".jpg";
 	const playerTwoImage = photoPath + playerTwo + ".jpg";
 	const dimensions1 = sizeOf(playerOneImage);
@@ -195,7 +188,7 @@ function generatePlayers(p1, p2, method){
 	playerOneScore = playerScoresObj[playerOne];
 	playerTwoScore = playerScoresObj[playerTwo];
 	
-	console.log("playerOneScore: " + playerOneScore);
+	//console.log("playerOneScore: " + playerOneScore);
 	
 	let playerOneELO = (ELO(playerOneScore, playerTwoScore) * 100).toPrecision(4);
 	let playerTwoELO = (ELO(playerTwoScore, playerOneScore) * 100).toPrecision(4);
