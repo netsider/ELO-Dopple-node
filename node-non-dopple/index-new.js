@@ -24,17 +24,17 @@ const obj = fs.readdirSync(photoPath);
 
 // Initial setup
 if(fs.existsSync(publicDir) !== true) {
-	console.log("Public directory not exists!");
+	console.log("Public directory not exists! Creating...");
 	fs.mkdirSync(publicDir);
 }
 
 if(fs.existsSync(scorePath) !== true){
 	fs.mkdirSync(scorePath);
-	console.log("Score directory not exists!");
+	console.log("Score directory not exists! Creating...");
 }
 
 if(fs.existsSync(photoPath) !== true) {
-	console.log("Photo directory not exists!");
+	console.log("Photo directory not exists! Creating... (now just put photos into this directory, and you should be good!)");
 	fs.mkdirSync(photoPath);
 }
 
@@ -80,9 +80,9 @@ app.post("/submitPlayer", function(req, res){
 	let playerArray = [];
 	playerArray[0] = winnerLoserObject; //playerArray.push(winnerLoserObject);
 		
-	// Form Logic --------
-	playerArray[0].lastPlayerOne = req.body.playerOneHidden;
-	playerArray[0].lastPlayerTwo = req.body.playerTwoHidden;
+	// Form Logic -------- 
+	playerArray[0].lastPlayerOne = req.body.playerOneHidden; // Do I still need this?  Check.
+	playerArray[0].lastPlayerTwo = req.body.playerTwoHidden; // Do I still need this?  Check
 	playerArray[0].resetPressed = false; // Do I still need this?
 	
 	let newPlayers = [];
@@ -120,11 +120,9 @@ app.post("/resetScores", function(req, res){
 	let newPlayers = [];
 	// Form Logic --------
 	if(req.body.lockPlayer === "true"){
-		//console.log("Checkbox Checked!");
 		newPlayers = generatePlayers(req.body.playerOneHidden, req.body.playerTwoHidden, "fixed");
 		playerArray[0].lockPlayer = true;
 	}else{
-		//console.log("Checkbox NOT Checked!");
 		playerArray[0].lockPlayer = false;
 		newPlayers = generatePlayers(null, null, "random");
 	}
@@ -159,20 +157,13 @@ function generatePlayers(p1, p2, method){
 		playerTwo = obj[getRandomIntInclusive(0, dlength)];
 		playerTwo = playerTwo.substring(0, playerTwo.length - 4);
 	
-		if(p1 !== null && p2 !== null){  // Inputting null as first two params allows duplicates
-			while(p1 === playerOne || p2 === playerOne || playerOne === playerTwo){
-				playerOne = obj[getRandomIntInclusive(0, dlength)];
-				playerOne = playerOne.substring(0, playerOne.length - 4);
-			}
-			while(p1 === playerTwo || p2 === playerTwo || playerOne === playerTwo){
-				playerTwo = obj[getRandomIntInclusive(0, dlength)];
-				playerTwo = playerTwo.substring(0, playerTwo.length - 4);
-			}
-		}else{ // Random, but not null
-			while(playerOne === playerTwo){
-				playerTwo = obj[getRandomIntInclusive(0, dlength)];
-				playerTwo = playerTwo.substring(0, playerTwo.length - 4);
-			}
+		while(p1 === playerOne || p2 === playerOne || playerOne === playerTwo){
+			playerOne = obj[getRandomIntInclusive(0, dlength)];
+			playerOne = playerOne.substring(0, playerOne.length - 4);
+		}
+		while(p1 === playerTwo || p2 === playerTwo || playerOne === playerTwo){
+			playerTwo = obj[getRandomIntInclusive(0, dlength)];
+			playerTwo = playerTwo.substring(0, playerTwo.length - 4);
 		}
 	}
 	
@@ -205,7 +196,8 @@ function generatePlayers(p1, p2, method){
 	
 	let playerOneELO = (ELO(playerOneScore, playerTwoScore) * 100).toPrecision(4);
 	let playerTwoELO = (ELO(playerTwoScore, playerOneScore) * 100).toPrecision(4);
-
+	//console.log("Player 1 & 2 ELO Sum (should be 100%): " + (Number(playerTwoELO) + Number(playerOneELO)) + "%");
+	
 	let newPlayers = [];
 	newPlayers[0] = [];
 	newPlayers[1] = [];
@@ -213,13 +205,13 @@ function generatePlayers(p1, p2, method){
 	newPlayers[0][0] = playerOne;
 	newPlayers[0][1] = playerOneName;
 	newPlayers[0][2] = playerOneScore;
-	newPlayers[0][3] = playerOneELO;
+	newPlayers[0][3] = Number(playerOneELO);
 	newPlayers[0][4] = aspectRatioP1;
 	
 	newPlayers[1][0] = playerTwo;
 	newPlayers[1][1] = playerTwoName;
 	newPlayers[1][2] = playerTwoScore;
-	newPlayers[1][3] = playerTwoELO;
+	newPlayers[1][3] = Number(playerTwoELO);
 	newPlayers[1][4] = aspectRatioP2;	
 	
 	return newPlayers;
