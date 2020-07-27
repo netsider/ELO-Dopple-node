@@ -85,7 +85,7 @@
 </form>
 <div id="scoreBoard">
 	<%
-		if (typeof playerArray !== "undefined" && playerArray[0].winnerELO !== undefined && playerArray[0].resetPressed === false){
+		if (typeof playerArray !== "undefined" && playerArray[0].winnerELO !== undefined && playerArray[0].resetPressed !== true){
 				playerArray.forEach(function(currentArray){
 	%>					
 						<p><u>Last Round:</u></p>
