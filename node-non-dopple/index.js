@@ -111,9 +111,8 @@ app.post("/submitPlayer", function(req, res){
 app.post("/resetScores", function(req, res){
 	//console.log("Resetting Scores...");
 	
-	let scoreDirContents = fs.readdirSync(scorePath);
-	let scorePathLength = (fs.readdirSync(scorePath).length);
-	
+	// let scoreDirContents = fs.readdirSync(scorePath);
+	// let scorePathLength = (fs.readdirSync(scorePath).length);
 	// for (let i = 0; i < scorePathLength; i++) {
 		// let scoreFileTemp1 = scorePath + scoreDirContents[i];
 		// console.log("Resetting " + scoreFileTemp1);
@@ -193,8 +192,6 @@ function generatePlayers(p1, p2, method){
 		
 	playerOneScore = playerScoresObj[playerOne];
 	playerTwoScore = playerScoresObj[playerTwo];
-	
-	//console.log("playerOneScore: " + playerOneScore);
 	
 	let playerOneELO = (ELO(playerOneScore, playerTwoScore) * 100).toPrecision(4);
 	let playerTwoELO = (ELO(playerTwoScore, playerOneScore) * 100).toPrecision(4);
