@@ -16,7 +16,7 @@ app.set("view engine", "ejs");
 app.listen(3000);
 
 const scorePath = publicDir + "/Selfie_Score/";
-const photoPath  = publicDir + "/Selfies/";
+const photoPath = publicDir + "/Selfies/";
 const k = 32;
 const startingScore = "0";
 const dlength = fs.readdirSync(photoPath).length - 1;
@@ -39,7 +39,7 @@ if(fs.existsSync(scorePath) !== true){
 }
 
 let playerScoresObj = {};
-for (let item of obj) {
+for (let item of obj) { // Read scores into memory, or write new file
 	let file = item.substring(0, item.length - 4);
 	let filePath = scorePath + file + ".txt";
 
@@ -51,7 +51,18 @@ for (let item of obj) {
 		playerScoresObj[file] = Number(fs.readFileSync(filePath));
 	}
 }
-console.log(playerScoresObj);
+//console.log(playerScoresObj);
+
+
+let playerAspectRatioObj = {};
+for (let item of obj) {  //Compute aspect ratios, and read into object
+	let player = item.substring(0, item.length - 4);
+	let playerImagePath = photoPath + player + ".jpg";
+	let dimensions = sizeOf(playerImagePath);
+	let aspectRatio = getAspectRatio(dimensions.width, dimensions.height);
+	playerAspectRatioObj[player] = aspectRatio;
+}
+//console.log(playerAspectRatioObj);
 
 console.log("Starting...");
 
@@ -103,7 +114,7 @@ app.post("/submitPlayer", function(req, res){
 	}
 	// Form Logic -------
 	
-	console.log(winnerLoserObject);
+	//console.log(winnerLoserObject);
 	
 	res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
 });
@@ -181,25 +192,18 @@ function generatePlayers(p1, p2, method){
 		}
 	}
 	
-	const playerOneImage = photoPath + playerOne + ".jpg";
-	const playerTwoImage = photoPath + playerTwo + ".jpg";
-	const dimensions1 = sizeOf(playerOneImage);
-	const dimensions2 = sizeOf(playerTwoImage);
-	const aspectRatioP1 = getAspectRatio(dimensions1.width, dimensions1.height);
-	const aspectRatioP2 = getAspectRatio(dimensions2.width, dimensions2.height);
-	const playerOneName = playerOne + ".jpg";
-	const playerTwoName = playerTwo + ".jpg";
-		
-	playerOneScore = playerScoresObj[playerOne];
-	playerTwoScore = playerScoresObj[playerTwo];
+	let playerOneName = playerOne + ".jpg"; let playerTwoName = playerTwo + ".jpg";
+	
+	let aspectRatioP1 = playerAspectRatioObj[playerOne];
+	let aspectRatioP2 = playerAspectRatioObj[playerTwo];
+	
+	let playerOneScore = playerScoresObj[playerOne];
+	let playerTwoScore = playerScoresObj[playerTwo];
 	
 	let playerOneELO = (ELO(playerOneScore, playerTwoScore) * 100).toPrecision(4);
 	let playerTwoELO = (ELO(playerTwoScore, playerOneScore) * 100).toPrecision(4);
-	//console.log("Player 1 & 2 ELO Sum (should be 100%): " + (Number(playerTwoELO) + Number(playerOneELO)) + "%");
 	
-	let newPlayers = [];
-	newPlayers[0] = [];
-	newPlayers[1] = [];
+	let newPlayers = []; newPlayers[0] = []; newPlayers[1] = [];
 	
 	newPlayers[0][0] = playerOne;
 	newPlayers[0][1] = playerOneName;
