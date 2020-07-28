@@ -123,6 +123,11 @@ app.post("/resetScores", function(req, res){
 		}
 	}
 	
+	for (let item of playerScoresObj) {
+		playerScoresObj[item] = 0;
+		console.log("Resetting score of " + item);
+	}
+	
 	let playerArray = [];
 	playerArray[0] = {};
 	let newPlayers = [];
