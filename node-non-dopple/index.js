@@ -114,18 +114,19 @@ app.post("/resetScores", function(req, res){
 	let scoreDirContents = fs.readdirSync(scorePath);
 	let scorePathLength = (fs.readdirSync(scorePath).length);
 	
-	for (let i = 0; i < scorePathLength; i++) {
-		let scoreFileTemp1 = scorePath + scoreDirContents[i];
-		console.log("Resetting " + scoreFileTemp1);
-		fs.writeFileSync(scoreFileTemp1, startingScore);
-		if(scorePathLength - 1 === i){
-			console.log("All " + scorePathLength +  " score files reset!");
-		}
-	}
+	// for (let i = 0; i < scorePathLength; i++) {
+		// let scoreFileTemp1 = scorePath + scoreDirContents[i];
+		// console.log("Resetting " + scoreFileTemp1);
+		// fs.writeFileSync(scoreFileTemp1, startingScore);
+		// if(scorePathLength - 1 === i){
+			// console.log("All " + scorePathLength +  " score files reset!");
+		// }
+	// }
 	
-	for (let item of playerScoresObj) {
-		playerScoresObj[item] = 0;
-		console.log("Resetting score of " + item);
+	//for (let item of playerScoresObj) { // not iterable ?
+	for (let key in playerScoresObj) {
+		playerScoresObj[key] = 0;
+		console.log("Resetting score of " + key);
 	}
 	
 	let playerArray = [];
