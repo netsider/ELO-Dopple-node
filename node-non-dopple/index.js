@@ -68,7 +68,6 @@ console.log("Starting...");
 
 app.get("/", function(req, res){
 	let newPlayers = generatePlayers(null, null, "random");
-
 	res.render("node-dopple-main", {newPlayers: newPlayers});
 });
 
@@ -104,7 +103,6 @@ app.post("/submitPlayer", function(req, res){
 	let playerArray = [];
 	playerArray[0] = winnerLoserObject; //playerArray.push(winnerLoserObject);
 		
-	// Form Logic -------- 
 	if(req.body.lockPlayer === "true"){
 		playerArray[0].lockPlayer = true;
 		newPlayers = generatePlayers(req.body.playerOneHidden, req.body.playerTwoHidden, "fixed");
@@ -112,10 +110,8 @@ app.post("/submitPlayer", function(req, res){
 		newPlayers = generatePlayers(winner, loser, "random");
 		playerArray[0].lockPlayer = false;
 	}
-	// Form Logic -------
 	
 	//console.log(winnerLoserObject);
-	
 	res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
 });
 
@@ -142,7 +138,6 @@ app.post("/resetScores", function(req, res){
 	let playerArray = [];
 	playerArray[0] = {};
 	let newPlayers = [];
-	// Form Logic --------
 	playerArray[0].resetPressed = true;
 	if(req.body.lockPlayer === "true"){
 		newPlayers = generatePlayers(req.body.playerOneHidden, req.body.playerTwoHidden, "fixed");
@@ -151,7 +146,6 @@ app.post("/resetScores", function(req, res){
 		playerArray[0].lockPlayer = false;
 		newPlayers = generatePlayers(null, null, "random");
 	}
-	// Form Logic --------
 	
 	res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
 });
@@ -192,7 +186,8 @@ function generatePlayers(p1, p2, method){
 		}
 	}
 	
-	let playerOneName = playerOne + ".jpg"; let playerTwoName = playerTwo + ".jpg";
+	let playerOneName = playerOne + ".jpg"; 
+	let playerTwoName = playerTwo + ".jpg";
 	
 	let aspectRatioP1 = playerAspectRatioObj[playerOne];
 	let aspectRatioP2 = playerAspectRatioObj[playerTwo];
