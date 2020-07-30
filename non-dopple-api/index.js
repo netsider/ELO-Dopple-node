@@ -16,10 +16,8 @@ app.use(function(req, res, next) {
 })
 
 app.post("/shit", (req, res, next) => {
-// app.post("/", function(req, res){
 	let jsonObj = { "name":"Russ", "age":36, "spouse":null };
-	console.log("Y!");
-
+	console.log("Server Request/Responst Sent/Received!");
 	res.json(jsonObj);
 });
 // Send to frontend:
