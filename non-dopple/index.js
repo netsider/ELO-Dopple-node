@@ -131,7 +131,7 @@ app.post("/resetScores", function(req, res){
 		// }
 	// }
 	
-	//for (let item of playerScoresObj) { // not iterable ?
+	//for (let item of playerScoresObj) { // not iterable ?  
 	for (let key in playerScoresObj) {
 		playerScoresObj[key] = startingScore;
 		console.log("Resetting score of " + key);
