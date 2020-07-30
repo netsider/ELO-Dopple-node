@@ -20,12 +20,6 @@ app.post("/shit", (req, res, next) => {
 	console.log("Server Request/Responst Sent/Received!");
 	res.json(jsonObj);
 });
-// Send to frontend:
-// - Player1 + 2 name
-// - Aspect Ratio of both pics
-
-// Frontend sends back:
-// winner / loser
 
 // Frontend example code:
 // From: https://github.com/microsoft/Windows-tutorials-web/blob/master/Single-Page-App-with-REST-API/frontend/Final/public/javascripts/scripts.js
@@ -51,7 +45,3 @@ app.post("/shit", (req, res, next) => {
         // drawGameBoard(response);
     // });
 // }
-
-
-// Sample Data:
-// {"data": "my_dict[\"data\"] = \"test_value\"\nmy_dict[\"somenumber\"] = 123\nmy_dict[\"a_dict\"][\"asd\"] = \"123\"\nmy_dict[\"a_dict\"][\"qwe\"][0] = 1\nmy_dict[\"a_dict\"][\"qwe\"][1] = 2\nmy_dict[\"a_dict\"][\"qwe\"][2] = 3\nmy_dict[\"a_dict\"][\"nested_dict\"][\"das\"] = 31\nmy_dict[\"a_dict\"][\"nested_dict\"][\"qwe\"] = \"asd\"\n"}
