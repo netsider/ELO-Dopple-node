@@ -8,10 +8,11 @@ const port = 3000;
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
-app.get("/", (req, res, next) => {
+//app.get("/", (req, res, next) => {
+app.post("/", function(req, res){
 
- //res.json(["playerOne","1.jpg","playerTwo","2.jpg"]);
- 
+
+ res.json(["playerOne","1.jpg","playerTwo","2.jpg"]);
 });
 
 // Send to frontend:
@@ -45,3 +46,7 @@ app.get("/", (req, res, next) => {
         // drawGameBoard(response);
     // });
 // }
+
+
+// Sample Data:
+// {"data": "my_dict[\"data\"] = \"test_value\"\nmy_dict[\"somenumber\"] = 123\nmy_dict[\"a_dict\"][\"asd\"] = \"123\"\nmy_dict[\"a_dict\"][\"qwe\"][0] = 1\nmy_dict[\"a_dict\"][\"qwe\"][1] = 2\nmy_dict[\"a_dict\"][\"qwe\"][2] = 3\nmy_dict[\"a_dict\"][\"nested_dict\"][\"das\"] = 31\nmy_dict[\"a_dict\"][\"nested_dict\"][\"qwe\"] = \"asd\"\n"}
