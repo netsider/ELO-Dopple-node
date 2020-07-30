@@ -1,3 +1,7 @@
+// ELO-Node-Regular-Voting-App-API
+// Made by Russell Rounds
+// Version 0.3
+
 const express = require('express');
 const app = express();
 const port = 3000;
@@ -10,6 +14,12 @@ app.get("/", (req, res, next) => {
  
 });
 
+// Send to frontend:
+// - Player1 + 2 name
+// - Aspect Ratio of both pics
+
+// Frontend sends back:
+// winner / loser
 
 // Frontend example code:
 // From: https://github.com/microsoft/Windows-tutorials-web/blob/master/Single-Page-App-with-REST-API/frontend/Final/public/javascripts/scripts.js

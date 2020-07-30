@@ -1,4 +1,6 @@
+// ELO-Node-Doppleganger-Voting-App
 // Made by Russell Rounds
+// Version 0.1
 
 // Node Modules
 const http = require("http");
