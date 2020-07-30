@@ -1,6 +1,6 @@
 // ELO-Node-Regular-Voting-App-API
 // Made by Russell Rounds
-// Version 0.3
+// Version 0.1
 
 const express = require('express');
 const app = express();
@@ -8,13 +8,20 @@ const port = 3000;
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
-//app.get("/", (req, res, next) => {
-app.post("/", function(req, res){
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.type('json');
+  next();
+})
 
+app.post("/shit", (req, res, next) => {
+// app.post("/", function(req, res){
+	let jsonObj = { "name":"Russ", "age":36, "spouse":null };
+	console.log("Y!");
 
- res.json(["playerOne","1.jpg","playerTwo","2.jpg"]);
+	res.json(jsonObj);
 });
-
 // Send to frontend:
 // - Player1 + 2 name
 // - Aspect Ratio of both pics
