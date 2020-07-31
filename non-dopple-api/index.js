@@ -6,6 +6,10 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
+const bodyParser = require("body-parser");
+const jsonParser = bodyParser.json();
+app.use(jsonParser);
+
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
 app.use(function(req, res, next) {
@@ -16,16 +20,13 @@ app.use(function(req, res, next) {
 })
 
 app.get("/", (req, res, next) => {
-	res.json( {Data: "JSON Data!"} );
+	res.json( {Data: "JSON Data."} );
 });
 
-app.post("/submitPlayer", (req, res, next) => {
+// app.post("/submitPlayer", (req, res, next) => { // Results in all kinds of shit
+app.post("/submitPlayer", jsonParser, (req, res, next) => {
 	console.log("/submitPlayer");
-	console.log("Req.url: " + req.url);
-	console.log("Req.complete: " + req.complete);
-	console.log("Req.statusCode: " + req.statusCode);
-	console.log(req.data);
-
+	console.log(req.body);
 	
 	let rawJsonObj = {
 		"data": "Some Data!!!!!!"

@@ -19,18 +19,17 @@
 <script>
 $(function () {
    $('#btn').click(function () {
-			
-        <!-- let data = { "name":"Rusty", "age":36, "spouse":null }; -->
-		  let data = { name: "Rusty", age: 36, spouse: null };
-        <!-- let data = JSON.stringify({ name:"Rusty", age:36, spouse:null }); -->
-
         $.ajax({
             url: "http://localhost:3000/submitPlayer",
 				headers: {
 					'Content-Type':'application/json',
 					//'User-Agent': 'Mozilla/5.0' // Throws eror: Refused to set unsafe header "User-Agent"
 				},
-            data: data,
+            //data: data,
+				data: JSON.stringify({
+					username: "Russell",
+					password: "DUMBSHIT"
+				}),
             //dataType: "json",
             type: 'POST',
             success: function (response) {
