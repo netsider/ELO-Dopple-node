@@ -16,29 +16,26 @@
 <script>
 $(function () {
    $('#btn').click(function () {
-        let data = {};
+        <!-- let data = { "name":"Button", "age":36, "spouse":null }; -->
+        let data = JSON.stringify({ name:"Button", age:36, spouse:null });
         //data["p1"] = JSON.parse($('#form_in').val());
-        data["p1"] = { "name":"Button", "age":36, "spouse":null };
-        let body = JSON.stringify(data);
+        <!-- let body = JSON.stringify(data); -->
         $.ajax({
             url: "http://localhost:3000/submitPlayer",
-            contentType: "application/json",
-            data: body,
+				headers: {
+					'Content-Type':'application/json',
+					//'User-Agent': 'Mozilla/5.0' // Throws eror: Refused to set unsafe header "User-Agent"
+				},
+            data: data,
             dataType: "json",
             type: 'POST',
             success: function (response) {
                 $('#form_out').val(response.data);
 					 console.log("Client Request/Responst Sent/Received!");
-					 console.log("Response: " + response);
-					 console.log("Response.data: " + response.data);
+					 console.log(response);
             }
         });
 	});
 	
-	
-	
-	
-	
 });
-
 </script>

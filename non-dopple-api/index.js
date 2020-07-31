@@ -16,7 +16,8 @@ app.use(function(req, res, next) {
 })
 
 app.post("/", (req, res, next) => {
-	let jsonObj = { 
+	console.log("/: -------------------------------------------------------");
+	let rawJsonObj = { 
 		"name":"Russ", 
 		"age":36, 
 		"spouse":null 
@@ -25,48 +26,27 @@ app.post("/", (req, res, next) => {
 	console.log("Res: " + res);
 	console.log("Next: " + next);
 	console.log("Server Request/Responst Sent/Received!");
-	res.json(jsonObj);
+	res.json(rawJsonObj);
 });
 
 app.post("/submitPlayer", (req, res, next) => {
+	console.log("/submitPlayer: -------------------------------------------------------");
+	console.log("Req.url: " + req.url);
+	console.log("Req.complete: " + req.complete);
+	console.log("Req.statusCode: " + req.statusCode);
+	// console.log("Req._parsedUrl: " + req._parsedUrl);
+	// console.log("Req._parsedUrl: " + req[url]);
+	// logObject(req._parsedUrl);
+	// console.log(Object.keys(req));
+	// console.log(req);
+	console.log(req.data);
+
+	console.log("Server RequestReceived!");
 	
-	console.log("Req: " + req);
-	console.log("Res: " + res);
-	console.log("Next: " + next);
-	console.log("Server Request/Responst Sent/Received!");
-	
-	
-	
-	let jsonObj = { 
-		"winner":"Russ", 
-		"loser":"Russ2", 
-		"winnerScore":"1500",
-		"loserScore":"1000"
+	let rawJsonObj = {
+		"data": "Some Data opiepoieuir"
 	};
-	res.json(jsonObj);
+	res.json(rawJsonObj);
+	console.log("Server Response Sent!");
 });
-
-// Frontend example code:
-// From: https://github.com/microsoft/Windows-tutorials-web/blob/master/Single-Page-App-with-REST-API/frontend/Final/public/javascripts/scripts.js
- // $.ajax({
-                // url: "http://localhost:8000/guess?card=" + selectedCards[0],
-                // type: 'PUT',
-                // success: function (response) {
-                    // display first card value
-                    // $("#" + selectedCards[0] + " .back").html(lookUpGlyphicon(response[0].value));
-
-                    // store the first card value
-                    // selectedCardsValues.push(response[0].value);
-                // }
-            // });
-        
-		  
-		      // fetch the game state from the server 
-    // $.get("http://localhost:8000/game", function (response) {
-        // store game board size
-        // gameBoardSize = response.length;
-
-        // draw the game board
-        // drawGameBoard(response);
-    // });
-// }
+// See how to use PUT, GET, etc, and when.
