@@ -20,7 +20,7 @@ app.use(function(req, res, next) {
 })
 
 app.get("/", (req, res, next) => {
-	res.json( {Data: "JSON Data."} );
+	// res.json( {Data: "JSON Data."} );
 });
 
 // app.post("/submitPlayer", (req, res, next) => { // Results in all kinds of shit
