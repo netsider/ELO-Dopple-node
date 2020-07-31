@@ -15,33 +15,13 @@ app.use(function(req, res, next) {
   next();
 })
 
-app.post("/", (req, res, next) => {
-	console.log("/: -------------------------------------------------------");
-	let rawJsonObj = { 
-		"name":"Russ", 
-		"age":36, 
-		"spouse":null 
-	};
-	console.log("Req: " + req);
-	console.log("Res: " + res);
-	console.log("Next: " + next);
-	console.log("Server Request/Responst Sent/Received!");
-	res.json(rawJsonObj);
-});
-
 app.post("/submitPlayer", (req, res, next) => {
-	console.log("/submitPlayer: -------------------------------------------------------");
+	console.log("/submitPlayer -- Server Request Received!");
 	console.log("Req.url: " + req.url);
 	console.log("Req.complete: " + req.complete);
 	console.log("Req.statusCode: " + req.statusCode);
-	// console.log("Req._parsedUrl: " + req._parsedUrl);
-	// console.log("Req._parsedUrl: " + req[url]);
-	// logObject(req._parsedUrl);
-	// console.log(Object.keys(req));
-	// console.log(req);
 	console.log(req.data);
 
-	console.log("Server RequestReceived!");
 	
 	let rawJsonObj = {
 		"data": "Some Data opiepoieuir"
