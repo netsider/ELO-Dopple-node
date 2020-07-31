@@ -7,19 +7,23 @@
 </head>
 <body>
 
+<center>
 <form>
-<textarea id="form_in" rows="5"></textarea>
-<button type="button" id="btn" class="btn">Submit</button>
-<textarea id="form_out" rows="5"></textarea>
+	<textarea id="form_in" rows="5"></textarea>
+	<textarea id="form_out" rows="5"></textarea>
+	
+	<button type="button" id="btn" class="btn">Submit</button>
 </form>
+</center>
 
 <script>
 $(function () {
    $('#btn').click(function () {
-        <!-- let data = { "name":"Button", "age":36, "spouse":null }; -->
-        let data = JSON.stringify({ name:"Button", age:36, spouse:null });
-        //data["p1"] = JSON.parse($('#form_in').val());
-        <!-- let body = JSON.stringify(data); -->
+			
+        <!-- let data = { "name":"Rusty", "age":36, "spouse":null }; -->
+		  let data = { name: "Rusty", age: 36, spouse: null };
+        <!-- let data = JSON.stringify({ name:"Rusty", age:36, spouse:null }); -->
+
         $.ajax({
             url: "http://localhost:3000/submitPlayer",
 				headers: {
@@ -27,7 +31,7 @@ $(function () {
 					//'User-Agent': 'Mozilla/5.0' // Throws eror: Refused to set unsafe header "User-Agent"
 				},
             data: data,
-            dataType: "json",
+            //dataType: "json",
             type: 'POST',
             success: function (response) {
                 $('#form_out').val(response.data);

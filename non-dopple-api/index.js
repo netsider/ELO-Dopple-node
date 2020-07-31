@@ -15,6 +15,10 @@ app.use(function(req, res, next) {
   next();
 })
 
+app.get("/", (req, res, next) => {
+	res.json( {Data: "JSON Data!"} );
+});
+
 app.post("/submitPlayer", (req, res, next) => {
 	console.log("/submitPlayer -- Server Request Received!");
 	console.log("Req.url: " + req.url);
