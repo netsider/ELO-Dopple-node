@@ -20,7 +20,7 @@ app.get("/", (req, res, next) => {
 });
 
 app.post("/submitPlayer", (req, res, next) => {
-	console.log("/submitPlayer -- Server Request Received!");
+	console.log("/submitPlayer");
 	console.log("Req.url: " + req.url);
 	console.log("Req.complete: " + req.complete);
 	console.log("Req.statusCode: " + req.statusCode);
@@ -28,9 +28,8 @@ app.post("/submitPlayer", (req, res, next) => {
 
 	
 	let rawJsonObj = {
-		"data": "Some Data opiepoieuir"
+		"data": "Some Data!!!!!!"
 	};
 	res.json(rawJsonObj);
-	console.log("Server Response Sent!");
 });
 // See how to use PUT, GET, etc, and when.
