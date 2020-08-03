@@ -30,9 +30,6 @@ app.post("/submitPlayer", (req, res, next) => {
 	console.log(req.body);
 	
 	
-	
-	
-	
 	// Response
 	let newObj = { "data": req.body };
 	res.json(newObj);
