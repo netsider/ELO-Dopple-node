@@ -24,22 +24,11 @@ app.get("/", (req, res, next) => {
 	// res.json( {Data: "JSON Data."} );
 });
 
-// app.post("/submitPlayer", (req, res, next) => { // Results in all kinds of shit
-// app.post("/submitPlayer", jsonParser, (req, res, next) => {
-app.post("/submitPlayer", bodyParser.json(), (req, res, next) => {
+app.post("/submitPlayer", bodyParser.json(), (req, res, next) => { // bodyParser.json() automatically parses the JSON
 	console.log("/submitPlayer");
 	console.log(req.body);
 	
-	// let testObj = {
-		// "data": "Some Data!!!!!!"
-	// };
-	// res.json(testObj);
-	
-	let newObj = {
-		"data": req.body
-	};
+	let newObj = { "data": req.body };
 	res.json(newObj);
-	
 	// res.json(req.body);
 });
-// See how to use PUT, GET, etc, and when.
