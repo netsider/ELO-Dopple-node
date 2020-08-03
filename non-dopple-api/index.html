@@ -12,7 +12,7 @@
 	<textarea id="form_in" rows="5"></textarea>
 	<textarea id="form_out" rows="5"></textarea>
 	
-	<button type="button" id="btn" class="btn">Submit</button>
+	<button type="button" id="btn" class="btn">Submit</button> <!-- actionmethod -->
 </form>
 </center>
 
@@ -25,7 +25,6 @@ $(function () {
 					'Content-Type':'application/json',
 					//'User-Agent': 'Mozilla/5.0' // Throws eror: Refused to set unsafe header "User-Agent"
 				},
-            //data: data,
 				data: JSON.stringify({
 					username: "Russell",
 					password: "DUMBSHIT"
@@ -33,7 +32,8 @@ $(function () {
             //dataType: "json",
             type: 'POST',
             success: function (response) {
-                $('#form_out').val(response.data);
+                <!-- $('#form_out').val(response.data); -->
+                $('#form_out').val(response);
 					 console.log("Client Request/Responst Sent/Received!");
 					 console.log(response);
             }
