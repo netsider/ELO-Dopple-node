@@ -35,7 +35,7 @@ $(function () {
             success: function (response) {
 					console.log("Client Response Received!");
                $('#form_out').val(response.data.username + " : " + response.data.password);
-					
+					$('#score').val(Number(response.data.password) + 1);
 					console.log(response);
             }
         });
