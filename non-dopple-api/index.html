@@ -9,8 +9,10 @@
 
 <center><br>
 <form>
-	Name: <input type="text" id="uname" value=""><br><br>
-	Score: <input type="text" id="score" value=""><br><br>
+	Name: <input type="text" id="playerOne" value=""><br><br>
+	Name: <input type="text" id="playerTwo" value=""><br><br>
+	Score: <input type="text" id="scoreOne" value=""><br><br>
+	Score: <input type="text" id="scoreTwo" value=""><br><br>
 	Output: <textarea id="form_out" rows="4"></textarea><br>
 	<button type="button" id="btn" class="btn">Submit</button> <!-- actionmethod -->
 </form>
@@ -26,16 +28,17 @@ $(function () {
 					//'User-Agent': 'Mozilla/5.0' // Throws eror: Refused to set unsafe header "User-Agent"
 				},
 				data: JSON.stringify({
-					username: document.getElementById("uname").value,
-					password: document.getElementById("score").value
-					<!-- password: "DUMBSHIT" -->
+					playerOne: document.getElementById("playerOne").value,
+					playerTwo: document.getElementById("playerTwo").value,
+					scoreOne: document.getElementById("scoreOne").value,
+					scoreTwo: document.getElementById("scoreTwo").value
 				}),
             //dataType: "json",
             type: 'POST',
             success: function (response) {
-					console.log("Client Response Received!");
-               $('#form_out').val(response.data.username + " : " + response.data.password);
-					$('#score').val(Number(response.data.password) + 1);
+					<!-- console.log("Response Received!"); -->
+					$('#scoreOne').val(Number(response.data.scoreOne) + 1);
+					$('#form_out').val(response.data.scoreOne + " : " + response.data.scoreTwo + " : " + response.data.playerOne + " : " + response.data.playerTwo);
 					console.log(response);
             }
         });
