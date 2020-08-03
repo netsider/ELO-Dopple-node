@@ -28,10 +28,16 @@ app.post("/submitPlayer", jsonParser, (req, res, next) => {
 	console.log("/submitPlayer");
 	console.log(req.body);
 	
-	// let rawJsonObj = {
+	// let testObj = {
 		// "data": "Some Data!!!!!!"
 	// };
-	// res.json(rawJsonObj);
-	res.json(req.body);
+	// res.json(testObj);
+	
+	let newObj = {
+		"data": req.body
+	};
+	res.json(newObj);
+	
+	// res.json(req.body);
 });
 // See how to use PUT, GET, etc, and when.

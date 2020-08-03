@@ -33,8 +33,9 @@ $(function () {
             type: 'POST',
             success: function (response) {
                 <!-- $('#form_out').val(response.data); -->
-                $('#form_out').val(response);
-					 console.log("Client Request/Responst Sent/Received!");
+                <!-- $('#form_out').val(response.password); -->
+                $('#form_out').val(response.data.password);
+					 console.log("Client Response Received!");
 					 console.log(response);
             }
         });
