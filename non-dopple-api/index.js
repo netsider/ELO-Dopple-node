@@ -25,19 +25,23 @@ app.get("/", (req, res, next) => {
 // app.post("/submitPlayer", bodyParser.json(), (req, res, next) => { // If you don't use app.use(bodyParser.json());
 app.post("/submitPlayer", (req, res, next) => {
 	console.log("/submitPlayer");
+	
+	// Request
 	console.log(req.body);
 	
+	
+	
+	
+	
+	// Response
 	let newObj = { "data": req.body };
 	res.json(newObj);
 	// res.json(req.body);
 });
 
-
-
 function ELO(A, B){
 	return 1 / (1 + Math.pow(10,((B - A)/400)));
 };
-
 function getRandomIntInclusive(min, max) {
 		min = Math.ceil(min);
 		max = Math.floor(max);
