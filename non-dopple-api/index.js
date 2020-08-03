@@ -1,15 +1,13 @@
 // ELO-Node-Regular-Voting-App-API
 // Made by Russell Rounds
 // Version 0.1
-
+const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
 const port = 3000;
 
-const bodyParser = require("body-parser");
-
-// app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+// app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
@@ -24,7 +22,8 @@ app.get("/", (req, res, next) => {
 	// res.json( {Data: "JSON Data."} );
 });
 
-app.post("/submitPlayer", bodyParser.json(), (req, res, next) => { // bodyParser.json() automatically parses the JSON
+// app.post("/submitPlayer", bodyParser.json(), (req, res, next) => { // If you don't use app.use(bodyParser.json());
+app.post("/submitPlayer", (req, res, next) => {
 	console.log("/submitPlayer");
 	console.log(req.body);
 	
