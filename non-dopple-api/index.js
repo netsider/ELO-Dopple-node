@@ -7,8 +7,9 @@ const app = express();
 const port = 3000;
 
 const bodyParser = require("body-parser");
-const jsonParser = bodyParser.json();
-app.use(jsonParser);
+
+// app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
@@ -24,7 +25,8 @@ app.get("/", (req, res, next) => {
 });
 
 // app.post("/submitPlayer", (req, res, next) => { // Results in all kinds of shit
-app.post("/submitPlayer", jsonParser, (req, res, next) => {
+// app.post("/submitPlayer", jsonParser, (req, res, next) => {
+app.post("/submitPlayer", bodyParser.json(), (req, res, next) => {
 	console.log("/submitPlayer");
 	console.log(req.body);
 	
