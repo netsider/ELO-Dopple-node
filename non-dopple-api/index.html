@@ -9,8 +9,8 @@
 
 <center><br>
 <form>
-	Player 1: <div id="playerOne">Default</div><br><br>
-	Player 2: <div id="playerTwo">Default</div><br><br>
+	Player 1: <div id="playerOne">Allison</div><br><br>
+	Player 2: <div id="playerTwo">Henry</div><br><br>
 	Score 1: <div id="scoreOne">1500</div><br><br>
 	Score 2: <div id="scoreTwo">1500</div><br><br>
 	Output 1: <input type="text" id="scoreOneOne"></input><br><br>
@@ -25,7 +25,6 @@ $(function () {
             url: "http://localhost:3000/submitPlayer",
 				headers: {
 					'Content-Type':'application/json',
-					//'User-Agent': 'Mozilla/5.0' // Throws eror: Refused to set unsafe header "User-Agent"
 				},
 				data: JSON.stringify({
 					playerOne: document.getElementById("playerOne").innerHTML,
@@ -37,7 +36,6 @@ $(function () {
             //dataType: "json",
             type: 'POST',
             success: function (response) {
-					<!-- console.log("Response Received!"); -->
 					$('#scoreOneOne').val(Number(response.data.scoreOne) + 1);
 					$('#form_out').val(response.data.scoreOne + " : " + response.data.scoreTwo + " : " + response.data.playerOne + " : " + response.data.playerTwo);
 					console.log(response);
@@ -50,7 +48,6 @@ $(function () {
             url: "http://localhost:3000/submitPlayer",
 				headers: {
 					'Content-Type':'application/json',
-					//'User-Agent': 'Mozilla/5.0' // Throws eror: Refused to set unsafe header "User-Agent"
 				},
 				data: JSON.stringify({
 					playerOne: document.getElementById("playerOne").innerHTML,
@@ -59,10 +56,8 @@ $(function () {
 					scoreTwo: document.getElementById("scoreTwo").innerHTML,
 					winner: "playerTwo"
 				}),
-            //dataType: "json",
             type: 'POST',
             success: function (response) {
-					<!-- console.log("Response Received!"); -->
 					$('#scoreOneOne').val(Number(response.data.scoreOne) + 1);
 					$('#form_out').val(response.data.scoreOne + " : " + response.data.scoreTwo + " : " + response.data.playerOne + " : " + response.data.playerTwo);
 					console.log(response);
