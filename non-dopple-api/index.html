@@ -9,18 +9,25 @@
 
 <center><br>
 <form>
-	Name: <input type="text" id="playerOne" value=""><br><br>
-	Name: <input type="text" id="playerTwo" value=""><br><br>
-	Score: <input type="text" id="scoreOne" value=""><br><br>
-	Score: <input type="text" id="scoreTwo" value=""><br><br>
+	<!-- Name: <input type="text" id="playerOne" value="One"><br><br> -->
+	Player 1: <div id="playerOne">Default</div><br><br>
+	Player 2: <div id="playerTwo">Default</div><br><br>
+	<!-- Name: <input type="text" id="playerTwo" value="Two"><br><br> -->
+	Score 1: <div id="scoreOne">1500</div><br><br>
+	Score 2: <div id="scoreTwo">1500</div><br><br>
 	Output: <textarea id="form_out" rows="4"></textarea><br>
 	<button type="button" id="btn" class="btn">Submit</button> <!-- actionmethod -->
 </form>
 </center>
-
 <script>
 $(function () {
    $('#btn').click(function () {
+		let score1 = document.getElementById("scoreOne").innerHTML;
+		let score2 = document.getElementById("scoreTwo").innerHTML;
+		let playerOne = document.getElementById("playerOne").innerHTML;
+		let playerTwo = document.getElementById("playerTwo").innerHTML;
+		<!-- console.log("score1: " + score1); -->
+		<!-- console.log("score2: " + score2); -->
         $.ajax({
             url: "http://localhost:3000/submitPlayer",
 				headers: {
@@ -28,16 +35,18 @@ $(function () {
 					//'User-Agent': 'Mozilla/5.0' // Throws eror: Refused to set unsafe header "User-Agent"
 				},
 				data: JSON.stringify({
-					playerOne: document.getElementById("playerOne").value,
-					playerTwo: document.getElementById("playerTwo").value,
-					scoreOne: document.getElementById("scoreOne").value,
-					scoreTwo: document.getElementById("scoreTwo").value
+					<!-- playerOne: document.getElementById("playerOne").value, -->
+					playerOne: playerOne,
+					<!-- playerTwo: document.getElementById("playerTwo").value, -->
+					playerTwo: playerTwo,
+					scoreOne: score1,
+					scoreTwo: score2
 				}),
             //dataType: "json",
             type: 'POST',
             success: function (response) {
 					<!-- console.log("Response Received!"); -->
-					$('#scoreOne').val(Number(response.data.scoreOne) + 1);
+					$('#scoreOneOne').val(Number(response.data.scoreOne) + 1);
 					$('#form_out').val(response.data.scoreOne + " : " + response.data.scoreTwo + " : " + response.data.playerOne + " : " + response.data.playerTwo);
 					console.log(response);
             }

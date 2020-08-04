@@ -11,6 +11,8 @@ app.use(bodyParser.json());
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
+// Make start button to generate players first?
+
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*"); // Domain request comes from
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
