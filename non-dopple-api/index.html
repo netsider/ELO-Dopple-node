@@ -21,13 +21,6 @@
 <script>
 $(function () {
    $('#btn').click(function () {
-		let score1 = document.getElementById("scoreOne").innerHTML;
-		let score2 = document.getElementById("scoreTwo").innerHTML;
-		let playerOne = document.getElementById("playerOne").innerHTML;
-		let playerTwo = document.getElementById("playerTwo").innerHTML;
-		let winner = 
-		<!-- console.log("score1: " + score1); -->
-		<!-- console.log("score2: " + score2); -->
         $.ajax({
             url: "http://localhost:3000/submitPlayer",
 				headers: {
@@ -35,10 +28,10 @@ $(function () {
 					//'User-Agent': 'Mozilla/5.0' // Throws eror: Refused to set unsafe header "User-Agent"
 				},
 				data: JSON.stringify({
-					playerOne: playerOne,
-					playerTwo: playerTwo,
-					scoreOne: score1,
-					scoreTwo: score2,
+					playerOne: document.getElementById("playerOne").innerHTML,
+					playerTwo: document.getElementById("playerTwo").innerHTML,
+					scoreOne: document.getElementById("scoreOne").innerHTML,
+					scoreTwo: document.getElementById("scoreTwo").innerHTML,
 					winner: "playerOne"
 				}),
             //dataType: "json",
@@ -53,13 +46,6 @@ $(function () {
 	});
 
    $('#btn2').click(function () {
-		let score1 = document.getElementById("scoreOne").innerHTML;
-		let score2 = document.getElementById("scoreTwo").innerHTML;
-		let playerOne = document.getElementById("playerOne").innerHTML;
-		let playerTwo = document.getElementById("playerTwo").innerHTML;
-		let winner = 
-		<!-- console.log("score1: " + score1); -->
-		<!-- console.log("score2: " + score2); -->
         $.ajax({
             url: "http://localhost:3000/submitPlayer",
 				headers: {
@@ -67,10 +53,10 @@ $(function () {
 					//'User-Agent': 'Mozilla/5.0' // Throws eror: Refused to set unsafe header "User-Agent"
 				},
 				data: JSON.stringify({
-					playerOne: playerOne,
-					playerTwo: playerTwo,
-					scoreOne: score1,
-					scoreTwo: score2,
+					playerOne: document.getElementById("playerOne").innerHTML,
+					playerTwo: document.getElementById("playerTwo").innerHTML,
+					scoreOne: document.getElementById("scoreOne").innerHTML,
+					scoreTwo: document.getElementById("scoreTwo").innerHTML,
 					winner: "playerTwo"
 				}),
             //dataType: "json",
