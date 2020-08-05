@@ -42,30 +42,18 @@ app.post("/submitPlayer", (req, res, next) => {
 	let playerTwoELO = ELO(playerTwoOldScore, playerOneOldScore);
 	
 	if(winner === "playerOne"){
-		winnerELO = playerOneELO;
-		loserELO = playerTwoELO;
-		winnerOldScore = playerOneOldScore;
-		loserOldScore = playerTwoOldScore;
-		winnerNewScore = winnerOldScore + (k * (1 - winnerELO));
-		loserNewScore = loserOldScore + (k * (0 - loserELO));
-		playerOneNewScore = winnerNewScore;
-		playerTwoNewScore = loserNewScore;
+		playerOneNewScore = playerOneOldScore + (k * (1 - playerOneELO));
+		playerTwoNewScore = playerTwoOldScore + (k * (0 - playerTwoELO));
 	}else{
-		winnerELO = playerTwoELO;
-		loserELO = playerOneELO;
-		winnerOldScore = playerTwoOldScore;
-		loserOldScore = playerOneOldScore;
-		playerTwoNewScore = winnerOldScore + (k * (1 - winnerELO));
-		playerOneNewScore = loserOldScore + (k * (0 - loserELO));
-		// playerOneNewScore = loserNewScore;
-		// playerTwoNewScore = winnerNewScore;
+		playerTwoNewScore = playerTwoOldScore + (k * (1 - playerTwoELO));
+		playerOneNewScore = playerOneOldScore + (k * (0 - playerOneELO));
 		loser = "playerOne";
 	}
 	
 	let playerOneNewELO = ELO(playerOneNewScore, playerTwoNewScore);
 	let playerTwoNewELO = ELO(playerTwoNewScore, playerOneNewScore);
 	
-	winnerLoserObject = { winner: winner, loser: loser, playerOneELO: playerOneELO, playerTwoELO: playerTwoELO, playerOneNewELO: playerOneNewELO, playerTwoNewELO: playerTwoNewELO, playerOneOldScore: playerOneOldScore, playerTwoOldScore: playerTwoOldScore };
+	winnerLoserObject = { winner: winner, loser: loser, playerOneELO: playerOneELO, playerTwoELO: playerTwoELO, playerOneNewELO: playerOneNewELO, playerTwoNewELO: playerTwoNewELO, playerOneOldScore: playerOneOldScore, playerTwoOldScore: playerTwoOldScore, playerOneNewScore: playerOneNewScore, playerTwoNewScore: playerTwoNewScore };
 	
 	console.log(winnerLoserObject);
 	
