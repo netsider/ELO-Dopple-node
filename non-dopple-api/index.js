@@ -1,4 +1,4 @@
-// ELO-Node-Regular-Voting-App-API
+// ELO-Node-Regular-Voting-App-API (FaceMash Clone - API version)
 // Made by Russell Rounds
 // Version 0.1
 const bodyParser = require('body-parser');
@@ -53,15 +53,15 @@ app.post("/submitPlayer", (req, res, next) => {
 	let playerOneNewELO = ELO(playerOneNewScore, playerTwoNewScore);
 	let playerTwoNewELO = ELO(playerTwoNewScore, playerOneNewScore);
 	
-	winnerLoserObject = { winner: winner, loser: loser, playerOneELO: playerOneELO, playerTwoELO: playerTwoELO, playerOneNewELO: playerOneNewELO, playerTwoNewELO: playerTwoNewELO, playerOneOldScore: playerOneOldScore, playerTwoOldScore: playerTwoOldScore, playerOneNewScore: playerOneNewScore, playerTwoNewScore: playerTwoNewScore };
-	
-	console.log(winnerLoserObject);
+	let winnerLoserObject = { winner: winner, loser: loser, playerOneELO: playerOneELO, playerTwoELO: playerTwoELO, playerOneNewELO: playerOneNewELO, playerTwoNewELO: playerTwoNewELO, playerOneOldScore: playerOneOldScore, playerTwoOldScore: playerTwoOldScore, playerOneNewScore: playerOneNewScore, playerTwoNewScore: playerTwoNewScore };
 	
 	// Request
 	// console.log(req.body);
 	
+	console.log(winnerLoserObject);
+	
 	// Response
-	let newObj = { "data": req.body };
+	let newObj = { "data": req.body, "body": winnerLoserObject };
 	res.json(newObj);
 });
 
