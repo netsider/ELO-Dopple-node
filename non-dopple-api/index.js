@@ -27,12 +27,7 @@ app.get("/", (req, res, next) => {
 
 // app.post("/submitPlayer", bodyParser.json(), (req, res, next) => { // If you don't use app.use(bodyParser.json());
 app.post("/submitPlayer", (req, res, next) => {
-	let winnerELO = 0;
-	let loserELO = 0;
-	let winnerNewScore = 0;
-	let loserNewScore = 0;
-	let playerOneNewScore = 0;
-	let playerTwoNewScore = 0;
+	let winnerELO = loserELO = winnerNewScore = loserNewScore = playerOneNewScore = playerTwoNewScore = 0;
 
 	let playerOne = req.body.playerOne;
 	let playerTwo = req.body.playerTwo;
@@ -60,31 +55,22 @@ app.post("/submitPlayer", (req, res, next) => {
 		loserELO = playerOneELO;
 		winnerOldScore = playerTwoOldScore;
 		loserOldScore = playerOneOldScore;
-		winnerNewScore = winnerOldScore + (k * (1 - winnerELO));
-		loserNewScore = loserOldScore + (k * (0 - loserELO));
-		playerOneNewScore = loserNewScore;
-		playerTwoNewScore = winnerNewScore;
+		playerTwoNewScore = winnerOldScore + (k * (1 - winnerELO));
+		playerOneNewScore = loserOldScore + (k * (0 - loserELO));
+		// playerOneNewScore = loserNewScore;
+		// playerTwoNewScore = winnerNewScore;
 		loser = "playerOne";
 	}
 	
 	let playerOneNewELO = ELO(playerOneNewScore, playerTwoNewScore);
 	let playerTwoNewELO = ELO(playerTwoNewScore, playerOneNewScore);
 	
-	console.log("winner: " + winner);
-	console.log("loser: " + loser);
-	console.log("playerOneELO: " + playerOneELO);
-	console.log("playerOneNewELO: " + playerOneNewELO);
-	console.log("playerTwoELO: " + playerTwoELO);
-	console.log("playerTwoNewELO: " + playerTwoNewELO);
-	console.log("playerOneOldScore: " + playerOneOldScore);
-	console.log("playerTwoOldScore: " + playerTwoOldScore);
-	console.log("playerOneNewScore: " + playerOneNewScore);
-	console.log("playerTwoNewScore: " + playerTwoNewScore);
+	winnerLoserObject = { winner: winner, loser: loser, playerOneELO: playerOneELO, playerTwoELO: playerTwoELO, playerOneNewELO: playerOneNewELO, playerTwoNewELO: playerTwoNewELO, playerOneOldScore: playerOneOldScore, playerTwoOldScore: playerTwoOldScore };
 	
-
+	console.log(winnerLoserObject);
+	
 	// Request
-	console.log(req.body);
-	
+	// console.log(req.body);
 	
 	// Response
 	let newObj = { "data": req.body };
